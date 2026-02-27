@@ -1,0 +1,241 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Lab" description="Interactive experiments and mini demos">
+  <section class="hero">
+    <h1>Lab</h1>
+    <p>
+      Interactive experiments, quick prototypes, and one unnecessary but fun mini game.
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="panel lab-card">
+      <div>
+        <h2>Packet Runner</h2>
+        <p>
+          Move with arrow keys or <code>A/D</code>. Avoid red blockers, collect blue packets,
+          and keep the pipeline alive as speed ramps up.
+        </p>
+        <div class="lab-stats">
+          <span>Score: <strong id="score">0</strong></span>
+          <span>Best: <strong id="best">0</strong></span>
+          <span>Status: <strong id="status">Ready</strong></span>
+        </div>
+        <div class="lab-controls">
+          <button id="start-game" type="button">Start / Restart</button>
+        </div>
+      </div>
+      <canvas id="game" width="860" height="360" aria-label="Packet Runner game canvas"></canvas>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  const canvas = document.getElementById('game');
+  const ctx = canvas?.getContext('2d');
+  const scoreEl = document.getElementById('score');
+  const bestEl = document.getElementById('best');
+  const statusEl = document.getElementById('status');
+  const startBtn = document.getElementById('start-game');
+  const bestKey = 'packet_runner_best';
+
+  const state = {
+    running: false,
+    playerX: 420,
+    playerW: 56,
+    score: 0,
+    tick: 0,
+    speed: 2.8,
+    obstacles: [],
+    packets: [],
+    keys: new Set()
+  };
+
+  const bestScore = Number(localStorage.getItem(bestKey) || 0);
+  if (bestEl) bestEl.textContent = String(bestScore);
+
+  function resetState() {
+    state.running = true;
+    state.playerX = 420;
+    state.score = 0;
+    state.tick = 0;
+    state.speed = 2.8;
+    state.obstacles = [];
+    state.packets = [];
+    if (scoreEl) scoreEl.textContent = '0';
+    if (statusEl) statusEl.textContent = 'Running';
+  }
+
+  function rectsOverlap(a, b) {
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+  }
+
+  function spawnObstacle() {
+    const w = 36 + Math.random() * 26;
+    state.obstacles.push({
+      x: Math.random() * (canvas.width - w),
+      y: -34,
+      w,
+      h: 18 + Math.random() * 12
+    });
+  }
+
+  function spawnPacket() {
+    state.packets.push({
+      x: 18 + Math.random() * (canvas.width - 36),
+      y: -22,
+      w: 14,
+      h: 14
+    });
+  }
+
+  function gameOver() {
+    state.running = false;
+    if (statusEl) statusEl.textContent = 'Crashed';
+    const currentBest = Number(localStorage.getItem(bestKey) || 0);
+    if (state.score > currentBest) {
+      localStorage.setItem(bestKey, String(state.score));
+      if (bestEl) bestEl.textContent = String(state.score);
+    }
+  }
+
+  function update() {
+    if (!state.running) return;
+
+    state.tick += 1;
+    state.speed += 0.0015;
+
+    if (state.keys.has('ArrowLeft') || state.keys.has('a') || state.keys.has('A')) {
+      state.playerX -= 5.6;
+    }
+    if (state.keys.has('ArrowRight') || state.keys.has('d') || state.keys.has('D')) {
+      state.playerX += 5.6;
+    }
+    state.playerX = Math.max(0, Math.min(canvas.width - state.playerW, state.playerX));
+
+    if (state.tick % 40 === 0) spawnObstacle();
+    if (state.tick % 72 === 0) spawnPacket();
+
+    state.obstacles.forEach((o) => {
+      o.y += state.speed;
+    });
+    state.packets.forEach((p) => {
+      p.y += state.speed * 0.85;
+    });
+
+    const player = { x: state.playerX, y: canvas.height - 42, w: state.playerW, h: 16 };
+    for (const obstacle of state.obstacles) {
+      if (rectsOverlap(player, obstacle)) {
+        gameOver();
+        return;
+      }
+    }
+
+    state.packets = state.packets.filter((packet) => {
+      if (rectsOverlap(player, packet)) {
+        state.score += 5;
+        if (scoreEl) scoreEl.textContent = String(state.score);
+        return false;
+      }
+      return packet.y < canvas.height + 20;
+    });
+
+    state.obstacles = state.obstacles.filter((o) => o.y < canvas.height + 30);
+    state.score += 1;
+    if (scoreEl) scoreEl.textContent = String(state.score);
+  }
+
+  function draw() {
+    if (!ctx || !canvas) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#0b111a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.strokeStyle = '#1e3047';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < canvas.width; x += 36) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, canvas.height);
+      ctx.stroke();
+    }
+
+    ctx.fillStyle = '#7dd3fc';
+    ctx.fillRect(state.playerX, canvas.height - 42, state.playerW, 16);
+
+    ctx.fillStyle = '#f87171';
+    state.obstacles.forEach((o) => ctx.fillRect(o.x, o.y, o.w, o.h));
+
+    ctx.fillStyle = '#60a5fa';
+    state.packets.forEach((p) => ctx.fillRect(p.x, p.y, p.w, p.h));
+  }
+
+  function loop() {
+    update();
+    draw();
+    window.requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('keydown', (e) => {
+    state.keys.add(e.key);
+  });
+  window.addEventListener('keyup', (e) => {
+    state.keys.delete(e.key);
+  });
+
+  startBtn?.addEventListener('click', resetState);
+
+  draw();
+  loop();
+</script>
+
+<style>
+  .lab-card {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lab-card h2 {
+    margin: 0 0 0.6rem;
+  }
+
+  .lab-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin: 0.7rem 0;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+  }
+
+  .lab-controls {
+    margin-bottom: 0.8rem;
+  }
+
+  .lab-controls button {
+    border: 1px solid #365172;
+    background: #152235;
+    color: var(--text);
+    padding: 0.5rem 0.78rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.88rem;
+  }
+
+  .lab-controls button:hover {
+    border-color: #4b6a92;
+  }
+
+  canvas {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: #0b111a;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+  }
+</style>

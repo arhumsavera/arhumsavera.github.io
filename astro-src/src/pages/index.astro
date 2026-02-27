@@ -7,7 +7,8 @@ import { featuredProjects, recentProjects } from '../data/projects';
   title="Home"
   description="Senior software engineer building production AI systems, backend platforms, and developer tooling."
 >
-  <section class="hero hero-grid reveal-up">
+  <section id="hero-shell" class="hero hero-grid hero-reactive reveal-up">
+    <div id="hero-glow" class="hero-glow" aria-hidden="true"></div>
     <div>
       <h1>Arhum Savera</h1>
       <p>
@@ -24,7 +25,7 @@ import { featuredProjects, recentProjects } from '../data/projects';
       </div>
       <div id="terminal-output" class="terminal-output" aria-live="polite">
         <p><span class="prompt">$</span> help</p>
-        <p class="term-muted">commands: help, about, projects, memory, orchestration, contact, clear</p>
+        <p class="term-muted">commands: help, about, projects, memory, orchestration, contact, lab, clear</p>
       </div>
       <form id="terminal-form" class="terminal-input-row">
         <label for="terminal-input" class="sr-only">Terminal command input</label>
@@ -106,18 +107,20 @@ import { featuredProjects, recentProjects } from '../data/projects';
 </BaseLayout>
 
 <script is:inline>
-  const commands = {
-    help: 'commands: help, about, projects, memory, orchestration, contact, clear',
+  const defaultCommands = {
+    help: 'commands: help, about, projects, memory, orchestration, contact, lab, clear',
     about: 'Senior Software Engineer building local-first AI runtimes and production backend systems.',
     projects: 'flagship: agent memory + task orchestration, voice coding workflow, production ML case studies.',
     memory: '3-layer memory model: semantic facts, episodic traces, procedural playbooks.',
     orchestration: 'planner -> executors -> reviewer with run ledger, retries, and alert hooks.',
-    contact: 'email: arhum.a.savera@gmail.com | linkedin.com/in/arhumsavera'
+    contact: 'email: arhum.a.savera@gmail.com | linkedin.com/in/arhumsavera',
+    lab: 'open /lab/ for Packet Runner - a tiny systems-themed mini game.'
   };
 
   const output = document.getElementById('terminal-output');
   const form = document.getElementById('terminal-form');
   const input = document.getElementById('terminal-input');
+  let commands = { ...defaultCommands };
 
   function appendLine(text, muted = false) {
     if (!output) return;
@@ -145,6 +148,20 @@ import { featuredProjects, recentProjects } from '../data/projects';
     appendLine(commands[cmd] ?? 'unknown command. type "help".', true);
     if (input) input.value = '';
   });
+
+  async function hydrateCommands() {
+    try {
+      const res = await fetch('/data/terminal-commands.json', { cache: 'no-store' });
+      if (!res.ok) return;
+      const payload = await res.json();
+      if (payload && typeof payload === 'object' && payload.commands && typeof payload.commands === 'object') {
+        commands = { ...commands, ...payload.commands };
+      }
+    } catch (_) {
+      // Intentionally ignored: terminal keeps local defaults when JSON is missing.
+    }
+  }
+  hydrateCommands();
 
   const runSteps = Array.from(document.querySelectorAll('[data-step]'));
   const playBtn = document.getElementById('run-play');
@@ -189,6 +206,23 @@ import { featuredProjects, recentProjects } from '../data/projects';
   } else {
     revealNodes.forEach((node) => node.classList.add('is-visible'));
   }
+
+  const hero = document.getElementById('hero-shell');
+  const glow = document.getElementById('hero-glow');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (hero && glow && !prefersReduced) {
+    hero.addEventListener('pointermove', (event) => {
+      const rect = hero.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * 100;
+      const y = ((event.clientY - rect.top) / rect.height) * 100;
+      glow.style.setProperty('--x', `${x}%`);
+      glow.style.setProperty('--y', `${y}%`);
+      hero.style.transform = `perspective(900px) rotateX(${(50 - y) * 0.03}deg) rotateY(${(x - 50) * 0.03}deg)`;
+    });
+    hero.addEventListener('pointerleave', () => {
+      hero.style.transform = 'none';
+    });
+  }
 </script>
 
 <style>
@@ -197,6 +231,30 @@ import { featuredProjects, recentProjects } from '../data/projects';
     grid-template-columns: 1.2fr 1fr;
     gap: 1rem;
     align-items: stretch;
+  }
+
+  .hero-reactive {
+    position: relative;
+    overflow: hidden;
+    transition: transform 160ms ease;
+  }
+
+  .hero-glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      280px circle at var(--x, 82%) var(--y, 18%),
+      rgba(95, 168, 255, 0.2) 0%,
+      rgba(95, 168, 255, 0.08) 28%,
+      rgba(95, 168, 255, 0) 64%
+    );
+    mix-blend-mode: screen;
+  }
+
+  .hero-grid > * {
+    position: relative;
+    z-index: 1;
   }
 
   .terminal {
@@ -359,6 +417,11 @@ import { featuredProjects, recentProjects } from '../data/projects';
       opacity: 1;
       transform: none;
       transition: none;
+    }
+
+    .hero-reactive {
+      transition: none;
+      transform: none;
     }
 
     .run-steps li {
