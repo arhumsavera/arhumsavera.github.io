@@ -23,7 +23,7 @@ body.ma0.avenir.bg-near-white {
 
 .cover .bg-black-60,
 .cover .pb3-m.pb6-l.bg-black-60 {
-  background: linear-gradient(180deg, rgba(12, 20, 34, 0.58), rgba(12, 20, 34, 0.72));
+  background: linear-gradient(180deg, rgba(14, 24, 40, 0.34), rgba(14, 24, 40, 0.44));
 }
 
 nav.pv3 {
@@ -285,11 +285,13 @@ h1, h2, h3, h4, .athelas, .helvetica {
   font-weight: 700;
   letter-spacing: -0.03em;
   text-wrap: balance;
+  font-size: clamp(2.6rem, 6.5vw, 4.4rem);
 }
 
 .cover .tc-l h2 {
   max-width: 42rem;
   text-wrap: balance;
+  font-size: clamp(1.2rem, 2.2vw, 2rem);
 }
 
 main {
@@ -306,6 +308,11 @@ div.flex-l.mt2.mw8.center article.mw7 {
   border-radius: 18px;
   box-shadow: var(--shadow);
   padding: 1.3rem;
+}
+
+article.cf.ph3.ph5-l.pv3.pv4-l.f4.tc-l.center.measure-wide.lh-copy.mid-gray {
+  max-width: 44rem;
+  text-align: left;
 }
 
 section.pa3.pa4-ns.w-100.w-70-ns.center > h1,
@@ -377,5 +384,9 @@ div.flex-l.mt2.mw8.center article.mw7 p {
   article.cf.ph3.ph5-l.pv3.pv4-l.f4.tc-l.center.measure-wide.lh-copy.mid-gray,
   div.flex-l.mt2.mw8.center article.mw7 {
     padding: 1rem;
+  }
+
+  article.cf.ph3.ph5-l.pv3.pv4-l.f4.tc-l.center.measure-wide.lh-copy.mid-gray {
+    text-align: left;
   }
 }
