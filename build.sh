@@ -20,6 +20,9 @@ PAGES=(
   stack/index.html
   lab/index.html
   post/index.html
+  post/agent-memory-framework/index.html
+  post/applyops-agentic-job-search/index.html
+  post/agentic-task-orchestration/index.html
   post/digibrain/index.html
   post/speakeasy/index.html
   post/amazon-dash-cart/index.html
