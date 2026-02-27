@@ -22,10 +22,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <h2>Knowledge Graph</h2>
     <div class="panel graph-panel">
       <svg id="stack-graph" viewBox="0 0 960 520" role="img" aria-label="Knowledge graph of projects, stack, and outcomes"></svg>
-      <aside class="graph-detail">
-        <h3 id="graph-title">Select a Node</h3>
-        <p id="graph-detail">Click any project, technology, or outcome node to see context and implementation details.</p>
-      </aside>
+      <div class="graph-side">
+        <div id="graph-legend" class="graph-legend"></div>
+        <aside class="graph-detail">
+          <h3 id="graph-title">Select a Node</h3>
+          <p id="graph-detail">Click any project, technology, or outcome node to see context and implementation details.</p>
+        </aside>
+      </div>
     </div>
   </section>
 
@@ -66,21 +69,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         .filter((skill) => active === 'all' || skill.category === active)
         .forEach((skill) => {
           const b = document.createElement('button');
-          b.className = 'bubble';
+          b.className = 'stack-bubble';
           b.style.setProperty('--bubble-size', `${58 + skill.level * 10}px`);
           b.style.setProperty('--bubble-color', CATEGORY_COLORS[skill.category] || '#60a5fa');
-          b.innerHTML = `<strong>${skill.name}</strong><span>${skill.summary}</span>`;
+          b.innerHTML = `<strong>${skill.name}</strong><span>${skill.summary}</span><em>Level ${skill.level}/10</em>`;
           cloud.appendChild(b);
         });
     }
 
     categories.forEach((cat) => {
       const btn = document.createElement('button');
-      btn.className = 'chip' + (cat.id === active ? ' active' : '');
+      btn.className = 'stack-chip' + (cat.id === active ? ' active' : '');
       btn.textContent = cat.label;
       btn.addEventListener('click', () => {
         active = cat.id;
-        Array.from(filterRoot.querySelectorAll('.chip')).forEach((el) => el.classList.remove('active'));
+        Array.from(filterRoot.querySelectorAll('.stack-chip')).forEach((el) => el.classList.remove('active'));
         btn.classList.add('active');
         paint();
       });
@@ -115,6 +118,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     const svg = document.getElementById('stack-graph');
     const title = document.getElementById('graph-title');
     const detail = document.getElementById('graph-detail');
+    const legend = document.getElementById('graph-legend');
     if (!svg || !title || !detail) return;
 
     const width = 960;
@@ -129,6 +133,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     const nodeLayer = document.createElementNS(ns, 'g');
     svg.append(edgeLayer, nodeLayer);
 
+    if (legend) {
+      data.categories.forEach((cat) => {
+        const chip = document.createElement('span');
+        chip.className = 'graph-legend-chip';
+        chip.innerHTML = `<i style="background:${cat.color}"></i>${cat.label}`;
+        legend.appendChild(chip);
+      });
+    }
+
     links.forEach((link) => {
       const a = byId.get(link.source);
       const b = byId.get(link.target);
@@ -138,31 +151,40 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       line.setAttribute('y1', String(a.y));
       line.setAttribute('x2', String(b.x));
       line.setAttribute('y2', String(b.y));
-      line.setAttribute('class', 'graph-edge');
+      line.setAttribute('class', 'stack-graph-edge');
       edgeLayer.appendChild(line);
     });
 
     nodes.forEach((node) => {
       const g = document.createElementNS(ns, 'g');
-      g.setAttribute('class', 'graph-node');
+      g.setAttribute('class', 'stack-graph-node');
       g.setAttribute('transform', `translate(${node.x},${node.y})`);
 
       const circle = document.createElementNS(ns, 'circle');
       circle.setAttribute('r', node.type === 'project' ? '17' : node.type === 'impact' ? '15' : '13');
       circle.setAttribute('fill', CATEGORY_COLORS[node.group] || '#60a5fa');
       circle.setAttribute('opacity', node.type === 'impact' ? '0.8' : '1');
+      circle.setAttribute('stroke', '#0b1220');
+      circle.setAttribute('stroke-width', '2');
 
       const text = document.createElementNS(ns, 'text');
       text.setAttribute('y', '32');
       text.setAttribute('text-anchor', 'middle');
-      text.setAttribute('class', 'graph-label');
+      text.setAttribute('class', 'stack-graph-label');
+      text.setAttribute('fill', '#d9e9ff');
+      text.setAttribute('font-size', '11');
+      text.setAttribute('font-weight', '600');
+      text.setAttribute('paint-order', 'stroke');
+      text.setAttribute('stroke', '#0a111d');
+      text.setAttribute('stroke-width', '4');
+      text.setAttribute('stroke-linejoin', 'round');
       text.textContent = node.label;
 
       g.append(circle, text);
       g.addEventListener('click', () => {
         title.textContent = node.label;
         detail.textContent = node.detail;
-        Array.from(svg.querySelectorAll('.graph-node')).forEach((n) => n.classList.remove('active'));
+        Array.from(svg.querySelectorAll('.stack-graph-node')).forEach((n) => n.classList.remove('active'));
         g.classList.add('active');
       });
 
@@ -176,7 +198,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     const years = data.timeline.years;
 
     const table = document.createElement('table');
-    table.className = 'timeline-table';
+    table.className = 'stack-timeline-table';
 
     const thead = document.createElement('thead');
     const hr = document.createElement('tr');
@@ -193,7 +215,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       years.forEach((year) => {
         const td = document.createElement('td');
         const active = track.active.includes(year);
-        td.innerHTML = `<span class="heat-cell ${active ? 'on' : 'off'}" title="${track.label} ${year}"></span>`;
+        td.innerHTML = `<span class="stack-heat-cell ${active ? 'on' : 'off'}" title="${track.label} ${year}"></span>`;
         row.appendChild(td);
       });
       tbody.appendChild(row);
@@ -215,100 +237,150 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </script>
 
 <style>
-  .chip-row {
+  :global(.chip-row) {
     display: flex;
     flex-wrap: wrap;
     gap: 0.55rem;
     margin-bottom: 0.9rem;
   }
 
-  .chip {
+  :global(.stack-chip) {
     border: 1px solid #39506e;
-    background: #152236;
+    background: linear-gradient(160deg, #19263a, #111b2a);
     color: var(--text);
     border-radius: 999px;
-    padding: 0.34rem 0.72rem;
+    padding: 0.38rem 0.78rem;
     font-size: 0.82rem;
     cursor: pointer;
+    transition: border-color 150ms ease, transform 150ms ease;
   }
 
-  .chip.active {
+  :global(.stack-chip:hover) {
+    transform: translateY(-1px);
     border-color: #6ca7ff;
-    background: #1d2e48;
   }
 
-  .bubble-cloud {
+  :global(.stack-chip.active) {
+    border-color: #6ca7ff;
+    background: linear-gradient(160deg, #24385a, #18263d);
+  }
+
+  :global(.bubble-cloud) {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 0.7rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.8rem;
   }
 
-  .bubble {
-    min-height: var(--bubble-size);
-    border-radius: 18px;
+  :global(.stack-bubble) {
+    min-height: 118px;
+    border-radius: 20px;
     border: 1px solid color-mix(in srgb, var(--bubble-color) 58%, #172133 42%);
-    background: linear-gradient(160deg, color-mix(in srgb, var(--bubble-color) 16%, #111826 84%), #0f1724);
+    background:
+      radial-gradient(130px 58px at 85% 10%, color-mix(in srgb, var(--bubble-color) 30%, transparent), transparent 72%),
+      linear-gradient(160deg, color-mix(in srgb, var(--bubble-color) 16%, #111826 84%), #0f1724);
     color: var(--text);
-    padding: 0.7rem;
+    padding: 0.82rem;
     display: grid;
-    gap: 0.34rem;
+    gap: 0.4rem;
     text-align: left;
     cursor: default;
+    box-shadow: 0 8px 20px rgba(6, 10, 18, 0.35);
   }
 
-  .bubble strong {
-    font-size: 0.97rem;
+  :global(.stack-bubble strong) {
+    font-size: 1rem;
+    letter-spacing: 0.01em;
   }
 
-  .bubble span {
+  :global(.stack-bubble span) {
     color: var(--text-muted);
-    font-size: 0.82rem;
+    font-size: 0.84rem;
     line-height: 1.4;
+  }
+
+  :global(.stack-bubble em) {
+    color: #9fc2ef;
+    font-size: 0.76rem;
+    font-style: normal;
   }
 
   .graph-panel {
     display: grid;
-    gap: 1rem;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: 0.95rem;
   }
 
   #stack-graph {
     width: 100%;
     border: 1px solid var(--line);
     border-radius: 14px;
-    background: radial-gradient(circle at 50% 20%, rgba(103, 140, 255, 0.1), transparent 40%), #0d131d;
+    background:
+      radial-gradient(circle at 50% 20%, rgba(103, 140, 255, 0.15), transparent 44%),
+      radial-gradient(circle at 12% 84%, rgba(63, 255, 199, 0.08), transparent 38%),
+      #0d131d;
+    min-height: 520px;
   }
 
-  .graph-edge {
+  :global(.stack-graph-edge) {
     stroke: #30425e;
     stroke-width: 1.4;
-    opacity: 0.74;
+    opacity: 0.55;
   }
 
-  .graph-node {
+  :global(.stack-graph-node) {
     cursor: pointer;
   }
 
-  .graph-node circle {
+  :global(.stack-graph-node circle) {
     transition: transform 120ms ease, filter 120ms ease;
   }
 
-  .graph-node:hover circle,
-  .graph-node.active circle {
+  :global(.stack-graph-node:hover circle),
+  :global(.stack-graph-node.active circle) {
     filter: brightness(1.14);
-    transform: scale(1.08);
+    transform: scale(1.12);
   }
 
-  .graph-label {
-    fill: #d5e3f6;
-    font-size: 10.5px;
+  :global(.stack-graph-label) {
     letter-spacing: 0.01em;
+  }
+
+  .graph-side {
+    display: grid;
+    gap: 0.8rem;
+    align-content: start;
+  }
+
+  :global(.graph-legend) {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 1fr;
+  }
+
+  :global(.graph-legend-chip) {
+    border: 1px solid var(--line);
+    background: #111926;
+    border-radius: 12px;
+    padding: 0.42rem 0.55rem;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 0.42rem;
+    font-size: 0.82rem;
+  }
+
+  :global(.graph-legend-chip i) {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
   }
 
   .graph-detail {
     border: 1px solid var(--line);
     border-radius: 14px;
     background: #111926;
-    padding: 0.9rem;
+    padding: 1rem;
   }
 
   .graph-detail h3 {
@@ -320,33 +392,33 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     color: var(--text-muted);
   }
 
-  .timeline-wrap {
+  :global(.timeline-wrap) {
     overflow-x: auto;
   }
 
-  .timeline-table {
+  :global(.stack-timeline-table) {
     width: 100%;
     border-collapse: collapse;
     min-width: 820px;
   }
 
-  .timeline-table th,
-  .timeline-table td {
+  :global(.stack-timeline-table th),
+  :global(.stack-timeline-table td) {
     border-bottom: 1px solid #253248;
     text-align: center;
     padding: 0.48rem 0.38rem;
     font-size: 0.8rem;
   }
 
-  .timeline-table th:first-child,
-  .timeline-table td:first-child {
+  :global(.stack-timeline-table th:first-child),
+  :global(.stack-timeline-table td:first-child) {
     text-align: left;
     color: var(--text);
     width: 200px;
     font-weight: 600;
   }
 
-  .heat-cell {
+  :global(.stack-heat-cell) {
     display: inline-block;
     width: 14px;
     height: 14px;
@@ -354,12 +426,28 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     border: 1px solid #2f3f5c;
   }
 
-  .heat-cell.on {
+  :global(.stack-heat-cell.on) {
     background: linear-gradient(180deg, #62a9ff, #2d5b92);
   }
 
-  .heat-cell.off {
+  :global(.stack-heat-cell.off) {
     background: #111926;
     opacity: 0.55;
+  }
+
+  @media (max-width: 1080px) {
+    .graph-panel {
+      grid-template-columns: 1fr;
+    }
+
+    :global(.graph-legend) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 680px) {
+    :global(.graph-legend) {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
