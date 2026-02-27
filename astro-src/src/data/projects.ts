@@ -50,7 +50,8 @@ export const projects: Project[] = [
           'Tool registry abstraction to plug in generic tools without changing orchestrator logic.',
           'Step contracts with typed inputs/outputs to reduce prompt drift between stages.',
           'Retry and backoff policies at task-step level, with failure classification for transient vs. hard errors.',
-          'Idempotent run IDs and artifact paths to avoid duplicate side effects during retries.'
+          'Idempotent run IDs and artifact paths to avoid duplicate side effects during retries.',
+          'Notification hooks emit Telegram updates on start, completion, and failure for long-running runs.'
         ]
       },
       {
@@ -60,7 +61,7 @@ export const projects: Project[] = [
           'Typer CLI for local operator workflows using the same execution primitives as the API layer.',
           'SQLite + FTS indexes for deterministic local retrieval and memory search.',
           'Prefect flows for scheduled ingestion, event capture, and memory consolidation.',
-          'Telegram bridge for cross-channel agent sessions and async task handoff.',
+          'Telegram bot bridge for cross-channel agent sessions, notifications, and async task handoff.',
           'Local LLM integrations (Ollama/OpenAI-compatible adapters) behind a provider abstraction.'
         ]
       },
@@ -87,6 +88,7 @@ export const projects: Project[] = [
         heading: 'Reliability and Ops',
         bullets: [
           'Session continuity across desktop and Telegram with auth and rate-limiting controls.',
+          'Operator alerts over Telegram for failed runs, retries exhausted, and high-priority events.',
           'Scheduled Prefect orchestration for source ingestion, event capture, and memory consolidation.',
           'Run-level logging and outcome summaries for post-run review and regression tracking.',
           'Artifact-aware responses so generated files are handled as first-class outputs, not chat text only.',
