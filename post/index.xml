@@ -35,12 +35,12 @@
     </item>
 
     <item>
-      <title>ApplyOps: Agentic Job Search</title>
-      <link>https://arhumsavera.github.io/post/applyops-agentic-job-search/</link>
+      <title>Agentic Task Orchestration</title>
+      <link>https://arhumsavera.github.io/post/agentic-task-orchestration/</link>
       <pubDate>Mon, 23 Feb 2026 12:00:00 -0500</pubDate>
       
-      <guid>https://arhumsavera.github.io/post/applyops-agentic-job-search/</guid>
-      <description>A local-first system to organize job discovery, resume tailoring, and application lifecycle tracking with agent-assisted workflows and auditability.</description>
+      <guid>https://arhumsavera.github.io/post/agentic-task-orchestration/</guid>
+      <description>A local-first orchestration system for agent tasks using generic tools, reusable workflows, and auditable execution.</description>
     </item>
     
     <item>
