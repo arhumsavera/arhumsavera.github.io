@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { featuredProjects, recentProjects } from '../data/projects';
+---
+
+<BaseLayout
+  title="Home"
+  description="Senior software engineer building production AI systems, backend platforms, and developer tooling."
+>
+  <section class="hero">
+    <h1>Arhum Savera</h1>
+    <p>
+      I build production AI systems that make complex workflows faster,
+      more reliable, and easier to operate.
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="panel">
+      <p>
+        Senior Software Engineer with 7+ years across backend systems, ML,
+        and platform architecture. Recent work spans local-first AI products,
+        orchestration frameworks, and persistent memory systems for coding agents.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Selected Production Impact</h2>
+    <div class="panel">
+      <ul>
+        <li>Built AI moderation and summarization flows with semantic retrieval, improving filtering speed by ~10x.</li>
+        <li>Architected Kafka event streaming across 8+ services, improving analytics throughput by ~5x.</li>
+        <li>Led modernization across Python/Django/Celery services to supported platform versions.</li>
+        <li>Designed async budget and pricing pipelines, reducing critical database and cache load.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Featured Projects</h2>
+    <div class="grid-3">
+      {featuredProjects.map((project) => (
+        <a class="card" href={`/post/${project.slug}/`}>
+          <h3>{project.title}</h3>
+          <p>{project.summary}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Recent Projects</h2>
+    <ul class="list-clean">
+      {recentProjects.slice(0, 6).map((project) => (
+        <li>
+          <a href={`/post/${project.slug}/`}><strong>{project.title}</strong></a>
+          <p>{project.summary}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

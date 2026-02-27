@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { recentProjects } from '../../data/projects';
+---
+
+<BaseLayout title="Projects" description="Project case studies by Arhum Savera">
+  <section class="hero">
+    <h1>Projects</h1>
+    <p>Case studies across AI systems, orchestration tooling, and production ML platforms.</p>
+  </section>
+
+  <section class="section">
+    <div class="grid-2">
+      {recentProjects.map((project) => (
+        <a class="card" href={`/post/${project.slug}/`}>
+          <h3>{project.title}</h3>
+          <p>{project.summary}</p>
+          <div class="badge-row">
+            <span class="badge">{new Date(project.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
