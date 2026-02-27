@@ -14,80 +14,61 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    slug: 'agent-memory-framework',
-    title: 'Agent Memory Framework',
-    date: '2026-02-26',
-    hero: '/images/notebook.jpg',
-    summary:
-      'A durable memory framework for coding agents with layered recall, retrieval, and cross-channel session continuity.',
-    featured: true,
-    sections: [
-      {
-        heading: 'Overview',
-        paragraphs: [
-          'Agent Memory is a local-first memory framework for coding agents. It is designed to make long-running workflows behave like systems, not disconnected chats.',
-          'The core objective is reliable context retention: preserving what matters, retrieving it quickly, and keeping decisions traceable over time.'
-        ]
-      },
-      {
-        heading: 'Architecture',
-        bullets: [
-          'Semantic memory for stable project facts, constraints, and references.',
-          'Episodic memory for chronological run history, decisions, and follow-ups.',
-          'Procedural memory for reusable playbooks learned through iteration.',
-          'Local SQLite + FTS retrieval exposed through CLI and API surfaces.'
-        ]
-      },
-      {
-        heading: 'Operations',
-        paragraphs: [
-          'A Telegram bridge extends the same memory-backed workflows to mobile while preserving session continuity and guardrails.',
-          'Prefect automation keeps memory fresh through scheduled capture and consolidation.'
-        ]
-      },
-      {
-        heading: 'Impact',
-        paragraphs: [
-          'Result: lower re-prompting overhead, more consistent agent output, and better auditability for complex multi-session work.'
-        ]
-      }
-    ]
-  },
-  {
     slug: 'agentic-task-orchestration',
-    title: 'Agentic Task Orchestration',
-    date: '2026-02-23',
+    title: 'Agent Memory + Task Orchestration Platform',
+    date: '2026-02-26',
     hero: '/images/projects-bg-img.png',
     summary:
-      'A multi-step orchestration framework with domain-aware routing, reusable tool chains, and traceable execution.',
+      'A local-first agent engineering platform combining domain-aware orchestration, layered memory, and multi-channel execution for reliable LLM workflows.',
     featured: true,
     sections: [
       {
-        heading: 'Overview',
+        heading: 'System Objective',
         paragraphs: [
-          'This system treats agent automation as an execution architecture problem: routing, state, tooling, and observability.',
-          'It is intentionally generic and domain-aware, so workflows can adapt behavior based on context without rewiring the engine.'
+          'This project started from a practical gap in real agent usage: LLM agents can generate strong single responses, but long-running workflows fail without memory discipline, execution structure, and operational guardrails.',
+          'The platform combines orchestration and memory into one runtime so tasks are not prompt chains, but inspectable execution graphs with durable context.'
         ]
       },
       {
-        heading: 'Execution Model',
+        heading: 'Architecture Overview',
         bullets: [
-          'Domain classification and policy loading before run execution.',
-          'Reusable workflow steps for fetch, parse, transform, summarize, notify, and persist.',
-          'Structured run history for deterministic follow-up behavior.'
+          'Domain-aware routing: requests are classified and bound to domain policy before tool execution.',
+          'Task graph runtime: reusable stages for fetch, parse, transform, summarize, notify, and persist.',
+          'Layered memory substrate: semantic, episodic, and procedural memory with explicit write paths.',
+          'Local retrieval engine: SQLite + FTS for deterministic context fetch and low-latency lookups.',
+          'Surface adapters: terminal and Telegram interfaces share the same session and memory backend.'
         ]
       },
       {
-        heading: 'Memory + Reliability',
+        heading: 'Memory System Design',
         paragraphs: [
-          'The orchestration layer is paired with semantic, episodic, and procedural memory so each run improves future runs.',
-          'Guardrails, rate limits, and auditable logs make it suitable for recurring operations, not just demos.'
+          'Semantic memory stores stable facts, constraints, and references. Episodic memory captures execution history and decisions. Procedural memory stores reusable playbooks learned through corrections and repeated runs.',
+          'Separating these layers prevents context pollution, improves retrieval quality, and makes memory writes auditable. The key engineering decision was to avoid a monolithic memory log and instead optimize each memory type for a different retrieval pattern.'
         ]
       },
       {
-        heading: 'Impact',
+        heading: 'LLM and Agent Engineering Patterns',
+        bullets: [
+          'Prompt contracts are domain-scoped so tool usage and output shape stay consistent per workflow type.',
+          'Context assembly is deterministic: memory retrieval, source documents, and run-state are merged in a fixed order.',
+          'Agent behavior is constrained through execution policy rather than free-form prompt instructions alone.',
+          'Runs emit structured traces so failures can be reproduced and corrected without guessing hidden model state.'
+        ]
+      },
+      {
+        heading: 'Reliability and Ops',
+        bullets: [
+          'Session continuity across desktop and Telegram with auth and rate-limiting controls.',
+          'Scheduled Prefect flows for source ingestion, event capture, and memory consolidation.',
+          'Run-level logging and outcome summaries for post-run review and regression tracking.',
+          'Artifact-aware responses so generated files are handled as first-class outputs, not chat text only.'
+        ]
+      },
+      {
+        heading: 'Why This Matters',
         paragraphs: [
-          'Result: more reproducible automation, faster iteration on complex tasks, and clearer debugging when runs fail.'
+          'Most agent demos optimize for response quality in isolation. This platform optimizes for production behavior over time: repeatability, observability, safe operation, and lower context-reset cost.',
+          'Result: complex multi-step workflows become easier to trust, easier to debug, and faster to iterate.'
         ]
       }
     ]
@@ -131,6 +112,7 @@ export const projects: Project[] = [
     hero: '/images/gohugo-default-sample-hero-image.jpg',
     summary:
       'A local document assistant that ingests PDFs and streams grounded answers for faster technical review.',
+    featured: true,
     sections: [
       {
         heading: 'Overview',
