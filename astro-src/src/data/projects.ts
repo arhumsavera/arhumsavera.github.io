@@ -142,15 +142,44 @@ export const projects: Project[] = [
     date: '2020-05-09',
     hero: '/images/amazon-dash-cart.png',
     summary:
-      'Computer vision and edge optimization work for production smart shopping carts, including TensorRT acceleration and operational tooling.',
+      'Owned core computer-vision and edge infrastructure for Amazon Dash Cart, driving production-scale model performance, telemetry reliability, and security delivery across live store deployments.',
     sections: [
       {
-        heading: 'Highlights',
+        heading: 'System Scope',
+        paragraphs: [
+          'Dash Cart required low-latency, high-confidence perception on constrained edge hardware operating continuously in a noisy retail environment.',
+          'I owned major portions of the vision runtime and supporting platform systems, shipping model and infrastructure changes that had to be performant, observable, and production-safe at fleet scale.'
+        ]
+      },
+      {
+        heading: 'Edge Vision and Inference Engineering',
         bullets: [
-          'Owned major vision pipeline updates for edge deployment on Nvidia hardware.',
-          'Improved deployment speed and model management workflows.',
-          'Implemented hardware-accelerated video compression and client-side encryption improvements.',
-          'Built dashboards, alarms, and production metrics to improve operational visibility.'
+          'Optimized and deployed TensorRT-based model pipelines on Nvidia edge devices powering 100+ active carts.',
+          'Reduced inference and preprocessing bottlenecks to preserve real-time decision quality under store traffic spikes.',
+          'Hardened on-device runtime behavior for long-lived sessions, including model lifecycle controls and stability guardrails.',
+          'Built operational hooks for model rollout validation and failure triage in production environments.'
+        ]
+      },
+      {
+        heading: 'Platform and Operational Excellence',
+        bullets: [
+          'Engineered GPU-accelerated video encoding pipeline with ~40x size reduction and ~90% faster upload cycles for incident/debug workflows.',
+          'Delivered client-side encryption with AWS KMS in a six-week compliance sprint across four collaborating teams with zero production regressions.',
+          'Implemented real-time MQTT service communication and automated DynamoDB/Lambda processing paths for continuous system learning.',
+          'Expanded CloudWatch observability across the cart fleet with alarms and diagnostics to improve mean-time-to-detect and operator response.'
+        ]
+      },
+      {
+        heading: 'Outcome',
+        paragraphs: [
+          'The result was a more resilient edge AI platform: faster operational loops, safer production rollout behavior, and stronger runtime reliability in one of the most challenging applied-CV deployment contexts.'
+        ]
+      },
+      {
+        heading: 'Technical Highlights',
+        bullets: [
+          'TensorRT, Nvidia edge runtime, MQTT, DynamoDB/Lambda, AWS KMS, CloudWatch, GPU video acceleration.',
+          'Production skills: edge inference optimization, distributed rollout safety, observability-first operations.'
         ]
       }
     ]
@@ -161,15 +190,44 @@ export const projects: Project[] = [
     date: '2017-04-10',
     hero: '/images/signify-lightfinder.png',
     summary:
-      'End-to-end ML pipeline for product recognition and retrieval, including model optimization for edge constraints.',
+      'Built and optimized end-to-end ML systems for Signify LightFinder, spanning retrieval, classification, and edge-focused deployment constraints from research to production.',
     sections: [
       {
-        heading: 'Highlights',
+        heading: 'System Scope',
+        paragraphs: [
+          'LightFinder solved a practical but hard problem: map user-captured photos to the exact bulb form factor and compatible replacements with high precision.',
+          'I worked across model design, data pipeline development, and deployment packaging so the system was not just accurate in notebooks, but usable in production workflows.'
+        ]
+      },
+      {
+        heading: 'Modeling and Retrieval Architecture',
         bullets: [
-          'Built image classification and retrieval pipelines using deep learning models.',
-          'Trained and tuned VGG, Siamese, and ensemble architectures on AWS.',
-          'Applied pruning and quantization to shrink model size and improve latency.',
-          'Built supporting data pipelines for training, preprocessing, and stakeholder reporting.'
+          'Developed deep learning pipelines combining classification and similarity retrieval patterns for robust product matching.',
+          'Trained and tuned VGG, Siamese, and ensemble model variants to improve retrieval precision across visually similar SKUs.',
+          'Designed feature extraction and ranking flows to improve top-k match quality for downstream product selection.',
+          'Built reproducible training/evaluation loops to compare architectures and iterate quickly on model quality.'
+        ]
+      },
+      {
+        heading: 'Edge and Deployment Engineering',
+        bullets: [
+          'Applied iterative pruning and post-training quantization to reduce model size by ~60% and improve inference speed by ~30%.',
+          'Containerized inference services and deployment artifacts for consistent execution across environments.',
+          'Implemented dataset curation and augmentation pipelines that improved model robustness on real-world input variance.',
+          'Added model documentation and tracking workflows so experiments and deployment decisions remained auditable.'
+        ]
+      },
+      {
+        heading: 'Outcome',
+        paragraphs: [
+          'This work established a strong applied-ML foundation: measurable model improvements, deployable inference systems, and practical retrieval quality that translated directly into product usability.'
+        ]
+      },
+      {
+        heading: 'Technical Highlights',
+        bullets: [
+          'TensorFlow/Keras, VGG/Siamese retrieval, pruning/quantization, AWS-hosted training and inference pipelines.',
+          'Production skills: model optimization under constraints, ranking quality tuning, end-to-end ML systems delivery.'
         ]
       }
     ]
