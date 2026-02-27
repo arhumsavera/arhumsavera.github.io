@@ -8,7 +8,6 @@ import { featuredProjects, recentProjects } from '../data/projects';
   description="Senior software engineer building production AI systems, backend platforms, and developer tooling."
 >
   <section id="hero-shell" class="hero hero-grid hero-reactive reveal-up">
-    <div id="hero-glow" class="hero-glow" aria-hidden="true"></div>
     <div>
       <h1>Arhum Savera</h1>
       <p>
@@ -208,15 +207,14 @@ import { featuredProjects, recentProjects } from '../data/projects';
   }
 
   const hero = document.getElementById('hero-shell');
-  const glow = document.getElementById('hero-glow');
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (hero && glow && !prefersReduced) {
+  if (hero && !prefersReduced) {
     hero.addEventListener('pointermove', (event) => {
       const rect = hero.getBoundingClientRect();
       const x = ((event.clientX - rect.left) / rect.width) * 100;
       const y = ((event.clientY - rect.top) / rect.height) * 100;
-      glow.style.setProperty('--x', `${x}%`);
-      glow.style.setProperty('--y', `${y}%`);
+      hero.style.setProperty('--x', `${x}%`);
+      hero.style.setProperty('--y', `${y}%`);
       hero.style.transform = `perspective(900px) rotateX(${(50 - y) * 0.03}deg) rotateY(${(x - 50) * 0.03}deg)`;
     });
     hero.addEventListener('pointerleave', () => {
@@ -239,7 +237,8 @@ import { featuredProjects, recentProjects } from '../data/projects';
     transition: transform 160ms ease;
   }
 
-  .hero-glow {
+  .hero-reactive::before {
+    content: '';
     position: absolute;
     inset: 0;
     pointer-events: none;
@@ -252,7 +251,7 @@ import { featuredProjects, recentProjects } from '../data/projects';
     mix-blend-mode: screen;
   }
 
-  .hero-grid > :not(.hero-glow) {
+  .hero-grid > * {
     position: relative;
     z-index: 1;
   }

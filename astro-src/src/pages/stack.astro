@@ -140,25 +140,87 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     paint();
   }
 
-  function layoutGraph(nodes) {
+  function layoutGraph(nodes, links) {
+    const W = 980, H = 560, PAD = 62;
     const anchors = {
-      backend: [240, 170],
-      ai: [745, 170],
-      data: [240, 390],
-      infra: [745, 390],
-      agent: [490, 280]
+      backend: [210, 155],
+      ai:      [770, 155],
+      data:    [210, 420],
+      infra:   [770, 420],
+      agent:   [490, 288]
     };
-    const counts = { backend: 0, ai: 0, data: 0, infra: 0, agent: 0 };
 
+    // Deterministic seed positions (golden-angle spiral per group)
+    const counts = { backend: 0, ai: 0, data: 0, infra: 0, agent: 0 };
     nodes.forEach((node) => {
-      const center = anchors[node.group] || [490, 280];
+      const [cx, cy] = anchors[node.group] || [490, 288];
       const idx = counts[node.group] ?? 0;
-      const radius = 48 + (idx % 4) * 36;
-      const theta = (idx * 1.22) % (Math.PI * 2);
-      node.x = center[0] + Math.cos(theta) * radius;
-      node.y = center[1] + Math.sin(theta) * radius;
+      const angle = idx * 2.39996; // golden ratio
+      const r = 28 + (idx % 4) * 22;
+      node.x = Math.max(PAD, Math.min(W - PAD, cx + Math.cos(angle) * r));
+      node.y = Math.max(PAD, Math.min(H - PAD, cy + Math.sin(angle) * r));
+      node.vx = 0;
+      node.vy = 0;
       counts[node.group] = idx + 1;
     });
+
+    const byId = new Map(nodes.map((n) => [n.id, n]));
+    const REPULSION  = 3000;
+    const SPRING_LEN = 108;
+    const SPRING_K   = 0.044;
+    const GRAVITY    = 0.022;
+    const DAMPING    = 0.78;
+    const ITERS      = 280;
+
+    for (let iter = 0; iter < ITERS; iter++) {
+      const alpha = 1 - iter / ITERS;
+
+      // Node-pair repulsion
+      for (let a = 0; a < nodes.length; a++) {
+        for (let b = a + 1; b < nodes.length; b++) {
+          const na = nodes[a], nb = nodes[b];
+          const dx = nb.x - na.x || 0.01;
+          const dy = nb.y - na.y || 0.01;
+          const dist2 = dx * dx + dy * dy + 0.01;
+          const dist  = Math.sqrt(dist2);
+          const f  = (REPULSION / dist2) * alpha;
+          const fx = (f * dx) / dist;
+          const fy = (f * dy) / dist;
+          na.vx -= fx; na.vy -= fy;
+          nb.vx += fx; nb.vy += fy;
+        }
+      }
+
+      // Spring attraction along edges
+      links.forEach((link) => {
+        const a = byId.get(link.source);
+        const b = byId.get(link.target);
+        if (!a || !b) return;
+        const dx   = b.x - a.x;
+        const dy   = b.y - a.y;
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        const f    = SPRING_K * (dist - SPRING_LEN);
+        const fx   = (f * dx) / dist;
+        const fy   = (f * dy) / dist;
+        a.vx += fx; a.vy += fy;
+        b.vx -= fx; b.vy -= fy;
+      });
+
+      // Weak gravity toward group anchor
+      nodes.forEach((node) => {
+        const [cx, cy] = anchors[node.group] || [490, 288];
+        node.vx += GRAVITY * (cx - node.x);
+        node.vy += GRAVITY * (cy - node.y);
+      });
+
+      // Integrate + clamp
+      nodes.forEach((node) => {
+        node.vx *= DAMPING;
+        node.vy *= DAMPING;
+        node.x = Math.max(PAD, Math.min(W - PAD, node.x + node.vx));
+        node.y = Math.max(PAD, Math.min(H - PAD, node.y + node.vy));
+      });
+    }
   }
 
   function renderGraph(data) {
@@ -172,7 +234,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     const nodes = data.graph.nodes.map((n) => ({ ...n }));
     const links = data.graph.links.map((l, idx) => ({ ...l, id: `e${idx}` }));
     const byId = new Map(nodes.map((n) => [n.id, n]));
-    layoutGraph(nodes);
+    layoutGraph(nodes, links);
 
     let typeFilter = 'all';
     let activeNodeId = null;
@@ -233,16 +295,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       circle.setAttribute('stroke', '#07111f');
       circle.setAttribute('stroke-width', '2.2');
 
-      if (node.type !== 'tech') {
-        const label = document.createElementNS(ns, 'text');
-        label.setAttribute('y', '32');
-        label.setAttribute('text-anchor', 'middle');
-        label.setAttribute('class', 'stack-graph-label');
-        label.textContent = node.label;
-        g.append(circle, label);
-      } else {
-        g.append(circle);
-      }
+      const labelOffset = node.type === 'project' ? '32' : node.type === 'impact' ? '28' : '22';
+      const label = document.createElementNS(ns, 'text');
+      label.setAttribute('y', labelOffset);
+      label.setAttribute('text-anchor', 'middle');
+      label.setAttribute('class', 'stack-graph-label');
+      if (node.type === 'tech') label.setAttribute('font-size', '10');
+      label.textContent = node.label;
+      g.append(circle, label);
 
       function activate() {
         activeNodeId = node.id;
