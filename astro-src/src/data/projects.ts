@@ -110,28 +110,87 @@ export const projects: Project[] = [
     date: '2026-02-25',
     hero: '/images/markus-spiske-qjnAnF0jIGk-unsplash.jpg',
     summary:
-      'A local voice interface for coding with low-latency transcription, push-to-talk controls, and spoken response hooks.',
+      'A fully local voice interface for coding with fast dictation, push-to-talk controls, and spoken agent responses designed for low-friction development workflows.',
     featured: true,
     sections: [
       {
-        heading: 'Overview',
+        heading: 'System Objective',
         paragraphs: [
-          'Voice Coding Workflow is a local speech interface that reduces interaction overhead in agent-assisted development.',
-          'It combines whisper.cpp transcription, Kokoro TTS, and predictable push-to-talk behavior.'
+          'Voice interaction with coding agents reduces context-switching overhead and keeps hands on keyboard during flow states. Most voice coding tools rely on cloud APIs, introducing latency, privacy concerns, and dependency on external services.',
+          'This project delivers a 100% local voice interface for CLI agents (Claude Code, OpenCode) using warm background servers for near-instant transcription and speech synthesis without ever sending audio or text to the cloud.'
         ]
       },
       {
-        heading: 'System Design',
+        heading: 'Architecture',
         bullets: [
-          'Low-latency local transcription suitable for command-style prompts.',
-          'Spoken output hooks to keep feedback flowing while coding continues.',
-          'Immediate interrupt and hotkey controls for reliable session flow.'
+          'Warm HTTP servers: Whisper STT and Kokoro TTS models stay in memory, eliminating cold-start latency (~1.5s first-audio response).',
+          'Push-to-talk workflow: Global Raycast hotkey triggers recording, silence detection ends capture, transcription auto-pastes to active app.',
+          'Agent narration hooks: Claude Code hooks and OpenCode plugins pipe assistant responses through TTS with markdown/code stripping.',
+          'Project-aware voices: Different project directories get distinct voices so you know which agent is speaking.',
+          'Streaming synthesis: Sentences are generated and played incrementally while the next sentence generates in parallel.'
         ]
       },
       {
-        heading: 'Impact',
+        heading: 'Speech-to-Text Pipeline',
+        bullets: [
+          'whisper.cpp with Metal acceleration on Apple Silicon (M1-M4) for GPU-native transcription.',
+          'ggml-large-v3-turbo-q5_0 model: strong accuracy with quantized weights (~900MB total).',
+          'HTTP server on port 8787 handles multipart/form-data file uploads and returns JSON with transcribed text.',
+          'Recording uses sox (libsox) for robust cross-device audio capture at 16kHz mono.',
+          'Silence detection with configurable threshold (default 3% over 2 seconds) triggers auto-stop.'
+        ]
+      },
+      {
+        heading: 'Text-to-Speech Pipeline',
+        bullets: [
+          'kokoro-onnx: ONNX-based neural TTS with sub-100ms generation times on Apple Silicon.',
+          ' voices-v1.0.bin voice pack with 10+ distinct voices (af_heart, am_adam, bf_emma, etc.).',
+          'HTTP server on port 8788 accepts JSON POSTs with text, voice ID, and speed parameters.',
+          'Output streamed as WAV files; afplay (macOS native) handles playback with minimal latency.',
+          'Sentence-level chunking: response text is split on punctuation boundaries, each sentence generated and played in sequence.'
+        ]
+      },
+      {
+        heading: 'Agent Integrations',
+        bullets: [
+          'Claude Code: hook scripts in ~/.claude/settings.json capture Stop and Notification events, pipe JSON through sed for markdown stripping, invoke speak command asynchronously.',
+          'OpenCode: TypeScript plugin registers for message.part.updated events, deduplicates consecutive identical messages, spawns detached speak process per response.',
+          'Both integrations run the speak command with --project flag to enable per-directory voice assignment.',
+          'Lock file mechanism (/tmp/speakeasy-speech.lock) prevents TTS from interrupting active dictation.'
+        ]
+      },
+      {
+        heading: 'CLI and Operator Interface',
+        bullets: [
+          'Bash CLI with subcommands: setup, server start/stop/status, dictate, speak, mute/unmute, doctor, logs, hook-install.',
+          'Config stored in ~/.config/speakeasy/config with model paths, voice defaults, silence thresholds.',
+          'Doctor command validates dependencies, model files, server health, and hook wiring in one run.',
+          'Logs command aggregates whisper-server, kokoro-server, and plugin output for centralized debugging.'
+        ]
+      },
+      {
+        heading: 'Performance Characteristics',
+        bullets: [
+          'STT latency: ~300-500ms for typical command transcription (model warm).',
+          'TTS latency: ~100-150ms per sentence generation, with first sentence playing ~1.5s after response start.',
+          'Memory footprint: Whisper + Kokoro models use ~1.5GB total RAM.',
+          'Zero network dependency: all processing local, works offline after initial model download.'
+        ]
+      },
+      {
+        heading: 'Reliability and Diagnostics',
+        bullets: [
+          'Health check endpoints on both servers enable automated restart and status monitoring.',
+          'Graceful degradation: if TTS server unavailable, falls back to kokoro-tts CLI binary.',
+          'Dictation auto-starts servers if not running, ensuring single-command usability.',
+          'Comprehensive doctor checks cover: sox, ffmpeg, jq, whisper-server, uv, Python deps, model files, hook configs.'
+        ]
+      },
+      {
+        heading: 'Why Local Matters',
         paragraphs: [
-          'Result: quicker command cycles, lower interaction fatigue, and stronger focus during long implementation sessions.'
+          'Cloud STT/TTS APIs introduce network latency, require internet connectivity, and send sensitive code/commands to external services. For developers working on proprietary code or in secure environments, this is a non-starter.',
+          'By keeping everything on-device with warm servers, this system achieves cloud-competitive latency while maintaining complete privacy. The architecture is also more reliable—no API rate limits, no service outages, no vendor lock-in.'
         ]
       }
     ]
