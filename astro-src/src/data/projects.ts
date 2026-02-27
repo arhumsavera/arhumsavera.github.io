@@ -15,11 +15,11 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: 'agentic-task-orchestration',
-    title: 'Agent Memory + Task Orchestration Platform',
+    title: 'Digibrain: Agent Memory + Task Orchestration Platform',
     date: '2026-02-26',
     hero: '/images/projects-bg-img.png',
     summary:
-      'A local-first agent engineering platform combining domain-aware orchestration, layered memory, and multi-channel execution for reliable LLM workflows.',
+      'Digibrain: a local-first agent engineering platform combining domain-aware orchestration, layered memory, and multi-channel execution for reliable LLM workflows.',
     featured: true,
     sections: [
       {
