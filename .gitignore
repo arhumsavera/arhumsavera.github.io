@@ -6,3 +6,11 @@ package.json
 exotic-earth/
 
 .DS_Store
+
+# Local tooling and artifacts
+.claude/
+.playwright-cli/
+_astro/
+
+# Local screenshots/debug captures
+*.png
