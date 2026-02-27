@@ -135,39 +135,6 @@ export const projects: Project[] = [
     ]
   },
   {
-    slug: 'pdf-chat-local-llm',
-    title: 'PDF Chat (Local LLM)',
-    date: '2026-02-24',
-    hero: '/images/gohugo-default-sample-hero-image.jpg',
-    summary:
-      'A local document assistant that ingests PDFs and streams grounded answers for faster technical review.',
-    featured: true,
-    sections: [
-      {
-        heading: 'Overview',
-        paragraphs: [
-          'PDF Chat is a local-first document Q&A prototype built with FastAPI and Ollama.',
-          'It focuses on grounded answers from source documents instead of generic recall.'
-        ]
-      },
-      {
-        heading: 'Architecture',
-        bullets: [
-          'Server-side PDF ingestion and text extraction.',
-          'Grounded response generation from extracted content.',
-          'Streaming responses for faster feedback and review loops.',
-          'Private-by-default local execution.'
-        ]
-      },
-      {
-        heading: 'Impact',
-        paragraphs: [
-          'Result: faster document interrogation and a practical foundation for private knowledge workflows.'
-        ]
-      }
-    ]
-  },
-  {
     slug: 'project-1',
     title: 'Amazon: Dash Carts',
     date: '2020-05-09',
