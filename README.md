@@ -1,2 +1,1 @@
-# arhumsavera.github.io
-Portfolio Site
+# arhumsavera.github.io\n\n> Personal portfolio site built with Astro.\n\n## 🛠️ Tech Stack\n\n- **Framework**: [Astro](https://astro.build/)\n- **Styling**: Vanilla CSS\n- **Content**: TypeScript-driven project data\n- **Deployment**: GitHub Pages\n\n## 🚀 Development\n\n```bash\ncd astro-src\nnpm install\nnpm run dev\n```\n\n## 🏗️ Build\n\n```bash\n./build.sh\n```

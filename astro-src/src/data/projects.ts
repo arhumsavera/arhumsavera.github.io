@@ -70,91 +70,74 @@ export const projects: Project[] = [
   },
   {
     slug: 'digibrain',
-    title: 'Digibrain: Agent Memory + Task Orchestration Platform',
-    date: '2026-02-26',
+    title: 'Digibrain: Persistent Memory for AI Agents',
+    date: '2026-02-27',
     hero: '/images/projects-bg-img.png',
     summary:
-      'Digibrain: a local-first agent engineering platform combining domain-aware orchestration, layered memory, and multi-channel execution for reliable LLM workflows.',
+      'Persistent shared memory for AI coding agents. Uses vectorless tree-index retrieval and a structured SQLite data store to give agents (Claude, opencode, Gemini) long-term context across sessions.',
     featured: true,
     sections: [
       {
         heading: 'System Objective',
         paragraphs: [
-          'This project started from a practical gap in real agent usage: LLM agents can generate strong single responses, but long-running workflows fail without memory discipline, execution structure, and operational guardrails.',
-          'The platform combines orchestration and memory into one runtime so tasks are not prompt chains, but inspectable execution graphs with durable context.'
+          'Most AI agents suffer from "goldfish memory" — every session starts from a blank slate. Digibrain provides a durable memory substrate that allows agents to remember facts, track interactions, and follow learned workflows across different sessions and platforms.',
+          'The goal is to turn AI assistants into long-term collaborators that grow more effective the more you work with them.'
         ]
       },
       {
-        heading: 'Architecture Overview',
-        bullets: [
-          'Domain-aware routing: requests are classified and bound to domain policy before tool execution.',
-          'Task graph runtime: reusable stages for fetch, parse, transform, summarize, notify, and persist.',
-          'Layered memory substrate: semantic, episodic, and procedural memory with explicit write paths.',
-          'Local retrieval engine: SQLite + FTS for deterministic context fetch and low-latency lookups.',
-          'Surface adapters: terminal and Telegram interfaces share the same session and memory backend.',
-          'FastAPI service layer and Typer CLI expose the same orchestration primitives for interactive and scripted runs.'
-        ]
-      },
-      {
-        heading: 'ApplyOps Runtime (Orchestration Core)',
+        heading: 'Vectorless Retrieval via Tree Index',
         paragraphs: [
-          'The orchestration core follows an agent-runtime pattern instead of chat chaining. A planner compiles a task plan, executors run tool steps, and a reviewer verifies output quality before finalization.',
-          'Execution is persisted as a run ledger with status transitions, timestamps, artifacts, and error envelopes so every run can be replayed and audited.'
+          'While most memory systems rely on vector databases and cosine similarity, Digibrain uses a "tree-index" approach where the agent itself reasons over a structured table of contents.'
         ],
         bullets: [
-          'Tool registry abstraction to plug in generic tools without changing orchestrator logic.',
-          'Step contracts with typed inputs/outputs to reduce prompt drift between stages.',
-          'Retry and backoff policies at task-step level, with failure classification for transient vs. hard errors.',
-          'Idempotent run IDs and artifact paths to avoid duplicate side effects during retries.',
-          'Notification hooks emit Telegram updates on start, completion, and failure for long-running runs.'
+          'No embeddings or complex infra: memory is stored in plain Markdown files.',
+          'Semantic routing: the agent reads a small index file and decides which specific memory files are relevant to the current task.',
+          'Deterministic & Transparent: users can read the memory index and know exactly what context the agent is loading.',
+          'Token Efficient: only relevant files are loaded, preventing context window bloat.'
         ]
       },
       {
-        heading: 'Core Tech Stack',
-        bullets: [
-          'Python runtime with FastAPI services for orchestration and memory APIs.',
-          'Typer CLI for local operator workflows using the same execution primitives as the API layer.',
-          'SQLite + FTS indexes for deterministic local retrieval and memory search.',
-          'Prefect flows for scheduled ingestion, event capture, and memory consolidation.',
-          'Telegram bot bridge for cross-channel agent sessions, notifications, and async task handoff.',
-          'Local LLM integrations (Ollama/OpenAI-compatible adapters) behind a provider abstraction.'
-        ]
-      },
-      {
-        heading: 'Memory System Design',
+        heading: 'Layered Memory Architecture',
         paragraphs: [
-          'Semantic memory stores stable facts, constraints, and references. Episodic memory captures execution history and decisions. Procedural memory stores reusable playbooks learned through corrections and repeated runs.',
-          'Separating these layers prevents context pollution, improves retrieval quality, and makes memory writes auditable. The key engineering decision was to avoid a monolithic memory log and instead optimize each memory type for a different retrieval pattern.',
-          'Memory writes are policy-gated: only high-signal facts are promoted to semantic memory, run traces flow to episodic memory, and repeated correction patterns are promoted to procedural memory.'
-        ]
-      },
-      {
-        heading: 'LLM and Agent Engineering Patterns',
+          'Digibrain matches human cognitive patterns by separating knowledge into three distinct layers:'
+        ],
         bullets: [
-          'Prompt contracts are domain-scoped so tool usage and output shape stay consistent per workflow type.',
-          'Context assembly is deterministic: memory retrieval, source documents, and run-state are merged in a fixed order.',
-          'Agent behavior is constrained through execution policy rather than free-form prompt instructions alone.',
-          'Runs emit structured traces so failures can be reproduced and corrected without guessing hidden model state.',
-          'Source grounding pipeline loads resume and technical project docs into indexed context so outputs are anchored to real implementation history.',
-          'Output synthesis uses bounded context windows and section-aware prompts to reduce hallucinated cross-domain details.'
+          'Episodic: Daily append-only logs of every interaction (the "what happened").',
+          'Semantic: Persistent facts, user preferences, and project knowledge (the "what is").',
+          'Procedural: Learned workflows and rules, updated through feedback and corrections (the "how to").'
         ]
       },
       {
-        heading: 'Reliability and Ops',
-        bullets: [
-          'Session continuity across desktop and Telegram with auth and rate-limiting controls.',
-          'Operator alerts over Telegram for failed runs, retries exhausted, and high-priority events.',
-          'Scheduled Prefect orchestration for source ingestion, event capture, and memory consolidation.',
-          'Run-level logging and outcome summaries for post-run review and regression tracking.',
-          'Artifact-aware responses so generated files are handled as first-class outputs, not chat text only.',
-          'Operational endpoints support health checks, queue introspection, and memory index maintenance.'
-        ]
-      },
-      {
-        heading: 'Why This Matters',
+        heading: 'ApplyOps: The Structured Data Store',
         paragraphs: [
-          'Most agent demos optimize for response quality in isolation. This platform optimizes for production behavior over time: repeatability, observability, safe operation, and lower context-reset cost.',
-          'Result: complex multi-step workflows become easier to trust, easier to debug, and faster to iterate.'
+          'Beyond prose memory, Digibrain includes ApplyOps — a domain-driven SQLite store for structured data like tasks, research notes, and contact info.'
+        ],
+        bullets: [
+          'Domain-aware routing: requests are classified into domains (fitness, research, todos) with specialized toolsets.',
+          'FTS5 Search: Full-text search across all structured items for sub-millisecond lookups.',
+          'Extensible Schema: Create new tracking domains on the fly with custom data shapes and agent instructions.'
+        ]
+      },
+      {
+        heading: 'Multi-Channel Presence',
+        bullets: [
+          'Telegram Bridge: Talk to your local agents from your phone with real-time streaming and file support.',
+          'Web Dashboard: FastAPI + HTMX interface for browsing memory, inspecting domains, and auditing agent logs.',
+          'Agent Stubs: Universal protocol supporting Claude Code, opencode, and Gemini CLI.'
+        ]
+      },
+      {
+        heading: 'Automation & Consolidation',
+        bullets: [
+          'Importance Scoring: High-signal corrections (importance 4-5) update semantic memory immediately.',
+          'Prefect Flows: Scheduled background tasks for episodic-to-semantic consolidation and inbox scanning.',
+          'Local Summarization: Uses Ollama (llama3.2:1b) for fast, free text summarization in automated flows.'
+        ]
+      },
+      {
+        heading: 'Tech Stack',
+        bullets: [
+          'Python, FastAPI, Typer, SQLite (FTS5), HTMX, Jinja2, Prefect, Ollama, Telegram API.'
         ]
       }
     ]
