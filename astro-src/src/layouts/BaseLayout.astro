@@ -27,13 +27,13 @@ const path = Astro.url.pathname;
           <a class="brand" href="/">Arhum Savera</a>
           <div class="nav-links">
             <a class={path.startsWith('/about') ? 'active' : ''} href="/about/">About</a>
-            <a class={path.startsWith('/contact') ? 'active' : ''} href="/contact/">Contact</a>
             <a class={path.startsWith('/post') ? 'active' : ''} href="/post/">Projects</a>
             <a class={path.startsWith('/stack') ? 'active' : ''} href="/stack/">Stack</a>
             <a class={path.startsWith('/lab') ? 'active' : ''} href="/lab/">Lab</a>
+            <a class={path.startsWith('/contact') ? 'active' : ''} href="/contact/">Contact</a>
             <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
-            <a href="https://www.linkedin.com/in/arhumsavera/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
             <a href="https://github.com/arhumsavera" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="https://www.linkedin.com/in/arhumsavera/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           </div>
         </nav>
       </header>
