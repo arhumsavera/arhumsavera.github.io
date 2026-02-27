@@ -106,11 +106,11 @@ export const projects: Project[] = [
   },
   {
     slug: 'voice-coding-workflow',
-    title: 'Voice Coding Workflow',
+    title: 'SpeakEasy: Voice Coding Workflow',
     date: '2026-02-25',
     hero: '/images/markus-spiske-qjnAnF0jIGk-unsplash.jpg',
     summary:
-      'A fully local voice interface for coding with fast dictation, push-to-talk controls, and spoken agent responses designed for low-friction development workflows.',
+      'SpeakEasy: a fully local voice interface for coding with fast dictation, push-to-talk controls, and spoken agent responses designed for low-friction development workflows.',
     featured: true,
     sections: [
       {

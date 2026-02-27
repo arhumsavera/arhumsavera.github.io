@@ -1,0 +1,11 @@
+{
+  "commands": {
+    "help": "commands: help, about, projects, memory, orchestration, contact, lab, clear",
+    "about": "Senior Software Engineer with 7+ years across backend, ML, and production AI systems.",
+    "projects": "flagship: agent memory + orchestration platform, voice coding workflow, production ML systems.",
+    "memory": "layered memory architecture: semantic facts, episodic runs, procedural playbooks.",
+    "orchestration": "domain routing, typed task steps, tool chaining, run ledgers, and operator alerts.",
+    "contact": "reach me at arhum.a.savera@gmail.com or linkedin.com/in/arhumsavera",
+    "lab": "visit /lab/ to play Packet Runner and explore interactive experiments."
+  }
+}
