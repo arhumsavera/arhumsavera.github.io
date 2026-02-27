@@ -5,230 +5,386 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <BaseLayout title="Lab" description="Interactive experiments and mini demos">
   <section class="hero">
     <h1>Lab</h1>
-    <p>
-      Interactive experiments, quick prototypes, and one unnecessary but fun mini game.
-    </p>
+    <p>Interactive experiments, quick prototypes, and a couple of unnecessary but fun mini games.</p>
   </section>
 
+  <!-- ── Game 1: Packet Runner ── -->
   <section class="section">
     <div class="panel lab-card">
-      <div>
+      <div class="lab-info">
         <h2>Packet Runner</h2>
-        <p>
-          Move with arrow keys or <code>A/D</code>. Avoid red blockers, collect blue packets,
-          and keep the pipeline alive as speed ramps up.
-        </p>
+        <p>Move with <kbd>←</kbd><kbd>→</kbd> or <kbd>A</kbd><kbd>D</kbd>. Avoid red blockers, collect blue packets, survive as speed ramps up.</p>
         <div class="lab-stats">
-          <span>Score: <strong id="score">0</strong></span>
-          <span>Best: <strong id="best">0</strong></span>
-          <span>Status: <strong id="status">Ready</strong></span>
+          <span>Score: <strong id="pr-score">0</strong></span>
+          <span>Best: <strong id="pr-best">0</strong></span>
+          <span>Status: <strong id="pr-status">Ready</strong></span>
         </div>
         <div class="lab-controls">
-          <button id="start-game" type="button">Start / Restart</button>
+          <button id="pr-start" type="button">Start / Restart</button>
         </div>
       </div>
-      <canvas id="game" width="860" height="360" aria-label="Packet Runner game canvas"></canvas>
+      <canvas id="pr-canvas" width="860" height="340" aria-label="Packet Runner game canvas"></canvas>
+    </div>
+  </section>
+
+  <!-- ── Game 2: Data Stream ── -->
+  <section class="section">
+    <div class="panel lab-card">
+      <div class="lab-info">
+        <h2>Data Stream</h2>
+        <p>Steer with <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> or <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd>. Route the pipeline through data packets. Hit a wall or loop back and the stream crashes.</p>
+        <div class="lab-stats">
+          <span>Score: <strong id="ds-score">0</strong></span>
+          <span>Best: <strong id="ds-best">0</strong></span>
+          <span>Status: <strong id="ds-status">Ready</strong></span>
+        </div>
+        <div class="lab-controls">
+          <button id="ds-start" type="button">Start / Restart</button>
+        </div>
+      </div>
+      <canvas id="ds-canvas" width="860" height="340" aria-label="Data Stream game canvas"></canvas>
     </div>
   </section>
 </BaseLayout>
 
 <script is:inline>
-  const canvas = document.getElementById('game');
-  const ctx = canvas?.getContext('2d');
-  const scoreEl = document.getElementById('score');
-  const bestEl = document.getElementById('best');
-  const statusEl = document.getElementById('status');
-  const startBtn = document.getElementById('start-game');
-  const bestKey = 'packet_runner_best';
+/* ════════════════════════════════════════════
+   GAME 1 — Packet Runner
+   ════════════════════════════════════════════ */
+(function () {
+  const canvas   = document.getElementById('pr-canvas');
+  const ctx      = canvas?.getContext('2d');
+  const scoreEl  = document.getElementById('pr-score');
+  const bestEl   = document.getElementById('pr-best');
+  const statusEl = document.getElementById('pr-status');
+  const startBtn = document.getElementById('pr-start');
+  const BEST_KEY = 'packet_runner_best';
 
-  const state = {
-    running: false,
-    playerX: 420,
-    playerW: 56,
-    score: 0,
-    tick: 0,
-    speed: 2.8,
-    obstacles: [],
-    packets: [],
-    keys: new Set()
+  const st = {
+    running: false, playerX: 420, playerW: 56, score: 0,
+    tick: 0, speed: 2.8, obstacles: [], packets: [], keys: new Set()
   };
 
-  const bestScore = Number(localStorage.getItem(bestKey) || 0);
-  if (bestEl) bestEl.textContent = String(bestScore);
+  if (bestEl) bestEl.textContent = String(localStorage.getItem(BEST_KEY) || 0);
 
-  function resetState() {
-    state.running = true;
-    state.playerX = 420;
-    state.score = 0;
-    state.tick = 0;
-    state.speed = 2.8;
-    state.obstacles = [];
-    state.packets = [];
-    if (scoreEl) scoreEl.textContent = '0';
+  function reset() {
+    Object.assign(st, { running:true, playerX:420, score:0, tick:0, speed:2.8, obstacles:[], packets:[] });
+    if (scoreEl)  scoreEl.textContent  = '0';
     if (statusEl) statusEl.textContent = 'Running';
   }
 
-  function rectsOverlap(a, b) {
-    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
-  }
-
-  function spawnObstacle() {
-    const w = 36 + Math.random() * 26;
-    state.obstacles.push({
-      x: Math.random() * (canvas.width - w),
-      y: -34,
-      w,
-      h: 18 + Math.random() * 12
-    });
-  }
-
-  function spawnPacket() {
-    state.packets.push({
-      x: 18 + Math.random() * (canvas.width - 36),
-      y: -22,
-      w: 14,
-      h: 14
-    });
-  }
-
-  function gameOver() {
-    state.running = false;
-    if (statusEl) statusEl.textContent = 'Crashed';
-    const currentBest = Number(localStorage.getItem(bestKey) || 0);
-    if (state.score > currentBest) {
-      localStorage.setItem(bestKey, String(state.score));
-      if (bestEl) bestEl.textContent = String(state.score);
-    }
+  function overlap(a, b) {
+    return a.x < b.x+b.w && a.x+a.w > b.x && a.y < b.y+b.h && a.y+a.h > b.y;
   }
 
   function update() {
-    if (!state.running) return;
+    if (!st.running) return;
+    st.tick++;
+    st.speed += 0.0015;
 
-    state.tick += 1;
-    state.speed += 0.0015;
+    if (st.keys.has('ArrowLeft')  || st.keys.has('a') || st.keys.has('A')) st.playerX -= 5.6;
+    if (st.keys.has('ArrowRight') || st.keys.has('d') || st.keys.has('D')) st.playerX += 5.6;
+    st.playerX = Math.max(0, Math.min(canvas.width - st.playerW, st.playerX));
 
-    if (state.keys.has('ArrowLeft') || state.keys.has('a') || state.keys.has('A')) {
-      state.playerX -= 5.6;
+    if (st.tick % 40 === 0) {
+      const w = 36 + Math.random() * 26;
+      st.obstacles.push({ x: Math.random() * (canvas.width - w), y: -34, w, h: 18 + Math.random() * 12 });
     }
-    if (state.keys.has('ArrowRight') || state.keys.has('d') || state.keys.has('D')) {
-      state.playerX += 5.6;
+    if (st.tick % 72 === 0) {
+      st.packets.push({ x: 18 + Math.random() * (canvas.width - 36), y: -22, w: 14, h: 14 });
     }
-    state.playerX = Math.max(0, Math.min(canvas.width - state.playerW, state.playerX));
 
-    if (state.tick % 40 === 0) spawnObstacle();
-    if (state.tick % 72 === 0) spawnPacket();
+    st.obstacles.forEach(o => { o.y += st.speed; });
+    st.packets.forEach(p  => { p.y += st.speed * 0.85; });
 
-    state.obstacles.forEach((o) => {
-      o.y += state.speed;
-    });
-    state.packets.forEach((p) => {
-      p.y += state.speed * 0.85;
-    });
-
-    const player = { x: state.playerX, y: canvas.height - 42, w: state.playerW, h: 16 };
-    for (const obstacle of state.obstacles) {
-      if (rectsOverlap(player, obstacle)) {
-        gameOver();
-        return;
+    const player = { x: st.playerX, y: canvas.height - 42, w: st.playerW, h: 16 };
+    if (st.obstacles.some(o => overlap(player, o))) {
+      st.running = false;
+      if (statusEl) statusEl.textContent = 'Crashed';
+      const prev = Number(localStorage.getItem(BEST_KEY) || 0);
+      if (st.score > prev) {
+        localStorage.setItem(BEST_KEY, String(st.score));
+        if (bestEl) bestEl.textContent = String(st.score);
       }
+      return;
     }
 
-    state.packets = state.packets.filter((packet) => {
-      if (rectsOverlap(player, packet)) {
-        state.score += 5;
-        if (scoreEl) scoreEl.textContent = String(state.score);
-        return false;
-      }
-      return packet.y < canvas.height + 20;
+    st.packets = st.packets.filter(p => {
+      if (overlap(player, p)) { st.score += 5; return false; }
+      return p.y < canvas.height + 20;
     });
-
-    state.obstacles = state.obstacles.filter((o) => o.y < canvas.height + 30);
-    state.score += 1;
-    if (scoreEl) scoreEl.textContent = String(state.score);
+    st.obstacles = st.obstacles.filter(o => o.y < canvas.height + 30);
+    st.score++;
+    if (scoreEl) scoreEl.textContent = String(st.score);
   }
 
   function draw() {
-    if (!ctx || !canvas) return;
+    if (!ctx) return;
+    ctx.fillStyle = '#0b111a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = '#1e3047'; ctx.lineWidth = 1;
+    for (let x = 0; x < canvas.width; x += 36) {
+      ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,canvas.height); ctx.stroke();
+    }
+    ctx.fillStyle = '#7dd3fc';
+    ctx.fillRect(st.playerX, canvas.height-42, st.playerW, 16);
+    ctx.fillStyle = '#f87171';
+    st.obstacles.forEach(o => ctx.fillRect(o.x, o.y, o.w, o.h));
+    ctx.fillStyle = '#60a5fa';
+    st.packets.forEach(p => ctx.fillRect(p.x, p.y, p.w, p.h));
+  }
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  window.addEventListener('keydown', e => st.keys.add(e.key));
+  window.addEventListener('keyup',   e => st.keys.delete(e.key));
+  startBtn?.addEventListener('click', reset);
+
+  (function loop() { update(); draw(); requestAnimationFrame(loop); })();
+})();
+
+
+/* ════════════════════════════════════════════
+   GAME 2 — Data Stream (Snake)
+   ════════════════════════════════════════════ */
+(function () {
+  const canvas   = document.getElementById('ds-canvas');
+  const ctx      = canvas?.getContext('2d');
+  const scoreEl  = document.getElementById('ds-score');
+  const bestEl   = document.getElementById('ds-best');
+  const statusEl = document.getElementById('ds-status');
+  const startBtn = document.getElementById('ds-start');
+  if (!canvas || !ctx) return;
+
+  const CELL     = 20;
+  const COLS     = Math.floor(canvas.width  / CELL);  // 43
+  const ROWS     = Math.floor(canvas.height / CELL);  // 17
+  const BEST_KEY = 'data_stream_best';
+
+  const st = {
+    snake: [], dir: {x:1,y:0}, next: {x:1,y:0},
+    food: null, score: 0, running: false,
+    stepMs: 115, lastStep: 0, frame: null
+  };
+
+  if (bestEl) bestEl.textContent = String(localStorage.getItem(BEST_KEY) || 0);
+
+  function placeFood() {
+    const occupied = new Set(st.snake.map(s => `${s.x},${s.y}`));
+    let x, y;
+    let tries = 0;
+    do {
+      x = Math.floor(Math.random() * COLS);
+      y = Math.floor(Math.random() * ROWS);
+      tries++;
+    } while (occupied.has(`${x},${y}`) && tries < 200);
+    st.food = { x, y };
+  }
+
+  function reset() {
+    if (st.frame) cancelAnimationFrame(st.frame);
+    const mx = Math.floor(COLS / 2);
+    const my = Math.floor(ROWS / 2);
+    st.snake   = [{x:mx,y:my},{x:mx-1,y:my},{x:mx-2,y:my}];
+    st.dir     = {x:1,y:0};
+    st.next    = {x:1,y:0};
+    st.score   = 0;
+    st.running = true;
+    st.stepMs  = 115;
+    st.lastStep = 0;
+    if (scoreEl)  scoreEl.textContent  = '0';
+    if (statusEl) statusEl.textContent = 'Running';
+    placeFood();
+    st.frame = requestAnimationFrame(loop);
+  }
+
+  function step() {
+    st.dir = st.next;
+    const head = st.snake[0];
+    const nx = { x: head.x + st.dir.x, y: head.y + st.dir.y };
+
+    // wall
+    if (nx.x < 0 || nx.x >= COLS || nx.y < 0 || nx.y >= ROWS) {
+      return crash();
+    }
+    // self
+    if (st.snake.some(s => s.x === nx.x && s.y === nx.y)) {
+      return crash();
+    }
+
+    const ate = st.food && nx.x === st.food.x && nx.y === st.food.y;
+    st.snake.unshift(nx);
+    if (ate) {
+      st.score += 10;
+      if (scoreEl) scoreEl.textContent = String(st.score);
+      placeFood();
+      if (st.stepMs > 68) st.stepMs -= 2;  // speed up
+    } else {
+      st.snake.pop();
+    }
+  }
+
+  function crash() {
+    st.running = false;
+    if (statusEl) statusEl.textContent = 'Crashed';
+    const prev = Number(localStorage.getItem(BEST_KEY) || 0);
+    if (st.score > prev) {
+      localStorage.setItem(BEST_KEY, String(st.score));
+      if (bestEl) bestEl.textContent = String(st.score);
+    }
+  }
+
+  function draw(ts) {
     ctx.fillStyle = '#0b111a';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.strokeStyle = '#1e3047';
-    ctx.lineWidth = 1;
-    for (let x = 0; x < canvas.width; x += 36) {
-      ctx.beginPath();
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x, canvas.height);
-      ctx.stroke();
+    // grid
+    ctx.strokeStyle = '#1e3047'; ctx.lineWidth = 1;
+    for (let x = 0; x < canvas.width;  x += CELL) {
+      ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,canvas.height); ctx.stroke();
+    }
+    for (let y = 0; y < canvas.height; y += CELL) {
+      ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(canvas.width,y); ctx.stroke();
     }
 
-    ctx.fillStyle = '#7dd3fc';
-    ctx.fillRect(state.playerX, canvas.height - 42, state.playerW, 16);
+    // food — pulsing glow
+    if (st.food) {
+      const pulse = Math.sin(ts / 220) * 0.5 + 0.5;
+      const pad = 3 + pulse * 2;
+      ctx.shadowColor = '#60a5fa';
+      ctx.shadowBlur  = 8 + pulse * 8;
+      ctx.fillStyle = '#60a5fa';
+      ctx.fillRect(st.food.x*CELL+pad, st.food.y*CELL+pad, CELL-2*pad, CELL-2*pad);
+      ctx.shadowBlur = 0;
+    }
 
-    ctx.fillStyle = '#f87171';
-    state.obstacles.forEach((o) => ctx.fillRect(o.x, o.y, o.w, o.h));
+    // snake body (tail → head)
+    const len = st.snake.length;
+    for (let i = len - 1; i >= 0; i--) {
+      const seg = st.snake[i];
+      if (i === 0) {
+        // head — bright teal
+        ctx.fillStyle = '#2dd4bf';
+        ctx.shadowColor = '#2dd4bf';
+        ctx.shadowBlur  = 10;
+        ctx.fillRect(seg.x*CELL+1, seg.y*CELL+1, CELL-2, CELL-2);
+        ctx.shadowBlur = 0;
 
-    ctx.fillStyle = '#60a5fa';
-    state.packets.forEach((p) => ctx.fillRect(p.x, p.y, p.w, p.h));
+        // direction nub
+        const nub = 4;
+        ctx.fillStyle = '#a7f3d0';
+        const cx = seg.x*CELL + CELL/2, cy = seg.y*CELL + CELL/2;
+        ctx.fillRect(
+          cx + st.dir.x * (CELL/2 - nub) - nub/2,
+          cy + st.dir.y * (CELL/2 - nub) - nub/2,
+          nub, nub
+        );
+      } else {
+        const t  = 1 - (i / len) * 0.72;
+        const g  = Math.round(90 + t * 48);
+        ctx.fillStyle = `rgba(17,${g},100,${0.35 + t * 0.6})`;
+        ctx.fillRect(seg.x*CELL+2, seg.y*CELL+2, CELL-4, CELL-4);
+      }
+    }
+
+    // crash overlay
+    if (!st.running && st.snake.length > 0) {
+      ctx.fillStyle = 'rgba(6,11,22,0.82)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#f87171';
+      ctx.font = 'bold 24px Inter,system-ui,sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Pipeline Severed', canvas.width/2, canvas.height/2 - 12);
+      ctx.fillStyle = '#8ba8c8';
+      ctx.font = '14px Inter,system-ui,sans-serif';
+      ctx.fillText(`Score: ${st.score} — press Start to replay`, canvas.width/2, canvas.height/2 + 16);
+    }
   }
 
-  function loop() {
-    update();
-    draw();
-    window.requestAnimationFrame(loop);
+  function loop(ts) {
+    if (st.running && ts - st.lastStep >= st.stepMs) {
+      step();
+      st.lastStep = ts;
+    }
+    draw(ts);
+    if (st.running || st.snake.length > 0) {
+      st.frame = requestAnimationFrame(loop);
+    }
   }
 
-  window.addEventListener('keydown', (e) => {
-    state.keys.add(e.key);
-  });
-  window.addEventListener('keyup', (e) => {
-    state.keys.delete(e.key);
+  // direction input
+  window.addEventListener('keydown', e => {
+    if (!st.running) return;
+    const map = {
+      ArrowUp:['w','W'],  ArrowDown:['s','S'],
+      ArrowLeft:['a','A'], ArrowRight:['d','D']
+    };
+    const dirs = {
+      ArrowUp:{x:0,y:-1}, w:{x:0,y:-1}, W:{x:0,y:-1},
+      ArrowDown:{x:0,y:1}, s:{x:0,y:1}, S:{x:0,y:1},
+      ArrowLeft:{x:-1,y:0}, a:{x:-1,y:0}, A:{x:-1,y:0},
+      ArrowRight:{x:1,y:0}, d:{x:1,y:0}, D:{x:1,y:0}
+    };
+    const nd = dirs[e.key];
+    if (!nd) return;
+    // block 180° reversal
+    if (nd.x === -st.dir.x && nd.y === -st.dir.y) return;
+    st.next = nd;
+    // prevent page scroll on arrow keys while game is running
+    if (e.key.startsWith('Arrow')) e.preventDefault();
   });
 
-  startBtn?.addEventListener('click', resetState);
+  startBtn?.addEventListener('click', reset);
 
-  draw();
-  loop();
+  // initial idle draw
+  draw(0);
+})();
 </script>
 
-<style>
+<style is:inline>
   .lab-card {
     display: grid;
     gap: 1rem;
-    grid-template-columns: minmax(0, 1fr);
   }
 
-  .lab-card h2 {
-    margin: 0 0 0.6rem;
+  .lab-info h2  { margin: 0 0 0.55rem; }
+  .lab-info p   { margin: 0 0 0.7rem; color: var(--text-muted); font-size: 0.93rem; line-height: 1.55; }
+
+  .lab-info kbd {
+    display: inline-block;
+    border: 1px solid #324d6a;
+    background: #0e1e30;
+    color: #9ec4e8;
+    border-radius: 5px;
+    padding: 0.05rem 0.38rem;
+    font-size: 0.78rem;
+    font-family: inherit;
   }
 
   .lab-stats {
     display: flex;
     flex-wrap: wrap;
     gap: 0.8rem;
-    margin: 0.7rem 0;
+    margin: 0.6rem 0 0.75rem;
     color: var(--text-muted);
-    font-size: 0.92rem;
+    font-size: 0.9rem;
   }
 
-  .lab-controls {
-    margin-bottom: 0.8rem;
-  }
+  .lab-stats strong { color: var(--text); }
+
+  .lab-controls { margin-bottom: 0.85rem; }
 
   .lab-controls button {
     border: 1px solid #365172;
     background: #152235;
     color: var(--text);
-    padding: 0.5rem 0.78rem;
+    padding: 0.48rem 0.8rem;
     border-radius: 10px;
     cursor: pointer;
     font-size: 0.88rem;
+    font-family: inherit;
+    transition: border-color 130ms ease;
   }
 
-  .lab-controls button:hover {
-    border-color: #4b6a92;
-  }
+  .lab-controls button:hover { border-color: #4b6a92; }
 
   canvas {
     width: 100%;
@@ -236,6 +392,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     border: 1px solid var(--line);
     border-radius: 14px;
     background: #0b111a;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+    display: block;
   }
 </style>

@@ -105,7 +105,7 @@ export const projects: Project[] = [
     ]
   },
   {
-    slug: 'voice-coding-workflow',
+    slug: 'speakeasy',
     title: 'SpeakEasy: Voice Coding Workflow',
     date: '2026-02-25',
     hero: '/images/markus-spiske-qjnAnF0jIGk-unsplash.jpg',
@@ -196,8 +196,8 @@ export const projects: Project[] = [
     ]
   },
   {
-    slug: 'project-1',
-    title: 'Amazon: Dash Carts',
+    slug: 'amazon-dash-cart',
+    title: 'Amazon Dash Cart',
     date: '2020-05-09',
     hero: '/images/amazon-dash-cart.png',
     summary:
@@ -244,7 +244,7 @@ export const projects: Project[] = [
     ]
   },
   {
-    slug: 'project-2',
+    slug: 'signify-lightfinder',
     title: 'Signify: LightFinder',
     date: '2017-04-10',
     hero: '/images/signify-lightfinder.png',
