@@ -161,3 +161,103 @@ section.w-100.mw8 img.img {
   width: 100%;
   aspect-ratio: 16 / 9;
 }
+
+/* About page refinement */
+.about-shell {
+  max-width: 980px;
+  margin: 0 auto;
+  color: #1f2a37;
+}
+
+.about-head figure {
+  margin: 0;
+}
+
+.about-head img {
+  width: 180px;
+  max-width: 38vw;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.about-head p {
+  margin: 1rem 0 0;
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: #334155;
+}
+
+.about-shell h2 {
+  font-size: 1.45rem;
+  margin: 1.8rem 0 0.9rem;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.about-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 0.95rem 1rem;
+  background: linear-gradient(160deg, #ffffff, #f8fbff);
+}
+
+.about-card h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1.03rem;
+  color: #0b3b5a;
+}
+
+.about-card p {
+  margin: 0;
+  color: #3a4a5e;
+  line-height: 1.55;
+}
+
+.about-now {
+  margin-top: 0.2rem;
+  line-height: 1.72;
+  color: #334155;
+}
+
+.about-timeline {
+  border-left: 3px solid #d9e3f3;
+  padding-left: 1rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.about-year {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.about-year strong {
+  color: #0b3b5a;
+  font-size: 0.97rem;
+}
+
+.about-year span {
+  color: #334155;
+  line-height: 1.55;
+}
+
+@media (max-width: 800px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-head img {
+    width: 150px;
+  }
+
+  .about-shell h2 {
+    font-size: 1.28rem;
+  }
+}
