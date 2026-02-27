@@ -185,17 +185,25 @@
       
     </header>
     <div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><h2 id="overview">Overview</h2>
-<p>Agent Memory is a local-first project I built to give AI agents better continuity across sessions. Instead of starting from scratch every time, agents can retain useful context, remember decisions, and follow established workflows. The goal is simple: make AI assistance feel less like isolated prompts and more like an evolving collaboration.</p>
-<p>At a high level, the system separates memory into clear categories: long-term facts, day-to-day activity, and reusable procedures. That structure keeps things organized and helps agents retrieve the right context at the right time.</p>
-<h2 id="practical-usage">Practical usage</h2>
-<p>What makes this project useful is how practical it is in everyday work:</p>
+<p>Agent Memory is a local-first framework for giving coding agents durable context across sessions. Instead of relying only on temporary chat history, it introduces structured memory and a consistent operating loop so agents can retain useful state and make better decisions over time.</p>
+<h2 id="memory-systems">Memory systems</h2>
+<p>The core design uses three complementary memory layers:</p>
 <ul>
-<li>It improves project continuity by preserving important context between sessions.</li>
-<li>It improves consistency by letting agents reuse proven workflows.</li>
-<li>It supports knowledge-heavy tasks like resume tailoring, project summaries, and interview prep using curated source material.</li>
-<li>It reduces repetition by avoiding the need to re-explain the same background repeatedly.</li>
+<li><strong>Semantic memory:</strong> Stable facts and long-lived context (preferences, project facts, important references).</li>
+<li><strong>Episodic memory:</strong> Daily append-only logs of what happened, what was decided, and what follow-up is needed.</li>
+<li><strong>Procedural memory:</strong> Reusable workflows and rules learned from corrections, iterations, and repeated tasks.</li>
 </ul>
-<p>Agent Memory is not about storing everything. It&rsquo;s about storing the right things so future interactions are faster, clearer, and more reliable.</p>
+<p>This separation keeps memory practical: facts stay clean, activity stays chronological, and process knowledge stays reusable.</p>
+<h2 id="telegram-integration">Telegram integration</h2>
+<p>The Telegram bridge turns this into a mobile-accessible agent workspace. Messages route to Claude or opencode sessions, preserve session continuity, enforce basic safety controls (auth/rate limits), and return results in a usable format. For workflows that produce artifacts, file-aware responses can send outputs directly back through chat.</p>
+<p>In practice, that means the same memory-backed agent workflows can be triggered from desktop or phone without losing context.</p>
+<h2 id="why-it-helps">Why it helps</h2>
+<ul>
+<li>Less repeated prompting and context re-explaining.</li>
+<li>More consistent outputs across long-running work.</li>
+<li>Clear audit trail of agent actions and decisions.</li>
+<li>Faster iteration on complex, multi-step tasks.</li>
+</ul>
 <figure><img src="https://arhumsavera.github.io/images/notebook.jpg"/>
 </figure>
 
