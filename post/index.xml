@@ -6,7 +6,43 @@
     <description>Recent content in Projects on Arhum Savera</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 02 Mar 2017 12:00:00 -0500</lastBuildDate><atom:link href="https://arhumsavera.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 26 Feb 2026 12:00:00 -0500</lastBuildDate><atom:link href="https://arhumsavera.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Agent Memory Framework</title>
+      <link>https://arhumsavera.github.io/post/agent-memory-framework/</link>
+      <pubDate>Thu, 26 Feb 2026 12:00:00 -0500</pubDate>
+      
+      <guid>https://arhumsavera.github.io/post/agent-memory-framework/</guid>
+      <description>A local-first shared memory framework for Claude Code and opencode with layered memory (semantic, episodic, procedural), SQLite plus FTS search, FastAPI dashboard, Telegram bridge, and Prefect automation flows.</description>
+    </item>
+
+    <item>
+      <title>Voice Coding Workflow</title>
+      <link>https://arhumsavera.github.io/post/voice-coding-workflow/</link>
+      <pubDate>Wed, 25 Feb 2026 12:00:00 -0500</pubDate>
+      
+      <guid>https://arhumsavera.github.io/post/voice-coding-workflow/</guid>
+      <description>A fully local voice interface for coding with fast dictation, push-to-talk controls, and spoken agent responses designed for low-friction development workflows.</description>
+    </item>
+
+    <item>
+      <title>PDF Chat (Local LLM)</title>
+      <link>https://arhumsavera.github.io/post/pdf-chat-local-llm/</link>
+      <pubDate>Tue, 24 Feb 2026 12:00:00 -0500</pubDate>
+      
+      <guid>https://arhumsavera.github.io/post/pdf-chat-local-llm/</guid>
+      <description>A local PDF chat app that extracts document text and streams grounded answers with FastAPI and Ollama for fast, private document Q&amp;A.</description>
+    </item>
+
+    <item>
+      <title>ApplyOps: Agentic Job Search</title>
+      <link>https://arhumsavera.github.io/post/applyops-agentic-job-search/</link>
+      <pubDate>Mon, 23 Feb 2026 12:00:00 -0500</pubDate>
+      
+      <guid>https://arhumsavera.github.io/post/applyops-agentic-job-search/</guid>
+      <description>A local-first system to organize job discovery, resume tailoring, and application lifecycle tracking with agent-assisted workflows and auditability.</description>
+    </item>
+    
     <item>
       <title>Amazon : Dash Carts</title>
       <link>https://arhumsavera.github.io/post/project-1/</link>
