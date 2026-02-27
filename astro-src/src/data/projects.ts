@@ -54,6 +54,17 @@ export const projects: Project[] = [
         ]
       },
       {
+        heading: 'Core Tech Stack',
+        bullets: [
+          'Python runtime with FastAPI services for orchestration and memory APIs.',
+          'Typer CLI for local operator workflows using the same execution primitives as the API layer.',
+          'SQLite + FTS indexes for deterministic local retrieval and memory search.',
+          'Prefect flows for scheduled ingestion, event capture, and memory consolidation.',
+          'Telegram bridge for cross-channel agent sessions and async task handoff.',
+          'Local LLM integrations (Ollama/OpenAI-compatible adapters) behind a provider abstraction.'
+        ]
+      },
+      {
         heading: 'Memory System Design',
         paragraphs: [
           'Semantic memory stores stable facts, constraints, and references. Episodic memory captures execution history and decisions. Procedural memory stores reusable playbooks learned through corrections and repeated runs.',
@@ -76,7 +87,7 @@ export const projects: Project[] = [
         heading: 'Reliability and Ops',
         bullets: [
           'Session continuity across desktop and Telegram with auth and rate-limiting controls.',
-          'Scheduled Prefect flows for source ingestion, event capture, and memory consolidation.',
+          'Scheduled Prefect orchestration for source ingestion, event capture, and memory consolidation.',
           'Run-level logging and outcome summaries for post-run review and regression tracking.',
           'Artifact-aware responses so generated files are handled as first-class outputs, not chat text only.',
           'Operational endpoints support health checks, queue introspection, and memory index maintenance.'
