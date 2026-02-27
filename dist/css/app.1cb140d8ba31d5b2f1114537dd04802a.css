@@ -131,3 +131,33 @@ footer a {
     padding: 1rem;
   }
 }
+
+/* Banner and media sizing balance */
+.cover {
+  min-height: 290px;
+}
+
+.cover .tc-l {
+  padding-top: 2.25rem !important;
+  padding-bottom: 2.25rem !important;
+}
+
+.cover .tc-l h1 {
+  margin-bottom: 0.35rem;
+}
+
+@media (min-width: 60em) {
+  .cover {
+    min-height: 360px;
+  }
+
+  .cover .tc-l {
+    padding-top: 3.5rem !important;
+    padding-bottom: 3.5rem !important;
+  }
+}
+
+section.w-100.mw8 img.img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
