@@ -23,6 +23,7 @@ PAGES=(
   post/agent-memory-framework/index.html
   post/applyops-agentic-job-search/index.html
   post/agentic-task-orchestration/index.html
+  post/consumeraffairs-ai-platform/index.html
   post/digibrain/index.html
   post/speakeasy/index.html
   post/amazon-dash-cart/index.html

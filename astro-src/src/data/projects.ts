@@ -14,6 +14,61 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: 'consumeraffairs-ai-platform',
+    title: 'ConsumerAffairs: AI Platform & Event Infrastructure',
+    date: '2025-12-01',
+    hero: '/images/projects-bg-img.png',
+    summary:
+      'Built the AI content platform and Kafka event backbone at ConsumerAffairs — semantic review moderation, real-time lead intelligence, and smart pricing infrastructure serving a high-traffic consumer marketplace.',
+    featured: true,
+    sections: [
+      {
+        heading: 'Overview',
+        paragraphs: [
+          'ConsumerAffairs runs a high-traffic marketplace connecting consumers to service providers. Over four years I owned core AI and backend infrastructure: a greenfield AI content platform, the Kafka event streaming backbone, and real-time lead processing systems. This work spans the full production lifecycle — architecture, delivery, and long-term ownership.',
+        ]
+      },
+      {
+        heading: 'AI Content Platform',
+        paragraphs: [
+          'Built from scratch to automate review moderation, summarization, and compliance workflows that were scaling beyond manual capacity.',
+        ],
+        bullets: [
+          'Architected on FastAPI with async-first design, enabling high-concurrency AI inference without blocking the API layer.',
+          'Moved vector storage to PostgreSQL + pgvector, achieving 10x improvement in metadata filtering — enabling complex SQL predicates combined with semantic similarity search.',
+          'Built multi-strategy summarization: token-aware chain selection adapts between approaches based on content length, with prompt templates manageable by non-engineers without deploys.',
+          'Integrated OpenAI APIs for automated content moderation — reduced manual review workload by ~80% with a full audit trail for compliance.',
+          'Applied tiktoken-based token budgeting and adaptive content limits to reduce AI inference costs by ~30% without quality regression.',
+        ]
+      },
+      {
+        heading: 'Kafka Event Streaming',
+        paragraphs: [
+          'Designed and built the event streaming backbone powering real-time data flows across the platform.',
+        ],
+        bullets: [
+          'Kafka event contracts across 8+ microservices: matching decisions, lead scoring, review events, budget tracking.',
+          '5x throughput improvement for downstream analytics by moving from polling to event-driven delivery.',
+          'ML-driven lead quality scoring via Databricks integrated over Kafka — real-time signals without synchronous coupling.',
+        ]
+      },
+      {
+        heading: 'Pricing & Lead Infrastructure',
+        bullets: [
+          'Async budget enforcement and CPL pricing systems reduced database queries by 40% and Redis call volume by 60%.',
+          'Real-time call routing system matching high-intent inbound calls to providers with sub-second decisions.',
+          'Primary owner of the lead processing platform for 4 years — 5 major legacy subsystems deprecated, thousands of lines of dead code removed.',
+        ]
+      },
+      {
+        heading: 'Tech Stack',
+        bullets: [
+          'Python, FastAPI, Django, Celery, Kafka, PostgreSQL, pgvector, Redis, LangChain, OpenAI, Databricks, AWS.',
+        ]
+      }
+    ]
+  },
+  {
     slug: 'digibrain',
     title: 'Digibrain: Agent Memory + Task Orchestration Platform',
     date: '2026-02-26',
