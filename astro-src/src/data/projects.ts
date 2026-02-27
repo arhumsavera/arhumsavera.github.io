@@ -36,14 +36,29 @@ export const projects: Project[] = [
           'Task graph runtime: reusable stages for fetch, parse, transform, summarize, notify, and persist.',
           'Layered memory substrate: semantic, episodic, and procedural memory with explicit write paths.',
           'Local retrieval engine: SQLite + FTS for deterministic context fetch and low-latency lookups.',
-          'Surface adapters: terminal and Telegram interfaces share the same session and memory backend.'
+          'Surface adapters: terminal and Telegram interfaces share the same session and memory backend.',
+          'FastAPI service layer and Typer CLI expose the same orchestration primitives for interactive and scripted runs.'
+        ]
+      },
+      {
+        heading: 'ApplyOps Runtime (Orchestration Core)',
+        paragraphs: [
+          'The orchestration core follows an agent-runtime pattern instead of chat chaining. A planner compiles a task plan, executors run tool steps, and a reviewer verifies output quality before finalization.',
+          'Execution is persisted as a run ledger with status transitions, timestamps, artifacts, and error envelopes so every run can be replayed and audited.'
+        ],
+        bullets: [
+          'Tool registry abstraction to plug in generic tools without changing orchestrator logic.',
+          'Step contracts with typed inputs/outputs to reduce prompt drift between stages.',
+          'Retry and backoff policies at task-step level, with failure classification for transient vs. hard errors.',
+          'Idempotent run IDs and artifact paths to avoid duplicate side effects during retries.'
         ]
       },
       {
         heading: 'Memory System Design',
         paragraphs: [
           'Semantic memory stores stable facts, constraints, and references. Episodic memory captures execution history and decisions. Procedural memory stores reusable playbooks learned through corrections and repeated runs.',
-          'Separating these layers prevents context pollution, improves retrieval quality, and makes memory writes auditable. The key engineering decision was to avoid a monolithic memory log and instead optimize each memory type for a different retrieval pattern.'
+          'Separating these layers prevents context pollution, improves retrieval quality, and makes memory writes auditable. The key engineering decision was to avoid a monolithic memory log and instead optimize each memory type for a different retrieval pattern.',
+          'Memory writes are policy-gated: only high-signal facts are promoted to semantic memory, run traces flow to episodic memory, and repeated correction patterns are promoted to procedural memory.'
         ]
       },
       {
@@ -52,7 +67,9 @@ export const projects: Project[] = [
           'Prompt contracts are domain-scoped so tool usage and output shape stay consistent per workflow type.',
           'Context assembly is deterministic: memory retrieval, source documents, and run-state are merged in a fixed order.',
           'Agent behavior is constrained through execution policy rather than free-form prompt instructions alone.',
-          'Runs emit structured traces so failures can be reproduced and corrected without guessing hidden model state.'
+          'Runs emit structured traces so failures can be reproduced and corrected without guessing hidden model state.',
+          'Source grounding pipeline loads resume and technical project docs into indexed context so outputs are anchored to real implementation history.',
+          'Output synthesis uses bounded context windows and section-aware prompts to reduce hallucinated cross-domain details.'
         ]
       },
       {
@@ -61,7 +78,8 @@ export const projects: Project[] = [
           'Session continuity across desktop and Telegram with auth and rate-limiting controls.',
           'Scheduled Prefect flows for source ingestion, event capture, and memory consolidation.',
           'Run-level logging and outcome summaries for post-run review and regression tracking.',
-          'Artifact-aware responses so generated files are handled as first-class outputs, not chat text only.'
+          'Artifact-aware responses so generated files are handled as first-class outputs, not chat text only.',
+          'Operational endpoints support health checks, queue introspection, and memory index maintenance.'
         ]
       },
       {
