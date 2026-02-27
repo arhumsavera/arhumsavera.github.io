@@ -14,7 +14,7 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    slug: 'agentic-task-orchestration',
+    slug: 'digibrain',
     title: 'Digibrain: Agent Memory + Task Orchestration Platform',
     date: '2026-02-26',
     hero: '/images/projects-bg-img.png',

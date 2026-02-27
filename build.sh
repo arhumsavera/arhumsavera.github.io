@@ -20,10 +20,10 @@ PAGES=(
   stack/index.html
   lab/index.html
   post/index.html
-  post/agentic-task-orchestration/index.html
-  post/voice-coding-workflow/index.html
-  post/project-1/index.html
-  post/project-2/index.html
+  post/digibrain/index.html
+  post/speakeasy/index.html
+  post/amazon-dash-cart/index.html
+  post/signify-lightfinder/index.html
 )
 
 for page in "${PAGES[@]}"; do
