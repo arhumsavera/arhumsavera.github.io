@@ -261,3 +261,121 @@ section.w-100.mw8 img.img {
     font-size: 1.28rem;
   }
 }
+
+/* 2026 cohesive aesthetic pass */
+body.ma0.avenir.bg-near-white {
+  font-family: "Source Sans 3", "Avenir Next", "Segoe UI", sans-serif;
+  line-height: 1.62;
+  background:
+    radial-gradient(1300px 520px at 108% -14%, rgba(37, 99, 235, 0.1), transparent 58%),
+    radial-gradient(920px 430px at -8% -10%, rgba(15, 118, 110, 0.1), transparent 56%),
+    #f4f7fc;
+}
+
+h1, h2, h3, h4, .athelas, .helvetica {
+  font-family: "Space Grotesk", "Avenir Next", sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.cover {
+  background-position: center !important;
+}
+
+.cover .tc-l h1 {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.cover .tc-l h2 {
+  max-width: 42rem;
+  text-wrap: balance;
+}
+
+main {
+  max-width: 1260px;
+  margin: 0 auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+article.cf.ph3.ph5-l.pv3.pv4-l.f4.tc-l.center.measure-wide.lh-copy.mid-gray,
+div.flex-l.mt2.mw8.center article.mw7 {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: 1.3rem;
+}
+
+section.pa3.pa4-ns.w-100.w-70-ns.center > h1,
+div.pa3.pa4-ns.w-100.w-70-ns.center > h1 {
+  margin-bottom: 0.75rem;
+  font-size: clamp(1.55rem, 2.2vw, 2rem);
+  color: #0f172a;
+}
+
+.w-100.w-30-ns.mb3.bg-white.br3.ba.b--black-10.pa3 {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+  background: linear-gradient(160deg, #ffffff, #f8fbff);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.w-100.w-30-ns.mb3.bg-white.br3.ba.b--black-10.pa3:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 34px rgba(15, 23, 42, 0.12);
+}
+
+.w-100.w-30-ns.mb3.bg-white.br3.ba.b--black-10.pa3 h2 {
+  color: #0f172a;
+}
+
+.w-100.w-30-ns.mb3.bg-white.br3.ba.b--black-10.pa3 p {
+  color: #334155;
+}
+
+section.w-100.mw8 article.bb.b--black-10 .db {
+  padding-top: 1.15rem;
+  padding-bottom: 1.15rem;
+}
+
+section.w-100.mw8 .bb.b--black-10 {
+  border-radius: 18px;
+}
+
+section.w-100.mw8 .bb.b--black-10 .blah h1 {
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+}
+
+section.w-100.mw8 .bb.b--black-10 .nested-copy-line-height {
+  color: #334155;
+}
+
+a.f6.link.dim,
+section.w-100.mw8 a.ba.b--moon-gray.bg-light-gray {
+  font-family: "Space Grotesk", "Avenir Next", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+div.flex-l.mt2.mw8.center article.mw7 h1 {
+  margin-bottom: 0.65rem;
+}
+
+div.flex-l.mt2.mw8.center article.mw7 p {
+  color: #334155;
+}
+
+@media (max-width: 980px) {
+  main {
+    padding-left: 0.55rem;
+    padding-right: 0.55rem;
+  }
+
+  article.cf.ph3.ph5-l.pv3.pv4-l.f4.tc-l.center.measure-wide.lh-copy.mid-gray,
+  div.flex-l.mt2.mw8.center article.mw7 {
+    padding: 1rem;
+  }
+}
