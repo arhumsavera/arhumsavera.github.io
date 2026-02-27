@@ -1,0 +1,82 @@
+{
+  "categories": [
+    {"id": "backend", "label": "Backend Platforms", "color": "#7dd3fc"},
+    {"id": "ai", "label": "AI and ML", "color": "#a78bfa"},
+    {"id": "data", "label": "Data and Streaming", "color": "#34d399"},
+    {"id": "infra", "label": "Infra and DevOps", "color": "#f59e0b"},
+    {"id": "agent", "label": "Agent Systems", "color": "#f472b6"}
+  ],
+  "skills": [
+    {"name": "Python", "category": "backend", "level": 10, "since": 2016, "summary": "Primary language for backend and AI systems."},
+    {"name": "Django", "category": "backend", "level": 8, "since": 2019, "summary": "Production web platform and service modernization at scale."},
+    {"name": "FastAPI", "category": "backend", "level": 9, "since": 2021, "summary": "High-performance APIs for AI workflows and orchestration systems."},
+    {"name": "Celery", "category": "backend", "level": 8, "since": 2021, "summary": "Async workloads and pipeline execution orchestration."},
+    {"name": "PostgreSQL", "category": "data", "level": 9, "since": 2017, "summary": "Core transactional data modeling and performance optimization."},
+    {"name": "pgvector", "category": "data", "level": 7, "since": 2023, "summary": "Semantic retrieval layer for AI content systems."},
+    {"name": "Kafka", "category": "data", "level": 8, "since": 2021, "summary": "Event-driven analytics and distributed decision pipelines."},
+    {"name": "Redis", "category": "data", "level": 8, "since": 2021, "summary": "Caching and low-latency state access in high-throughput services."},
+    {"name": "TensorFlow", "category": "ai", "level": 8, "since": 2017, "summary": "Computer vision and model optimization for edge deployments."},
+    {"name": "PyTorch", "category": "ai", "level": 7, "since": 2020, "summary": "Model experimentation and applied deep learning workflows."},
+    {"name": "LangChain", "category": "agent", "level": 8, "since": 2023, "summary": "LLM workflow chaining, retrieval, and prompt orchestration."},
+    {"name": "OpenAI APIs", "category": "agent", "level": 8, "since": 2023, "summary": "Content moderation, summarization, and agent integrations."},
+    {"name": "Docker", "category": "infra", "level": 8, "since": 2018, "summary": "Containerized build and deployment across environments."},
+    {"name": "AWS", "category": "infra", "level": 8, "since": 2018, "summary": "Lambda, KMS, CloudWatch, ECR, and production cloud operations."},
+    {"name": "Prefect", "category": "agent", "level": 7, "since": 2025, "summary": "Scheduled ingestion and memory consolidation flows."},
+    {"name": "SQLite + FTS", "category": "agent", "level": 7, "since": 2025, "summary": "Deterministic local retrieval for memory-backed agents."}
+  ],
+  "graph": {
+    "nodes": [
+      {"id": "applyops", "label": "ApplyOps Runtime", "type": "project", "group": "agent", "detail": "Planner/executor/reviewer runtime with typed steps and run ledgers."},
+      {"id": "agentmem", "label": "Agent Memory", "type": "project", "group": "agent", "detail": "Layered semantic/episodic/procedural memory for durable context."},
+      {"id": "aicontent", "label": "AI Content Platform", "type": "project", "group": "backend", "detail": "FastAPI + LangChain + pgvector system for moderation and summarization."},
+      {"id": "dashcart", "label": "Amazon Dash Cart", "type": "project", "group": "ai", "detail": "Edge CV pipeline with TensorRT optimization and production telemetry."},
+      {"id": "python", "label": "Python", "type": "tech", "group": "backend", "detail": "Core implementation language across services and ML tooling."},
+      {"id": "fastapi", "label": "FastAPI", "type": "tech", "group": "backend", "detail": "API surface for orchestration and AI services."},
+      {"id": "django", "label": "Django", "type": "tech", "group": "backend", "detail": "Platform modernization and service reliability upgrades."},
+      {"id": "postgres", "label": "PostgreSQL", "type": "tech", "group": "data", "detail": "Primary relational backend with query tuning."},
+      {"id": "kafka", "label": "Kafka", "type": "tech", "group": "data", "detail": "Streaming backbone for analytics and scoring events."},
+      {"id": "tensorflow", "label": "TensorFlow", "type": "tech", "group": "ai", "detail": "Model training and optimization for edge constraints."},
+      {"id": "pytorch", "label": "PyTorch", "type": "tech", "group": "ai", "detail": "Experimental and applied model development workflows."},
+      {"id": "docker", "label": "Docker", "type": "tech", "group": "infra", "detail": "Portable packaging and deployment standardization."},
+      {"id": "prefect", "label": "Prefect", "type": "tech", "group": "agent", "detail": "Flow scheduling and operational automation."},
+      {"id": "telegram", "label": "Telegram Alerts", "type": "tech", "group": "agent", "detail": "Cross-channel notifications for run outcomes and failures."},
+      {"id": "impact1", "label": "10x Faster Filtering", "type": "impact", "group": "backend", "detail": "Automation of review filtering and moderation quality control."},
+      {"id": "impact2", "label": "5x Throughput", "type": "impact", "group": "data", "detail": "Event streaming architecture improved analytics and matching velocity."},
+      {"id": "impact3", "label": "Reliable Agent Runs", "type": "impact", "group": "agent", "detail": "Repeatable multi-step task execution with memory and auditability."}
+    ],
+    "links": [
+      {"source": "applyops", "target": "python"},
+      {"source": "applyops", "target": "fastapi"},
+      {"source": "applyops", "target": "prefect"},
+      {"source": "applyops", "target": "telegram"},
+      {"source": "applyops", "target": "impact3"},
+      {"source": "agentmem", "target": "python"},
+      {"source": "agentmem", "target": "postgres"},
+      {"source": "agentmem", "target": "prefect"},
+      {"source": "agentmem", "target": "impact3"},
+      {"source": "aicontent", "target": "fastapi"},
+      {"source": "aicontent", "target": "postgres"},
+      {"source": "aicontent", "target": "kafka"},
+      {"source": "aicontent", "target": "impact1"},
+      {"source": "aicontent", "target": "impact2"},
+      {"source": "dashcart", "target": "tensorflow"},
+      {"source": "dashcart", "target": "pytorch"},
+      {"source": "dashcart", "target": "docker"}
+    ]
+  },
+  "timeline": {
+    "years": [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+    "tracks": [
+      {"label": "Python", "active": [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]},
+      {"label": "Django", "active": [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]},
+      {"label": "FastAPI", "active": [2021, 2022, 2023, 2024, 2025, 2026]},
+      {"label": "PostgreSQL", "active": [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]},
+      {"label": "Kafka", "active": [2021, 2022, 2023, 2024, 2025, 2026]},
+      {"label": "TensorFlow", "active": [2017, 2018, 2019, 2020, 2021]},
+      {"label": "PyTorch", "active": [2020, 2021, 2022, 2023, 2024, 2025, 2026]},
+      {"label": "Docker", "active": [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]},
+      {"label": "Prefect", "active": [2025, 2026]},
+      {"label": "Agent Memory Systems", "active": [2025, 2026]}
+    ]
+  }
+}

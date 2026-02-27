@@ -1,0 +1,365 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Stack Map" description="Interactive engineering stack and experience map">
+  <section class="hero">
+    <h1>Engineering Stack Map</h1>
+    <p>
+      Interactive view of technologies, production systems, and outcomes across backend, AI, data streaming, and agent engineering.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2>Capability Bubbles</h2>
+    <div class="panel">
+      <div id="bubble-filters" class="chip-row"></div>
+      <div id="bubble-cloud" class="bubble-cloud"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Knowledge Graph</h2>
+    <div class="panel graph-panel">
+      <svg id="stack-graph" viewBox="0 0 960 520" role="img" aria-label="Knowledge graph of projects, stack, and outcomes"></svg>
+      <aside class="graph-detail">
+        <h3 id="graph-title">Select a Node</h3>
+        <p id="graph-detail">Click any project, technology, or outcome node to see context and implementation details.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Timeline Heatmap</h2>
+    <div class="panel">
+      <div id="timeline-wrap" class="timeline-wrap"></div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  const CATEGORY_COLORS = {
+    backend: '#7dd3fc',
+    ai: '#a78bfa',
+    data: '#34d399',
+    infra: '#f59e0b',
+    agent: '#f472b6'
+  };
+
+  async function loadStackMap() {
+    const res = await fetch('/data/stack-map.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error('Failed to load stack map data.');
+    return res.json();
+  }
+
+  function renderBubbles(data) {
+    const filterRoot = document.getElementById('bubble-filters');
+    const cloud = document.getElementById('bubble-cloud');
+    if (!filterRoot || !cloud) return;
+
+    let active = 'all';
+    const categories = [{ id: 'all', label: 'All' }, ...data.categories];
+
+    function paint() {
+      cloud.innerHTML = '';
+      data.skills
+        .filter((skill) => active === 'all' || skill.category === active)
+        .forEach((skill) => {
+          const b = document.createElement('button');
+          b.className = 'bubble';
+          b.style.setProperty('--bubble-size', `${58 + skill.level * 10}px`);
+          b.style.setProperty('--bubble-color', CATEGORY_COLORS[skill.category] || '#60a5fa');
+          b.innerHTML = `<strong>${skill.name}</strong><span>${skill.summary}</span>`;
+          cloud.appendChild(b);
+        });
+    }
+
+    categories.forEach((cat) => {
+      const btn = document.createElement('button');
+      btn.className = 'chip' + (cat.id === active ? ' active' : '');
+      btn.textContent = cat.label;
+      btn.addEventListener('click', () => {
+        active = cat.id;
+        Array.from(filterRoot.querySelectorAll('.chip')).forEach((el) => el.classList.remove('active'));
+        btn.classList.add('active');
+        paint();
+      });
+      filterRoot.appendChild(btn);
+    });
+
+    paint();
+  }
+
+  function layoutGraph(nodes, width, height) {
+    const groupCenters = {
+      backend: [230, 160],
+      ai: [715, 160],
+      data: [230, 355],
+      infra: [715, 355],
+      agent: [475, 258]
+    };
+
+    const counters = { backend: 0, ai: 0, data: 0, infra: 0, agent: 0 };
+    nodes.forEach((node) => {
+      const center = groupCenters[node.group] || [475, 258];
+      const idx = counters[node.group] ?? 0;
+      const ring = 42 + (idx % 4) * 26;
+      const angle = (idx * 1.3) % (Math.PI * 2);
+      node.x = Math.max(48, Math.min(width - 48, center[0] + Math.cos(angle) * ring));
+      node.y = Math.max(48, Math.min(height - 48, center[1] + Math.sin(angle) * ring));
+      counters[node.group] = idx + 1;
+    });
+  }
+
+  function renderGraph(data) {
+    const svg = document.getElementById('stack-graph');
+    const title = document.getElementById('graph-title');
+    const detail = document.getElementById('graph-detail');
+    if (!svg || !title || !detail) return;
+
+    const width = 960;
+    const height = 520;
+    const nodes = data.graph.nodes.map((n) => ({ ...n }));
+    const links = data.graph.links;
+    const byId = new Map(nodes.map((n) => [n.id, n]));
+    layoutGraph(nodes, width, height);
+
+    const ns = 'http://www.w3.org/2000/svg';
+    const edgeLayer = document.createElementNS(ns, 'g');
+    const nodeLayer = document.createElementNS(ns, 'g');
+    svg.append(edgeLayer, nodeLayer);
+
+    links.forEach((link) => {
+      const a = byId.get(link.source);
+      const b = byId.get(link.target);
+      if (!a || !b) return;
+      const line = document.createElementNS(ns, 'line');
+      line.setAttribute('x1', String(a.x));
+      line.setAttribute('y1', String(a.y));
+      line.setAttribute('x2', String(b.x));
+      line.setAttribute('y2', String(b.y));
+      line.setAttribute('class', 'graph-edge');
+      edgeLayer.appendChild(line);
+    });
+
+    nodes.forEach((node) => {
+      const g = document.createElementNS(ns, 'g');
+      g.setAttribute('class', 'graph-node');
+      g.setAttribute('transform', `translate(${node.x},${node.y})`);
+
+      const circle = document.createElementNS(ns, 'circle');
+      circle.setAttribute('r', node.type === 'project' ? '17' : node.type === 'impact' ? '15' : '13');
+      circle.setAttribute('fill', CATEGORY_COLORS[node.group] || '#60a5fa');
+      circle.setAttribute('opacity', node.type === 'impact' ? '0.8' : '1');
+
+      const text = document.createElementNS(ns, 'text');
+      text.setAttribute('y', '32');
+      text.setAttribute('text-anchor', 'middle');
+      text.setAttribute('class', 'graph-label');
+      text.textContent = node.label;
+
+      g.append(circle, text);
+      g.addEventListener('click', () => {
+        title.textContent = node.label;
+        detail.textContent = node.detail;
+        Array.from(svg.querySelectorAll('.graph-node')).forEach((n) => n.classList.remove('active'));
+        g.classList.add('active');
+      });
+
+      nodeLayer.appendChild(g);
+    });
+  }
+
+  function renderTimeline(data) {
+    const root = document.getElementById('timeline-wrap');
+    if (!root) return;
+    const years = data.timeline.years;
+
+    const table = document.createElement('table');
+    table.className = 'timeline-table';
+
+    const thead = document.createElement('thead');
+    const hr = document.createElement('tr');
+    hr.innerHTML = `<th>Technology</th>${years.map((y) => `<th>${y}</th>`).join('')}`;
+    thead.appendChild(hr);
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    data.timeline.tracks.forEach((track) => {
+      const row = document.createElement('tr');
+      const head = document.createElement('td');
+      head.textContent = track.label;
+      row.appendChild(head);
+      years.forEach((year) => {
+        const td = document.createElement('td');
+        const active = track.active.includes(year);
+        td.innerHTML = `<span class="heat-cell ${active ? 'on' : 'off'}" title="${track.label} ${year}"></span>`;
+        row.appendChild(td);
+      });
+      tbody.appendChild(row);
+    });
+    table.appendChild(tbody);
+    root.appendChild(table);
+  }
+
+  loadStackMap()
+    .then((data) => {
+      renderBubbles(data);
+      renderGraph(data);
+      renderTimeline(data);
+    })
+    .catch((err) => {
+      const root = document.getElementById('timeline-wrap');
+      if (root) root.textContent = String(err.message || err);
+    });
+</script>
+
+<style>
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .chip {
+    border: 1px solid #39506e;
+    background: #152236;
+    color: var(--text);
+    border-radius: 999px;
+    padding: 0.34rem 0.72rem;
+    font-size: 0.82rem;
+    cursor: pointer;
+  }
+
+  .chip.active {
+    border-color: #6ca7ff;
+    background: #1d2e48;
+  }
+
+  .bubble-cloud {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.7rem;
+  }
+
+  .bubble {
+    min-height: var(--bubble-size);
+    border-radius: 18px;
+    border: 1px solid color-mix(in srgb, var(--bubble-color) 58%, #172133 42%);
+    background: linear-gradient(160deg, color-mix(in srgb, var(--bubble-color) 16%, #111826 84%), #0f1724);
+    color: var(--text);
+    padding: 0.7rem;
+    display: grid;
+    gap: 0.34rem;
+    text-align: left;
+    cursor: default;
+  }
+
+  .bubble strong {
+    font-size: 0.97rem;
+  }
+
+  .bubble span {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    line-height: 1.4;
+  }
+
+  .graph-panel {
+    display: grid;
+    gap: 1rem;
+  }
+
+  #stack-graph {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: radial-gradient(circle at 50% 20%, rgba(103, 140, 255, 0.1), transparent 40%), #0d131d;
+  }
+
+  .graph-edge {
+    stroke: #30425e;
+    stroke-width: 1.4;
+    opacity: 0.74;
+  }
+
+  .graph-node {
+    cursor: pointer;
+  }
+
+  .graph-node circle {
+    transition: transform 120ms ease, filter 120ms ease;
+  }
+
+  .graph-node:hover circle,
+  .graph-node.active circle {
+    filter: brightness(1.14);
+    transform: scale(1.08);
+  }
+
+  .graph-label {
+    fill: #d5e3f6;
+    font-size: 10.5px;
+    letter-spacing: 0.01em;
+  }
+
+  .graph-detail {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: #111926;
+    padding: 0.9rem;
+  }
+
+  .graph-detail h3 {
+    margin: 0 0 0.45rem;
+  }
+
+  .graph-detail p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  .timeline-wrap {
+    overflow-x: auto;
+  }
+
+  .timeline-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 820px;
+  }
+
+  .timeline-table th,
+  .timeline-table td {
+    border-bottom: 1px solid #253248;
+    text-align: center;
+    padding: 0.48rem 0.38rem;
+    font-size: 0.8rem;
+  }
+
+  .timeline-table th:first-child,
+  .timeline-table td:first-child {
+    text-align: left;
+    color: var(--text);
+    width: 200px;
+    font-weight: 600;
+  }
+
+  .heat-cell {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    border: 1px solid #2f3f5c;
+  }
+
+  .heat-cell.on {
+    background: linear-gradient(180deg, #62a9ff, #2d5b92);
+  }
+
+  .heat-cell.off {
+    background: #111926;
+    opacity: 0.55;
+  }
+</style>
