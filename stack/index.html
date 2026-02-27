@@ -1,380 +1,414 @@
-<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Interactive engineering stack and experience map"><meta name="generator" content="Astro v5.18.0"><title>Stack Map | Arhum Savera</title><style>:root{--bg: #0f131a;--bg-elev: #151b24;--bg-soft: #1b2430;--line: #293243;--text: #e8edf5;--text-muted: #b2bdcd;--accent: #5fa8ff;--accent-soft: rgba(95, 168, 255, .16);--shadow: 0 12px 34px rgba(3, 8, 18, .45)}*{box-sizing:border-box}html,body{margin:0;padding:0;font-family:Inter,Avenir Next,Segoe UI,sans-serif;background:radial-gradient(1000px 500px at 90% -10%,#1a2436 0%,transparent 60%),radial-gradient(760px 420px at -10% 0%,#17202f 0%,transparent 60%),var(--bg);color:var(--text)}a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}.page-shell{min-height:100vh;display:flex;flex-direction:column}.top-nav-wrap{position:sticky;top:0;z-index:30;backdrop-filter:blur(8px)}.top-nav{max-width:1120px;margin:.9rem auto 0;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.9rem 1.1rem;border:1px solid var(--line);border-radius:14px;background:#0f141cdb}.brand{color:var(--text);font-size:1.36rem;font-weight:600;letter-spacing:-.01em}.nav-links{display:flex;align-items:center;flex-wrap:wrap;gap:1rem}.nav-links a{color:var(--text-muted);font-size:.96rem}.nav-links a.active,.nav-links a:hover{color:var(--text);text-decoration:none}.main-content{flex:1;max-width:1120px;margin:1.5rem auto 2.4rem;padding:0 1rem;width:100%}.hero{padding:2.3rem;border:1px solid var(--line);border-radius:20px;background:linear-gradient(160deg,#19212ee6,#11161ff0);box-shadow:var(--shadow)}.hero h1{font-size:clamp(2.15rem,5vw,3.7rem);margin:0;letter-spacing:-.03em}.hero p{margin:.95rem 0 0;max-width:48rem;color:var(--text-muted);font-size:clamp(1.02rem,2vw,1.24rem);line-height:1.55}.section{margin-top:1.5rem}.section h2{margin:0 0 .85rem;font-size:clamp(1.4rem,2.4vw,2rem);letter-spacing:-.02em}.panel{border:1px solid var(--line);border-radius:16px;background:linear-gradient(170deg,#19212ddb,#141a24eb);padding:1.15rem 1.2rem;box-shadow:var(--shadow)}.panel p,.panel li{color:var(--text-muted);line-height:1.65}.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.95rem}.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.95rem}.card{border:1px solid var(--line);border-radius:16px;background:linear-gradient(165deg,#171f2be0,#0f141cf2);padding:1rem;transition:transform .14s ease,border-color .14s ease}.card:hover{transform:translateY(-2px);border-color:#3a475d}.card h3{margin:0 0 .48rem;font-size:1.05rem;color:var(--text)}.card p{margin:0;color:var(--text-muted);font-size:.95rem}.badge-row{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:.65rem}.badge{font-size:.8rem;color:#c9d4e3;background:var(--accent-soft);border:1px solid #315178;padding:.25rem .56rem;border-radius:999px}.project-hero{display:grid;gap:1.2rem}.project-hero img{width:100%;max-height:360px;object-fit:cover;border-radius:16px;border:1px solid var(--line)}.project-content h2{margin:1.15rem 0 .5rem;font-size:1.35rem}.project-content p,.project-content li{color:var(--text-muted);line-height:1.68}.list-clean{list-style:none;margin:0;padding:0;display:grid;gap:.85rem}.list-clean li{border:1px solid var(--line);border-radius:14px;padding:.95rem;background:#141b25eb}.site-footer{border-top:1px solid var(--line);margin-top:1rem;padding:1.3rem 1rem 2rem;text-align:center;color:#9eabc0}@media(max-width:940px){.grid-3,.grid-2{grid-template-columns:1fr}.top-nav{border-radius:12px}.brand{font-size:1.18rem}.hero{padding:1.3rem}}
-</style>
-<link rel="stylesheet" href="/_astro/stack.BE5qwxUd.css"></head> <body> <div class="page-shell"> <header class="top-nav-wrap"> <nav class="top-nav"> <a class="brand" href="/">Arhum Savera</a> <div class="nav-links"> <a class href="/about/">About</a> <a class href="/contact/">Contact</a> <a class href="/post/">Projects</a> <a class="active" href="/stack/">Stack</a> <a class href="/lab/">Lab</a> <a href="https://www.linkedin.com/in/arhumsavera/" target="_blank" rel="noopener noreferrer">LinkedIn</a> <a href="https://github.com/arhumsavera" target="_blank" rel="noopener noreferrer">GitHub</a> </div> </nav> </header> <main class="main-content">  <section class="hero stack-hero" data-astro-cid-mbzyqcdw> <h1 data-astro-cid-mbzyqcdw>Engineering Stack Map</h1> <p data-astro-cid-mbzyqcdw>
-A live map of platform capabilities, architecture dependencies, and production outcomes across backend, AI, data, and agent systems.
-</p> </section> <section class="section" data-astro-cid-mbzyqcdw> <h2 data-astro-cid-mbzyqcdw>Capability Matrix</h2> <div class="panel" data-astro-cid-mbzyqcdw> <div class="stack-controls" data-astro-cid-mbzyqcdw> <div id="bubble-filters" class="chip-row" data-astro-cid-mbzyqcdw></div> <label class="search-wrap" for="skill-search" data-astro-cid-mbzyqcdw> <span data-astro-cid-mbzyqcdw>Search</span> <input id="skill-search" type="search" placeholder="python, kafka, fastapi..." autocomplete="off" data-astro-cid-mbzyqcdw> </label> </div> <div id="bubble-cloud" class="bubble-cloud" data-astro-cid-mbzyqcdw></div> </div> </section> <section class="section" data-astro-cid-mbzyqcdw> <h2 data-astro-cid-mbzyqcdw>Knowledge Graph</h2> <div class="panel graph-panel" data-astro-cid-mbzyqcdw> <div data-astro-cid-mbzyqcdw> <div id="graph-filters" class="chip-row" data-astro-cid-mbzyqcdw></div> <svg id="stack-graph" viewBox="0 0 980 560" role="img" aria-label="Knowledge graph of projects, technologies, and outcomes" data-astro-cid-mbzyqcdw></svg> </div> <div class="graph-side" data-astro-cid-mbzyqcdw> <div id="graph-legend" class="graph-legend" data-astro-cid-mbzyqcdw></div> <aside class="graph-detail" data-astro-cid-mbzyqcdw> <h3 id="graph-title" data-astro-cid-mbzyqcdw>Select a Node</h3> <p id="graph-detail" data-astro-cid-mbzyqcdw>Select a node to inspect what it does, where it is used, and how it ties to impact.</p> </aside> </div> </div> </section> <section class="section" data-astro-cid-mbzyqcdw> <h2 data-astro-cid-mbzyqcdw>Timeline Heatmap</h2> <div class="panel" data-astro-cid-mbzyqcdw> <div id="timeline-wrap" class="timeline-wrap" data-astro-cid-mbzyqcdw></div> </div> </section>  </main> <footer class="site-footer"> <p>© Arhum Savera 2026</p> </footer> </div> </body></html> <script>
-  const CATEGORY_COLORS = {
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Interactive engineering stack and experience map"><meta name="generator" content="Astro v5.18.0"><title>Stack Map | Arhum Savera</title> <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script> <style>:root{--bg: #0f131a;--bg-elev: #151b24;--bg-soft: #1b2430;--line: #293243;--text: #e8edf5;--text-muted: #b2bdcd;--accent: #5fa8ff;--accent-soft: rgba(95, 168, 255, .16);--shadow: 0 12px 34px rgba(3, 8, 18, .45)}*{box-sizing:border-box}html,body{margin:0;padding:0;font-family:Inter,Avenir Next,Segoe UI,sans-serif;background:radial-gradient(1000px 500px at 90% -10%,#1a2436 0%,transparent 60%),radial-gradient(760px 420px at -10% 0%,#17202f 0%,transparent 60%),var(--bg);color:var(--text)}a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}.page-shell{min-height:100vh;display:flex;flex-direction:column}.top-nav-wrap{position:sticky;top:0;z-index:30;backdrop-filter:blur(8px)}.top-nav{max-width:1120px;margin:.9rem auto 0;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.9rem 1.1rem;border:1px solid var(--line);border-radius:14px;background:#0f141cdb}.brand{color:var(--text);font-size:1.36rem;font-weight:600;letter-spacing:-.01em}.nav-links{display:flex;align-items:center;flex-wrap:wrap;gap:1rem}.nav-links a{color:var(--text-muted);font-size:.96rem}.nav-links a.active,.nav-links a:hover{color:var(--text);text-decoration:none}.main-content{flex:1;max-width:1120px;margin:1.5rem auto 2.4rem;padding:0 1rem;width:100%}.hero{padding:2.3rem;border:1px solid var(--line);border-radius:20px;background:linear-gradient(160deg,#19212ee6,#11161ff0);box-shadow:var(--shadow)}.hero h1{font-size:clamp(2.15rem,5vw,3.7rem);margin:0;letter-spacing:-.03em}.hero p{margin:.95rem 0 0;max-width:48rem;color:var(--text-muted);font-size:clamp(1.02rem,2vw,1.24rem);line-height:1.55}.section{margin-top:1.5rem}.section h2{margin:0 0 .85rem;font-size:clamp(1.4rem,2.4vw,2rem);letter-spacing:-.02em}.panel{border:1px solid var(--line);border-radius:16px;background:linear-gradient(170deg,#19212ddb,#141a24eb);padding:1.15rem 1.2rem;box-shadow:var(--shadow)}.panel p,.panel li{color:var(--text-muted);line-height:1.65}.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.95rem}.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.95rem}.card{border:1px solid var(--line);border-radius:16px;background:linear-gradient(165deg,#171f2be0,#0f141cf2);padding:1rem;transition:transform .14s ease,border-color .14s ease}.card:hover{transform:translateY(-2px);border-color:#3a475d}.card h3{margin:0 0 .48rem;font-size:1.05rem;color:var(--text)}.card p{margin:0;color:var(--text-muted);font-size:.95rem}.badge-row{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:.65rem}.badge{font-size:.8rem;color:#c9d4e3;background:var(--accent-soft);border:1px solid #315178;padding:.25rem .56rem;border-radius:999px}.project-hero{display:grid;gap:1.2rem}.project-hero img{width:100%;max-height:360px;object-fit:cover;border-radius:16px;border:1px solid var(--line)}.project-content h2{margin:1.15rem 0 .5rem;font-size:1.35rem}.project-content p,.project-content li{color:var(--text-muted);line-height:1.68}.list-clean{list-style:none;margin:0;padding:0;display:grid;gap:.85rem}.list-clean li{border:1px solid var(--line);border-radius:14px;padding:.95rem;background:#141b25eb}.site-footer{border-top:1px solid var(--line);margin-top:1rem;padding:1.3rem 1rem 2rem;text-align:center;color:#9eabc0}@media(max-width:940px){.grid-3,.grid-2{grid-template-columns:1fr}.top-nav{border-radius:12px}.brand{font-size:1.18rem}.hero{padding:1.3rem}}
+</style></head> <body> <div class="page-shell"> <header class="top-nav-wrap"> <nav class="top-nav"> <a class="brand" href="/">Arhum Savera</a> <div class="nav-links"> <a class href="/about/">About</a> <a class href="/contact/">Contact</a> <a class href="/post/">Projects</a> <a class="active" href="/stack/">Stack</a> <a class href="/lab/">Lab</a> <a href="https://www.linkedin.com/in/arhumsavera/" target="_blank" rel="noopener noreferrer">LinkedIn</a> <a href="https://github.com/arhumsavera" target="_blank" rel="noopener noreferrer">GitHub</a> </div> </nav> </header> <main class="main-content">   <section class="hero stack-hero"> <h1>Engineering Stack Map</h1> <p>
+Technologies, production systems, and outcomes across backend, AI, data streaming, and agent engineering.
+</p> </section> <section class="section"> <h2>Capability Matrix</h2> <div class="panel"> <div class="stack-controls"> <div id="bubble-filters" class="chip-row"></div> <label class="search-wrap" for="skill-search"> <span>Search</span> <input id="skill-search" type="search" placeholder="python, kafka, fastapi..." autocomplete="off"> </label> </div> <div id="bubble-cloud" class="bubble-cloud"></div> </div> </section> <section class="section"> <h2>Knowledge Graph</h2> <div class="panel graph-panel"> <div class="graph-left"> <div id="graph-filters" class="chip-row" style="margin-bottom:0.7rem"></div> <div id="echarts-graph" style="width:100%;height:500px;border-radius:12px;overflow:hidden;"></div> </div> <div class="graph-right"> <div id="graph-legend" class="graph-legend"></div> <div class="graph-detail"> <h3 id="graph-title">Select a Node</h3> <p id="graph-detail-text">Hover or click any node to see what it is, where it is used, and how it ties to production outcomes.</p> </div> </div> </div> </section> <section class="section"> <h2>Timeline</h2> <div class="panel"> <div id="timeline-wrap" class="timeline-wrap"></div> </div> </section>  </main> <footer class="site-footer"> <p>© Arhum Savera 2026</p> </footer> </div> </body></html> <script>
+  const CAT_COLORS = {
     backend: '#63b6ff',
-    ai: '#a78bfa',
-    data: '#2dd4bf',
-    infra: '#f59e0b',
-    agent: '#f472b6'
-  };
-
-  const TYPE_LABELS = {
-    all: 'All Nodes',
-    project: 'Projects',
-    tech: 'Tech',
-    impact: 'Impact'
+    ai:      '#a78bfa',
+    data:    '#2dd4bf',
+    infra:   '#f59e0b',
+    agent:   '#f472b6'
   };
 
   async function loadStackMap() {
     const res = await fetch('/data/stack-map.json', { cache: 'no-store' });
-    if (!res.ok) throw new Error('Failed to load stack map data.');
+    if (!res.ok) throw new Error('Failed to load stack-map.json');
     return res.json();
   }
 
-  function escapeHtml(value) {
-    return value
-      .replaceAll('&', '&amp;')
-      .replaceAll('<', '&lt;')
-      .replaceAll('>', '&gt;')
-      .replaceAll('"', '&quot;')
-      .replaceAll("'", '&#39;');
+  function escapeHtml(v) {
+    return v.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
   }
 
+  /* ── Capability matrix ── */
   function renderBubbles(data) {
     const filterRoot = document.getElementById('bubble-filters');
-    const cloud = document.getElementById('bubble-cloud');
-    const searchInput = document.getElementById('skill-search');
-    if (!filterRoot || !cloud || !searchInput) return;
+    const cloud      = document.getElementById('bubble-cloud');
+    const search     = document.getElementById('skill-search');
+    if (!filterRoot || !cloud || !search) return;
 
-    let active = 'all';
-    let term = '';
-    const categories = [{ id: 'all', label: 'All' }, ...data.categories];
+    let active = 'all', term = '';
+    const cats = [{ id: 'all', label: 'All' }, ...data.categories];
 
     function paint() {
-      const results = data.skills.filter((skill) => {
-        if (active !== 'all' && skill.category !== active) return false;
-        if (!term) return true;
-        const hay = `${skill.name} ${skill.summary}`.toLowerCase();
-        return hay.includes(term);
-      });
-
+      const results = data.skills
+        .filter(s => (active === 'all' || s.category === active) &&
+                     (!term || `${s.name} ${s.summary}`.toLowerCase().includes(term)))
+        .sort((a, b) => b.level - a.level);
       cloud.innerHTML = '';
-      results
-        .sort((a, b) => b.level - a.level)
-        .forEach((skill) => {
-          const el = document.createElement('article');
-          el.className = 'stack-bubble';
-          el.style.setProperty('--bubble-color', CATEGORY_COLORS[skill.category] || '#60a5fa');
-          el.innerHTML =
-            `<header><strong>${escapeHtml(skill.name)}</strong><span>Level ${skill.level}/10</span></header>` +
-            `<p>${escapeHtml(skill.summary)}</p>` +
-            `<footer>Since ${skill.since}</footer>`;
-          cloud.appendChild(el);
-        });
-
-      if (!results.length) {
-        cloud.innerHTML = '<p class="empty">No skills match that filter.</p>';
-      }
+      if (!results.length) { cloud.innerHTML = '<p class="empty">No results.</p>'; return; }
+      results.forEach(s => {
+        const el = document.createElement('article');
+        el.className = 'stack-bubble';
+        el.style.setProperty('--bc', CAT_COLORS[s.category] || '#60a5fa');
+        el.innerHTML =
+          `<header><strong>${escapeHtml(s.name)}</strong><span>Level ${s.level}/10</span></header>` +
+          `<p>${escapeHtml(s.summary)}</p>` +
+          `<footer>Since ${s.since}</footer>`;
+        cloud.appendChild(el);
+      });
     }
 
-    categories.forEach((cat) => {
-      const count = cat.id === 'all' ? data.skills.length : data.skills.filter((s) => s.category === cat.id).length;
+    cats.forEach(cat => {
+      const cnt = cat.id === 'all' ? data.skills.length : data.skills.filter(s => s.category === cat.id).length;
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'stack-chip' + (cat.id === active ? ' active' : '');
-      btn.textContent = `${cat.label} (${count})`;
+      btn.textContent = `${cat.label} (${cnt})`;
       btn.addEventListener('click', () => {
         active = cat.id;
-        Array.from(filterRoot.querySelectorAll('.stack-chip')).forEach((node) => node.classList.remove('active'));
+        filterRoot.querySelectorAll('.stack-chip').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         paint();
       });
       filterRoot.appendChild(btn);
     });
 
-    searchInput.addEventListener('input', () => {
-      term = searchInput.value.trim().toLowerCase();
-      paint();
-    });
-
+    search.addEventListener('input', () => { term = search.value.trim().toLowerCase(); paint(); });
     paint();
   }
 
-  function layoutGraph(nodes, links) {
-    const W = 980, H = 560, PAD = 62;
-    const anchors = {
-      backend: [210, 155],
-      ai:      [770, 155],
-      data:    [210, 420],
-      infra:   [770, 420],
-      agent:   [490, 288]
-    };
-
-    // Deterministic seed positions (golden-angle spiral per group)
-    const counts = { backend: 0, ai: 0, data: 0, infra: 0, agent: 0 };
-    nodes.forEach((node) => {
-      const [cx, cy] = anchors[node.group] || [490, 288];
-      const idx = counts[node.group] ?? 0;
-      const angle = idx * 2.39996; // golden ratio
-      const r = 28 + (idx % 4) * 22;
-      node.x = Math.max(PAD, Math.min(W - PAD, cx + Math.cos(angle) * r));
-      node.y = Math.max(PAD, Math.min(H - PAD, cy + Math.sin(angle) * r));
-      node.vx = 0;
-      node.vy = 0;
-      counts[node.group] = idx + 1;
-    });
-
-    const byId = new Map(nodes.map((n) => [n.id, n]));
-    const REPULSION  = 3000;
-    const SPRING_LEN = 108;
-    const SPRING_K   = 0.044;
-    const GRAVITY    = 0.022;
-    const DAMPING    = 0.78;
-    const ITERS      = 280;
-
-    for (let iter = 0; iter < ITERS; iter++) {
-      const alpha = 1 - iter / ITERS;
-
-      // Node-pair repulsion
-      for (let a = 0; a < nodes.length; a++) {
-        for (let b = a + 1; b < nodes.length; b++) {
-          const na = nodes[a], nb = nodes[b];
-          const dx = nb.x - na.x || 0.01;
-          const dy = nb.y - na.y || 0.01;
-          const dist2 = dx * dx + dy * dy + 0.01;
-          const dist  = Math.sqrt(dist2);
-          const f  = (REPULSION / dist2) * alpha;
-          const fx = (f * dx) / dist;
-          const fy = (f * dy) / dist;
-          na.vx -= fx; na.vy -= fy;
-          nb.vx += fx; nb.vy += fy;
-        }
-      }
-
-      // Spring attraction along edges
-      links.forEach((link) => {
-        const a = byId.get(link.source);
-        const b = byId.get(link.target);
-        if (!a || !b) return;
-        const dx   = b.x - a.x;
-        const dy   = b.y - a.y;
-        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-        const f    = SPRING_K * (dist - SPRING_LEN);
-        const fx   = (f * dx) / dist;
-        const fy   = (f * dy) / dist;
-        a.vx += fx; a.vy += fy;
-        b.vx -= fx; b.vy -= fy;
-      });
-
-      // Weak gravity toward group anchor
-      nodes.forEach((node) => {
-        const [cx, cy] = anchors[node.group] || [490, 288];
-        node.vx += GRAVITY * (cx - node.x);
-        node.vy += GRAVITY * (cy - node.y);
-      });
-
-      // Integrate + clamp
-      nodes.forEach((node) => {
-        node.vx *= DAMPING;
-        node.vy *= DAMPING;
-        node.x = Math.max(PAD, Math.min(W - PAD, node.x + node.vx));
-        node.y = Math.max(PAD, Math.min(H - PAD, node.y + node.vy));
-      });
-    }
-  }
-
+  /* ── ECharts knowledge graph ── */
   function renderGraph(data) {
-    const svg = document.getElementById('stack-graph');
-    const title = document.getElementById('graph-title');
-    const detail = document.getElementById('graph-detail');
-    const legend = document.getElementById('graph-legend');
+    const container  = document.getElementById('echarts-graph');
+    const titleEl    = document.getElementById('graph-title');
+    const detailEl   = document.getElementById('graph-detail-text');
+    const legendRoot = document.getElementById('graph-legend');
     const filterRoot = document.getElementById('graph-filters');
-    if (!svg || !title || !detail || !legend || !filterRoot) return;
+    if (!container || !titleEl || !detailEl) return;
 
-    const nodes = data.graph.nodes.map((n) => ({ ...n }));
-    const links = data.graph.links.map((l, idx) => ({ ...l, id: `e${idx}` }));
-    const byId = new Map(nodes.map((n) => [n.id, n]));
-    layoutGraph(nodes, links);
-
-    let typeFilter = 'all';
-    let activeNodeId = null;
-
-    const ns = 'http://www.w3.org/2000/svg';
-    const edgeLayer = document.createElementNS(ns, 'g');
-    const nodeLayer = document.createElementNS(ns, 'g');
-    svg.innerHTML = '';
-    svg.append(edgeLayer, nodeLayer);
-
-    data.categories.forEach((cat) => {
-      const chip = document.createElement('span');
+    /* legend chips */
+    data.categories.forEach(cat => {
+      const chip = document.createElement('div');
       chip.className = 'graph-legend-chip';
-      chip.innerHTML = `<i style="background:${cat.color}"></i>${cat.label}`;
-      legend.appendChild(chip);
+      chip.innerHTML = `<i style="background:${cat.color}"></i><span>${cat.label}</span>`;
+      legendRoot.appendChild(chip);
     });
 
-    Object.entries(TYPE_LABELS).forEach(([type, label]) => {
+    /* build node/link arrays */
+    const allNodes = data.graph.nodes.map(n => ({
+      id:         n.id,
+      name:       n.label,
+      detail:     n.detail,
+      _type:      n.type,
+      symbolSize: n.type === 'project' ? 42 : n.type === 'impact' ? 30 : 20,
+      symbol:     n.type === 'impact' ? 'diamond' : 'circle',
+      itemStyle:  { color: CAT_COLORS[n.group] || '#60a5fa', borderWidth: 0 },
+      label: {
+        show:            n.type !== 'tech',
+        color:           '#dde8ff',
+        fontSize:        n.type === 'project' ? 12 : 10,
+        fontWeight:      n.type === 'project' ? 700 : 400,
+        position:        'bottom',
+        distance:        4,
+        textBorderColor: '#060f1d',
+        textBorderWidth: 3
+      }
+    }));
+
+    const allLinks = data.graph.links.map(l => ({
+      source:    l.source,
+      target:    l.target,
+      lineStyle: { color: '#4a6a90', width: 1.4, opacity: 0.65 }
+    }));
+
+    const chart = echarts.init(container, null, { renderer: 'canvas' });
+
+    function getOption(nodes, links) {
+      return {
+        backgroundColor: 'transparent',
+        tooltip: {
+          show: true,
+          confine: true,
+          formatter: p => p.dataType === 'node'
+            ? `<strong style="color:#dde8ff">${p.data.name}</strong><br><span style="color:#b2c4dc;font-size:12px">${p.data.detail}</span>`
+            : ''
+        },
+        series: [{
+          type:          'graph',
+          layout:        'force',
+          animation:     true,
+          animationDuration: 1200,
+          data:          nodes,
+          links:         links,
+          roam:          true,
+          draggable:     true,
+          labelLayout:   { hideOverlap: true },
+          force: {
+            repulsion:       600,
+            edgeLength:      [80, 160],
+            gravity:         0.06,
+            layoutAnimation: true,
+            friction:        0.55
+          },
+          lineStyle: { color: 'source', opacity: 0.55, width: 1.4, curveness: 0.1 },
+          emphasis: {
+            focus:     'adjacency',
+            label:     { show: true, fontWeight: 'bold', fontSize: 13 },
+            lineStyle: { width: 2.5, opacity: 0.95 }
+          },
+          scaleLimit: { min: 0.4, max: 3 }
+        }]
+      };
+    }
+
+    chart.setOption(getOption(allNodes, allLinks));
+
+    chart.on('click', 'series.graph', p => {
+      if (p.dataType === 'node') {
+        titleEl.textContent = p.data.name;
+        detailEl.textContent = p.data.detail;
+      }
+    });
+    chart.on('mouseover', 'series.graph', p => {
+      if (p.dataType === 'node') {
+        titleEl.textContent = p.data.name;
+        detailEl.textContent = p.data.detail;
+      }
+    });
+
+    window.addEventListener('resize', () => chart.resize());
+
+    /* type filter buttons */
+    const types = { all: 'All', project: 'Projects', tech: 'Tech', impact: 'Impact' };
+    let activeType = 'all';
+    Object.entries(types).forEach(([type, label]) => {
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'stack-chip' + (type === typeFilter ? ' active' : '');
+      btn.className = 'stack-chip' + (type === activeType ? ' active' : '');
       btn.textContent = label;
       btn.addEventListener('click', () => {
-        typeFilter = type;
-        Array.from(filterRoot.querySelectorAll('.stack-chip')).forEach((node) => node.classList.remove('active'));
+        activeType = type;
+        filterRoot.querySelectorAll('.stack-chip').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        paintVisibility();
+        const nodes = activeType === 'all' ? allNodes : allNodes.filter(n => n._type === activeType);
+        const ids   = new Set(nodes.map(n => n.id));
+        const links = allLinks.filter(l => ids.has(l.source) && ids.has(l.target));
+        chart.setOption(getOption(nodes, links));
       });
       filterRoot.appendChild(btn);
     });
-
-    const edgeEls = new Map();
-    links.forEach((link) => {
-      const a = byId.get(link.source);
-      const b = byId.get(link.target);
-      if (!a || !b) return;
-      const line = document.createElementNS(ns, 'line');
-      line.setAttribute('x1', String(a.x));
-      line.setAttribute('y1', String(a.y));
-      line.setAttribute('x2', String(b.x));
-      line.setAttribute('y2', String(b.y));
-      line.setAttribute('class', 'stack-graph-edge');
-      edgeLayer.appendChild(line);
-      edgeEls.set(link.id, { line, link });
-    });
-
-    const nodeEls = new Map();
-    nodes.forEach((node) => {
-      const g = document.createElementNS(ns, 'g');
-      g.setAttribute('class', 'stack-graph-node');
-      g.setAttribute('transform', `translate(${node.x},${node.y})`);
-      g.setAttribute('data-type', node.type);
-      g.setAttribute('tabindex', '0');
-
-      const circle = document.createElementNS(ns, 'circle');
-      circle.setAttribute('r', node.type === 'project' ? '18' : node.type === 'impact' ? '14' : '11');
-      circle.setAttribute('fill', CATEGORY_COLORS[node.group] || '#60a5fa');
-      circle.setAttribute('stroke', '#07111f');
-      circle.setAttribute('stroke-width', '2.2');
-
-      const labelOffset = node.type === 'project' ? '32' : node.type === 'impact' ? '28' : '22';
-      const label = document.createElementNS(ns, 'text');
-      label.setAttribute('y', labelOffset);
-      label.setAttribute('text-anchor', 'middle');
-      label.setAttribute('class', 'stack-graph-label');
-      if (node.type === 'tech') label.setAttribute('font-size', '10');
-      label.textContent = node.label;
-      g.append(circle, label);
-
-      function activate() {
-        activeNodeId = node.id;
-        title.textContent = node.label;
-        detail.textContent = node.detail;
-        paintActiveState();
-      }
-
-      g.addEventListener('click', activate);
-      g.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          activate();
-        }
-      });
-
-      g.addEventListener('mouseenter', () => {
-        title.textContent = node.label;
-        detail.textContent = node.detail;
-      });
-
-      nodeLayer.appendChild(g);
-      nodeEls.set(node.id, { node, g });
-    });
-
-    function isNodeVisible(node) {
-      return typeFilter === 'all' || node.type === typeFilter;
-    }
-
-    function paintVisibility() {
-      nodeEls.forEach(({ node, g }) => {
-        g.classList.toggle('hidden', !isNodeVisible(node));
-      });
-
-      edgeEls.forEach(({ line, link }) => {
-        const a = byId.get(link.source);
-        const b = byId.get(link.target);
-        const visible = a && b && isNodeVisible(a) && isNodeVisible(b);
-        line.classList.toggle('hidden', !visible);
-      });
-
-      paintActiveState();
-    }
-
-    function paintActiveState() {
-      nodeEls.forEach(({ g }) => g.classList.remove('active', 'connected', 'dim'));
-      edgeEls.forEach(({ line }) => line.classList.remove('active', 'dim'));
-
-      if (!activeNodeId || !nodeEls.has(activeNodeId)) return;
-
-      const connected = new Set([activeNodeId]);
-      edgeEls.forEach(({ link }) => {
-        if (link.source === activeNodeId) connected.add(link.target);
-        if (link.target === activeNodeId) connected.add(link.source);
-      });
-
-      nodeEls.forEach(({ node, g }) => {
-        if (!isNodeVisible(node)) return;
-        if (node.id === activeNodeId) g.classList.add('active');
-        else if (connected.has(node.id)) g.classList.add('connected');
-        else g.classList.add('dim');
-      });
-
-      edgeEls.forEach(({ line, link }) => {
-        const a = byId.get(link.source);
-        const b = byId.get(link.target);
-        if (!(a && b && isNodeVisible(a) && isNodeVisible(b))) return;
-        if (link.source === activeNodeId || link.target === activeNodeId) line.classList.add('active');
-        else line.classList.add('dim');
-      });
-    }
-
-    paintVisibility();
   }
 
+  /* ── Timeline heatmap ── */
   function renderTimeline(data) {
     const root = document.getElementById('timeline-wrap');
     if (!root) return;
     const years = data.timeline.years;
 
+    // Only show the most impactful rows
+    const keep = ['Python','Django','FastAPI','PostgreSQL','Kafka','TensorFlow','PyTorch','Docker','AWS'];
+    const tracks = data.timeline.tracks.filter(t => keep.includes(t.label));
+
     const table = document.createElement('table');
     table.className = 'stack-timeline-table';
-
-    const thead = document.createElement('thead');
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<th>Technology</th>${years.map((year) => `<th>${year}</th>`).join('')}`;
-    thead.appendChild(tr);
-    table.appendChild(thead);
+    table.innerHTML = `<thead><tr><th>Technology</th>${years.map(y => `<th>${y}</th>`).join('')}</tr></thead>`;
 
     const tbody = document.createElement('tbody');
-    data.timeline.tracks.forEach((track) => {
+    tracks.forEach(track => {
       const row = document.createElement('tr');
-      const head = document.createElement('td');
-      head.textContent = track.label;
-      row.appendChild(head);
-
-      years.forEach((year) => {
-        const cell = document.createElement('td');
-        const on = track.active.includes(year);
-        cell.innerHTML = `<span class="stack-heat-cell ${on ? 'on' : 'off'}" title="${track.label} ${year}"></span>`;
-        row.appendChild(cell);
-      });
-
+      row.innerHTML = `<td>${track.label}</td>` +
+        years.map(y => `<td><span class="heat-cell ${track.active.includes(y) ? 'on' : 'off'}" title="${track.label} ${y}"></span></td>`).join('');
       tbody.appendChild(row);
     });
-
     table.appendChild(tbody);
     root.innerHTML = '';
     root.appendChild(table);
   }
 
-  loadStackMap()
-    .then((data) => {
-      renderBubbles(data);
-      renderGraph(data);
-      renderTimeline(data);
-    })
-    .catch((err) => {
-      const root = document.getElementById('timeline-wrap');
-      if (root) root.textContent = String(err.message || err);
-    });
-</script> 
+  loadStackMap().then(data => {
+    renderBubbles(data);
+    renderGraph(data);
+    renderTimeline(data);
+  }).catch(err => {
+    const el = document.getElementById('echarts-graph');
+    if (el) el.textContent = String(err.message || err);
+  });
+</script> <style>
+  .stack-hero {
+    background:
+      radial-gradient(680px 240px at 10% 10%, rgba(99,182,255,0.16), transparent 58%),
+      linear-gradient(160deg, rgba(22,29,42,0.9), rgba(12,18,28,0.96));
+  }
+
+  .stack-controls {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .search-wrap {
+    display: grid;
+    gap: 0.35rem;
+    max-width: 320px;
+  }
+
+  .search-wrap span {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .search-wrap input {
+    border: 1px solid #324765;
+    background: #0e1828;
+    color: var(--text);
+    border-radius: 12px;
+    padding: 0.55rem 0.7rem;
+    outline: none;
+    font-size: 0.9rem;
+    font-family: inherit;
+  }
+
+  .search-wrap input:focus {
+    border-color: #5c9cff;
+    box-shadow: 0 0 0 3px rgba(92,156,255,0.18);
+  }
+
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .stack-chip {
+    border: 1px solid #355075;
+    background: linear-gradient(165deg, #1b2a40, #111d2f);
+    color: #d7e6ff;
+    border-radius: 999px;
+    padding: 0.38rem 0.75rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: transform 130ms ease, border-color 130ms ease;
+  }
+
+  .stack-chip:hover  { transform: translateY(-1px); border-color: #73acff; }
+  .stack-chip.active { border-color: #73acff; background: linear-gradient(165deg,#28446b,#1b2f4a); box-shadow: 0 4px 14px rgba(77,138,231,0.28); }
+
+  .bubble-cloud {
+    margin-top: 0.9rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 0.8rem;
+  }
+
+  .stack-bubble {
+    border-radius: 16px;
+    border: 1px solid color-mix(in srgb, var(--bc) 55%, #142135 45%);
+    background:
+      radial-gradient(110px 52px at 88% -8%, color-mix(in srgb, var(--bc) 28%, transparent), transparent 70%),
+      linear-gradient(165deg, color-mix(in srgb, var(--bc) 15%, #0f1724 85%), #0b1320);
+    padding: 0.84rem;
+    display: grid;
+    gap: 0.48rem;
+    box-shadow: 0 10px 22px rgba(4,9,18,0.32);
+  }
+
+  .stack-bubble header { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; }
+  .stack-bubble strong { color: #f4f8ff; font-size: 1rem; }
+  .stack-bubble header span { color: #9ec2f0; font-size: 0.76rem; white-space: nowrap; }
+  .stack-bubble p      { margin: 0; color: #c0ccdc; font-size: 0.89rem; line-height: 1.45; }
+  .stack-bubble footer { color: #8fa4bf; font-size: 0.78rem; }
+  .empty { margin: 0; color: var(--text-muted); }
+
+  /* ── Graph panel ── */
+  .graph-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .graph-left { min-width: 0; }
+
+  .graph-right {
+    display: grid;
+    gap: 0.8rem;
+    align-content: start;
+  }
+
+  .graph-legend {
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .graph-legend-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.48rem;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #101a2a;
+    color: #d3e0f4;
+    padding: 0.44rem 0.6rem;
+    font-size: 0.82rem;
+  }
+
+  .graph-legend-chip i {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .graph-detail {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: linear-gradient(165deg, #131f31, #0f1828);
+    padding: 1rem;
+  }
+
+  .graph-detail h3 { margin: 0 0 0.5rem; font-size: 1.05rem; }
+  .graph-detail p  { margin: 0; color: #c3cfde; line-height: 1.6; font-size: 0.92rem; }
+
+  /* ── Timeline ── */
+  .timeline-wrap { overflow-x: auto; }
+
+  .stack-timeline-table {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: collapse;
+  }
+
+  .stack-timeline-table th,
+  .stack-timeline-table td {
+    border-bottom: 1px solid #25344d;
+    padding: 0.4rem 0.3rem;
+    text-align: center;
+    font-size: 0.8rem;
+  }
+
+  .stack-timeline-table th:first-child,
+  .stack-timeline-table td:first-child {
+    text-align: left;
+    width: 180px;
+    color: #e4edf9;
+    font-weight: 600;
+    padding-left: 0;
+  }
+
+  .heat-cell {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    border-radius: 3px;
+    border: 1px solid #2c405a;
+  }
+
+  .heat-cell.on  { background: linear-gradient(180deg, #6db2ff, #33669f); box-shadow: 0 0 8px rgba(84,156,255,0.22); }
+  .heat-cell.off { background: #0f1929; opacity: 0.5; }
+
+  @media (max-width: 1100px) {
+    .graph-panel { grid-template-columns: 1fr; }
+    .graph-legend { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  }
+
+  @media (max-width: 720px) {
+    .graph-legend  { grid-template-columns: 1fr; }
+    .bubble-cloud  { grid-template-columns: 1fr; }
+    .search-wrap   { max-width: none; }
+  }
+</style>
