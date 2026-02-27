@@ -46,5 +46,136 @@ const path = Astro.url.pathname;
         <p>© Arhum Savera 2026</p>
       </footer>
     </div>
+
+    <!-- Resume download confirmation modal -->
+    <div id="resume-modal" class="rm-overlay" hidden aria-modal="true" role="dialog" aria-labelledby="rm-title">
+      <div class="rm-box">
+        <p id="rm-title" class="rm-title">Download resume?</p>
+        <p class="rm-file">Arhum_Savera_Resume.pdf</p>
+        <div class="rm-actions">
+          <button id="rm-confirm" type="button" class="rm-btn rm-btn-primary">Download</button>
+          <button id="rm-cancel"  type="button" class="rm-btn rm-btn-ghost">Cancel</button>
+        </div>
+      </div>
+    </div>
+
   </body>
 </html>
+
+<script is:inline>
+(function () {
+  var modal   = document.getElementById('resume-modal');
+  var confirm = document.getElementById('rm-confirm');
+  var cancel  = document.getElementById('rm-cancel');
+  if (!modal || !confirm || !cancel) return;
+
+  function open()  { modal.hidden = false; confirm.focus(); }
+  function close() { modal.hidden = true; }
+
+  // Intercept every resume link on the page
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest('a[href="/resume.pdf"]');
+    if (!link) return;
+    e.preventDefault();
+    open();
+  });
+
+  confirm.addEventListener('click', function () {
+    close();
+    var a = document.createElement('a');
+    a.href = '/resume.pdf';
+    a.download = 'Arhum_Savera_Resume.pdf';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
+
+  cancel.addEventListener('click', close);
+
+  // Close on backdrop click
+  modal.addEventListener('click', function (e) {
+    if (e.target === modal) close();
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !modal.hidden) close();
+  });
+})();
+</script>
+
+<style is:inline>
+  .rm-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(6, 10, 18, 0.72);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .rm-overlay[hidden] { display: none; }
+
+  .rm-box {
+    background: #131c28;
+    border: 1px solid #2a3f58;
+    border-radius: 16px;
+    padding: 1.6rem 1.8rem;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+    min-width: 260px;
+    max-width: 340px;
+    width: 90vw;
+    text-align: center;
+    animation: rm-in 140ms ease;
+  }
+
+  @keyframes rm-in {
+    from { opacity: 0; transform: scale(0.94) translateY(6px); }
+    to   { opacity: 1; transform: scale(1)    translateY(0);   }
+  }
+
+  .rm-title {
+    margin: 0 0 0.3rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .rm-file {
+    margin: 0 0 1.3rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-family: ui-monospace, monospace;
+  }
+
+  .rm-actions {
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+  }
+
+  .rm-btn {
+    padding: 0.45rem 1.1rem;
+    border-radius: 9px;
+    font-size: 0.88rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color 120ms ease, background 120ms ease;
+  }
+
+  .rm-btn-primary {
+    background: #1a3a5c;
+    border: 1px solid #3a6898;
+    color: #cce2ff;
+  }
+  .rm-btn-primary:hover { background: #1f4570; border-color: #5a8ec0; }
+
+  .rm-btn-ghost {
+    background: transparent;
+    border: 1px solid #2a3f58;
+    color: var(--text-muted);
+  }
+  .rm-btn-ghost:hover { border-color: #4a6080; color: var(--text); }
+</style>
