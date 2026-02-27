@@ -185,29 +185,25 @@
       
     </header>
     <div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><h2 id="overview">Overview</h2>
-<p>Agent Memory is a local-first framework for giving coding agents durable context across sessions. Instead of relying only on temporary chat history, it introduces structured memory and a consistent operating loop so agents can retain useful state and make better decisions over time.</p>
-<h2 id="memory-systems">Memory systems</h2>
-<p>The core design uses three complementary memory layers:</p>
+<p>Agent Memory is a local-first memory framework for coding agents. The goal is straightforward: make long-running agent work behave like a real system, not a series of disconnected chats.</p>
+<h2 id="context">Context</h2>
+<p>In practical agent workflows, context loss is the default failure mode. Sessions restart, key decisions get buried, and users have to repeatedly restate constraints. I built Agent Memory to solve that operational gap: preserve state cleanly, retrieve it quickly, and keep decisions traceable.</p>
+<h2 id="architecture">Architecture</h2>
+<p>The system uses a layered memory model with clear boundaries:</p>
 <ul>
-<li><strong>Semantic memory:</strong> Stable facts and long-lived context (preferences, project facts, important references).</li>
-<li><strong>Episodic memory:</strong> Daily append-only logs of what happened, what was decided, and what follow-up is needed.</li>
-<li><strong>Procedural memory:</strong> Reusable workflows and rules learned from corrections, iterations, and repeated tasks.</li>
+<li><strong>Semantic memory:</strong> Stable project facts, preferences, and durable references.</li>
+<li><strong>Episodic memory:</strong> Time-ordered run history, decisions, and follow-ups.</li>
+<li><strong>Procedural memory:</strong> Reusable playbooks and execution rules learned from iteration.</li>
 </ul>
-<p>This separation keeps memory practical: facts stay clean, activity stays chronological, and process knowledge stays reusable.</p>
-<h2 id="telegram-integration">Telegram integration</h2>
-<p>The Telegram bridge turns this into a mobile-accessible agent workspace. Messages route to Claude or opencode sessions, preserve session continuity, enforce basic safety controls (auth/rate limits), and return results in a usable format. For workflows that produce artifacts, file-aware responses can send outputs directly back through chat.</p>
-<p>In practice, that means the same memory-backed agent workflows can be triggered from desktop or phone without losing context.</p>
-<h2 id="why-it-helps">Why it helps</h2>
-<ul>
-<li>Less repeated prompting and context re-explaining.</li>
-<li>More consistent outputs across long-running work.</li>
-<li>Clear audit trail of agent actions and decisions.</li>
-<li>Faster iteration on complex, multi-step tasks.</li>
-</ul>
+<p>Memory is stored locally with SQLite + FTS retrieval, exposed through a Typer CLI and FastAPI interface, and fed by source-grounded documents so outputs stay tied to real project history.</p>
+<h2 id="cross-channel-use">Cross-channel use</h2>
+<p>A Telegram bridge extends the same memory-backed workflows to mobile. Messages map into active sessions, apply authentication and rate limits, and return file-aware results when tasks generate artifacts. Desktop and phone interactions both read and write the same memory system.</p>
+<h2 id="operational-design">Operational design</h2>
+<p>Prefect flows automate recurring capture and consolidation, which keeps memory from becoming stale. This is important in practice: useful memory systems are not only retrieval engines, they are maintenance pipelines.</p>
 <h2 id="impact-snapshot">Impact snapshot</h2>
-<p><strong>Problem:</strong> Agent sessions were losing context and repeating setup work.</p>
-<p><strong>Approach:</strong> Introduced layered memory with local retrieval and cross-channel agent access.</p>
-<p><strong>Outcome:</strong> More consistent multi-session execution and better traceability for real workflows.</p>
+<p><strong>Problem:</strong> Multi-session agent work was losing context and requiring repeated setup.</p>
+<p><strong>Approach:</strong> Built a local memory layer with semantic/episodic/procedural storage, fast retrieval, and cross-channel session continuity.</p>
+<p><strong>Outcome:</strong> More consistent outputs, lower re-prompting overhead, and clearer auditability of agent decisions over time.</p>
 <figure><img src="https://arhumsavera.github.io/images/notebook.jpg"/>
 </figure>
 

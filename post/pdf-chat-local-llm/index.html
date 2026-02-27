@@ -185,21 +185,22 @@
       
     </header>
     <div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><h2 id="overview">Overview</h2>
-<p>This is a local PDF chat prototype built with FastAPI and Ollama. You upload a document, extract text server-side, and then ask questions with streaming responses grounded in that document.</p>
-<p>The project is intentionally simple and local-first: fast setup, minimal dependencies, and no external document storage pipeline.</p>
-<h2 id="practical-usage">Practical usage</h2>
-<p>Where it helps most:</p>
+<p>PDF Chat is a local-first document Q&amp;A prototype built with FastAPI and Ollama. It ingests uploaded PDFs, extracts text, and serves streaming answers grounded in source content.</p>
+<h2 id="context">Context</h2>
+<p>Document-heavy workflows often fail on speed and trust: manual scanning is slow, and generic LLM answers drift from source material. This project focuses on grounded retrieval and quick turnaround for technical reading tasks.</p>
+<h2 id="architecture">Architecture</h2>
 <ul>
-<li>Quickly interrogating long documents without manual scanning.</li>
-<li>Summarizing dense sections before deeper review.</li>
-<li>Finding answers tied to uploaded source material instead of generic model recall.</li>
-<li>Running private document Q&amp;A locally for rapid experiments.</li>
+<li><strong>Ingestion path:</strong> upload and extraction handled server-side with local storage assumptions.</li>
+<li><strong>Grounded answering:</strong> responses are constrained by document text rather than open-ended recall.</li>
+<li><strong>Streaming UX:</strong> partial responses render immediately for faster feedback loops.</li>
+<li><strong>Local execution:</strong> private-by-default operation for sensitive or internal docs.</li>
 </ul>
-<p>It&rsquo;s a practical base for future document tooling: chunking, citations, multi-file context, and domain-specific assistants.</p>
+<h2 id="usage">Usage</h2>
+<p>The app is useful for rapid review, first-pass summarization, and extracting specific answers from long files before deeper analysis. It also serves as a baseline for extensions like chunk ranking, citations, and multi-document context.</p>
 <h2 id="impact-snapshot">Impact snapshot</h2>
-<p><strong>Problem:</strong> Long documents are slow to navigate and hard to query quickly.</p>
-<p><strong>Approach:</strong> Local upload + extraction + streaming Q&amp;A grounded in document content.</p>
-<p><strong>Outcome:</strong> Faster review cycles and a practical foundation for private, document-centric assistants.</p>
+<p><strong>Problem:</strong> Long-form technical documents were slow to query and easy to misread under time pressure.</p>
+<p><strong>Approach:</strong> Built a local ingestion + grounded QA pipeline with streaming responses.</p>
+<p><strong>Outcome:</strong> Faster document interrogation and a stronger foundation for reliable, private knowledge workflows.</p>
 <figure><img src="https://arhumsavera.github.io/images/gohugo-default-sample-hero-image.jpg"/>
 </figure>
 

@@ -185,21 +185,22 @@
       
     </header>
     <div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><h2 id="overview">Overview</h2>
-<p>This project is a fully local voice workflow for coding sessions. It combines fast speech-to-text, natural text-to-speech, and push-to-talk controls so working with coding agents feels conversational instead of keyboard-heavy.</p>
-<p>The focus was responsiveness and reliability: low latency dictation, clear spoken replies, predictable controls, and no cloud dependency for core voice interaction.</p>
-<h2 id="practical-usage">Practical usage</h2>
-<p>How I use it day to day:</p>
+<p>Voice Coding Workflow is a local speech interface for coding tasks. It combines whisper.cpp transcription, Kokoro TTS, push-to-talk controls, and response hooks to reduce interaction overhead in agent-assisted development.</p>
+<h2 id="context">Context</h2>
+<p>When coding loops depend on rapid iteration, keyboard-only interaction becomes the bottleneck. The objective here was to keep flow state high by reducing context-switching between typing, reading, and command execution.</p>
+<h2 id="system-design">System design</h2>
 <ul>
-<li>Start dictation with a hotkey, speak a request, and paste directly into the terminal workflow.</li>
-<li>Let agent responses play back automatically while continuing to work.</li>
-<li>Mute or interrupt speech instantly when switching context.</li>
-<li>Run it across projects with consistent behavior and local model warm-up.</li>
+<li><strong>Low-latency speech input:</strong> fast local transcription suitable for command-style prompts.</li>
+<li><strong>Spoken output hooks:</strong> responses can be read aloud while terminal work continues.</li>
+<li><strong>Operational controls:</strong> push-to-talk, immediate interrupt, and predictable hotkey behavior.</li>
+<li><strong>Local-first runtime:</strong> no cloud dependency for core interaction paths.</li>
 </ul>
-<p>The result is a smoother loop for coding, debugging, and hands-free planning where voice feels practical, not gimmicky.</p>
+<h2 id="how-its-used">How it&rsquo;s used</h2>
+<p>The workflow is optimized for daily engineering usage: capture requests quickly, keep hands on active debugging tasks, and let spoken feedback handle low-value reading overhead during long sessions.</p>
 <h2 id="impact-snapshot">Impact snapshot</h2>
-<p><strong>Problem:</strong> Keyboard-only interaction slows iterative agent workflows.</p>
-<p><strong>Approach:</strong> Built a local voice loop with reliable dictation, TTS playback, and interruption controls.</p>
-<p><strong>Outcome:</strong> Faster task turnaround and lower interaction friction during long coding sessions.</p>
+<p><strong>Problem:</strong> High-friction prompt/response loops slowed down iterative coding.</p>
+<p><strong>Approach:</strong> Built a local voice loop with stable controls, fast transcription, and integrated TTS response playback.</p>
+<p><strong>Outcome:</strong> Quicker command cycles, lower interaction fatigue, and more continuous focus during complex implementation work.</p>
 <figure><img src="https://arhumsavera.github.io/images/markus-spiske-qjnAnF0jIGk-unsplash.jpg"/>
 </figure>
 

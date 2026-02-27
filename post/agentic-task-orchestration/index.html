@@ -185,37 +185,30 @@
       
     </header>
     <div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><h2 id="overview">Overview</h2>
-<p>Agentic Task Orchestration is a local-first control layer for running agent workflows as structured systems instead of one-off prompts. The goal is to make agent work reliable: route requests to the right domain, preserve context over time, and keep a clear record of what happened.</p>
-<p>Rather than binding to a single use case, the system is intentionally generic. A workflow can be mapped to any domain and executed with a shared set of tool patterns (fetching, parsing, transforming, summarizing, notifying, and persistence).</p>
-<h2 id="domain-driven-routing">Domain-driven routing</h2>
-<p>A core pattern is domain detection and domain-specific behavior. Requests are classified into a domain, domain instructions are loaded, and then tool execution is constrained by that context. This keeps output quality high because the same agent can behave differently with the right domain policy and memory scope.</p>
+<p>Agentic Task Orchestration is a local-first execution layer for running multi-step agent workflows with predictable behavior. It treats agent work as an operating system problem: routing, state, execution, and observability.</p>
+<h2 id="context">Context</h2>
+<p>Most agent workflows break down in the same places: task context drifts, tools are invoked inconsistently, and no one can explain why a run succeeded or failed. This project focuses on that reliability gap.</p>
+<h2 id="core-design">Core design</h2>
+<p>The orchestration model is domain-aware and tool-agnostic:</p>
 <ul>
-<li>Domains are configurable and can be created on the fly.</li>
-<li>Each domain carries instructions, keywords, and workflow expectations.</li>
-<li>Work stays organized by domain instead of becoming a single noisy stream.</li>
+<li><strong>Domain routing:</strong> each request is classified and bound to domain-specific policy before execution.</li>
+<li><strong>Reusable execution steps:</strong> workflows compose common operations like fetch, parse, transform, summarize, notify, and persist.</li>
+<li><strong>Stateful runs:</strong> every run writes structured history so the next run starts with context, not guesswork.</li>
 </ul>
-<h2 id="memory-tracking-model">Memory tracking model</h2>
-<p>The orchestration model is tightly coupled to memory tracking so each run leaves usable context for the next run. The memory model uses three layers:</p>
+<h2 id="memory-and-agents">Memory and agents</h2>
+<p>The system integrates a three-layer memory model to keep context clean and useful over time:</p>
 <ul>
-<li><strong>Semantic:</strong> durable facts and stable context.</li>
-<li><strong>Episodic:</strong> chronological, append-only run history.</li>
-<li><strong>Procedural:</strong> reusable workflow rules learned from corrections and iteration.</li>
+<li><strong>Semantic:</strong> durable facts and constraints.</li>
+<li><strong>Episodic:</strong> chronological execution logs and decisions.</li>
+<li><strong>Procedural:</strong> workflow playbooks refined through iteration.</li>
 </ul>
-<p>This gives the system a practical balance: long-term knowledge stays clean, activity remains traceable, and process improvements are reusable.</p>
-<h2 id="agent-coordination">Agent coordination</h2>
-<p>Multiple agents (including persona-style agents) can run through the same orchestration layer with session continuity and progress updates. A chat bridge enables this from terminal and Telegram surfaces, so workflows can be triggered from different interfaces without losing state.</p>
-<ul>
-<li>Session-aware agent routing for continuity.</li>
-<li>Rate limits and guardrails for stable operation.</li>
-<li>File-aware responses for artifact-producing tasks.</li>
-</ul>
-<h2 id="automation-and-operations">Automation and operations</h2>
-<p>Scheduled flows are used for recurring operations and memory maintenance. This turns orchestration from manual interaction into an operating rhythm: run tasks, log outcomes, consolidate history, and improve behavior over time.</p>
-<p>The result is an agent workflow stack that behaves more like an application backend than a chat sandbox.</p>
+<p>Multiple agents can execute through the same orchestration boundary while sharing this memory substrate, which enables continuity without coupling to a single persona or UI.</p>
+<h2 id="operations">Operations</h2>
+<p>Runs are designed to be inspectable and auditable. Guardrails (auth/rate limits/session controls), structured logging, and scheduled maintenance flows make the stack stable enough for recurring use, not just demos.</p>
 <h2 id="impact-snapshot">Impact snapshot</h2>
-<p><strong>Problem:</strong> Multi-step agent work is often ad-hoc, hard to reproduce, and difficult to audit.</p>
-<p><strong>Approach:</strong> Domain-aware routing, layered memory tracking, and tool-agnostic workflow orchestration.</p>
-<p><strong>Outcome:</strong> More reliable execution, clearer observability, and faster iteration for complex agent tasks.</p>
+<p><strong>Problem:</strong> Agent automation was hard to reproduce, debug, and trust across long-running tasks.</p>
+<p><strong>Approach:</strong> Introduced domain-aware routing, structured run state, layered memory, and consistent tool execution contracts.</p>
+<p><strong>Outcome:</strong> More deterministic workflow behavior, faster iteration on complex tasks, and better visibility into how decisions are made.</p>
 <figure><img src="https://arhumsavera.github.io/images/projects-bg-img.png"/>
 </figure>
 
