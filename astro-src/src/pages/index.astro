@@ -7,15 +7,41 @@ import { featuredProjects, recentProjects } from '../data/projects';
   title="Home"
   description="Senior software engineer building production AI systems, backend platforms, and developer tooling."
 >
-  <section class="hero">
-    <h1>Arhum Savera</h1>
-    <p>
-      I build production AI systems that make complex workflows faster,
-      more reliable, and easier to operate.
-    </p>
+  <section class="hero hero-grid reveal-up">
+    <div>
+      <h1>Arhum Savera</h1>
+      <p>
+        I build production AI systems that make complex workflows faster,
+        more reliable, and easier to operate.
+      </p>
+    </div>
+    <aside class="terminal" aria-label="Interactive command terminal">
+      <div class="terminal-bar">
+        <span class="dot red"></span>
+        <span class="dot yellow"></span>
+        <span class="dot green"></span>
+        <span class="terminal-title">ops-shell</span>
+      </div>
+      <div id="terminal-output" class="terminal-output" aria-live="polite">
+        <p><span class="prompt">$</span> help</p>
+        <p class="term-muted">commands: help, about, projects, memory, orchestration, contact, clear</p>
+      </div>
+      <form id="terminal-form" class="terminal-input-row">
+        <label for="terminal-input" class="sr-only">Terminal command input</label>
+        <span class="prompt">$</span>
+        <input
+          id="terminal-input"
+          name="terminal-input"
+          type="text"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="type a command..."
+        />
+      </form>
+    </aside>
   </section>
 
-  <section class="section">
+  <section class="section reveal-up">
     <div class="panel">
       <p>
         Senior Software Engineer with 7+ years across backend systems, ML,
@@ -25,7 +51,7 @@ import { featuredProjects, recentProjects } from '../data/projects';
     </div>
   </section>
 
-  <section class="section">
+  <section class="section reveal-up">
     <h2>Selected Production Impact</h2>
     <div class="panel">
       <ul>
@@ -37,11 +63,28 @@ import { featuredProjects, recentProjects } from '../data/projects';
     </div>
   </section>
 
-  <section class="section">
+  <section class="section reveal-up">
+    <h2>Agent Run Replay</h2>
+    <div class="panel run-replay">
+      <div class="run-controls">
+        <button id="run-play" type="button">Play Run</button>
+        <button id="run-reset" type="button">Reset</button>
+      </div>
+      <ol id="run-steps" class="run-steps">
+        <li data-step>Task received and classified by domain router.</li>
+        <li data-step>Planner compiles execution graph and tool sequence.</li>
+        <li data-step>Executors run typed steps with retry/backoff policy.</li>
+        <li data-step>Memory writer updates episodic and semantic layers.</li>
+        <li data-step>Telegram notification dispatched with run summary.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section reveal-up">
     <h2>Featured Projects</h2>
     <div class="grid-3">
       {featuredProjects.map((project) => (
-        <a class="card" href={`/post/${project.slug}/`}>
+        <a class="card reveal-up" href={`/post/${project.slug}/`}>
           <h3>{project.title}</h3>
           <p>{project.summary}</p>
         </a>
@@ -49,11 +92,11 @@ import { featuredProjects, recentProjects } from '../data/projects';
     </div>
   </section>
 
-  <section class="section">
+  <section class="section reveal-up">
     <h2>Recent Projects</h2>
     <ul class="list-clean">
       {recentProjects.slice(0, 6).map((project) => (
-        <li>
+        <li class="reveal-up">
           <a href={`/post/${project.slug}/`}><strong>{project.title}</strong></a>
           <p>{project.summary}</p>
         </li>
@@ -61,3 +104,265 @@ import { featuredProjects, recentProjects } from '../data/projects';
     </ul>
   </section>
 </BaseLayout>
+
+<script is:inline>
+  const commands = {
+    help: 'commands: help, about, projects, memory, orchestration, contact, clear',
+    about: 'Senior Software Engineer building local-first AI runtimes and production backend systems.',
+    projects: 'flagship: agent memory + task orchestration, voice coding workflow, production ML case studies.',
+    memory: '3-layer memory model: semantic facts, episodic traces, procedural playbooks.',
+    orchestration: 'planner -> executors -> reviewer with run ledger, retries, and alert hooks.',
+    contact: 'email: arhum.a.savera@gmail.com | linkedin.com/in/arhumsavera'
+  };
+
+  const output = document.getElementById('terminal-output');
+  const form = document.getElementById('terminal-form');
+  const input = document.getElementById('terminal-input');
+
+  function appendLine(text, muted = false) {
+    if (!output) return;
+    const p = document.createElement('p');
+    if (muted) p.className = 'term-muted';
+    p.textContent = text;
+    output.appendChild(p);
+    output.scrollTop = output.scrollHeight;
+  }
+
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const raw = input?.value?.trim() ?? '';
+    if (!raw) return;
+
+    appendLine('$ ' + raw);
+    const cmd = raw.toLowerCase();
+
+    if (cmd === 'clear') {
+      if (output) output.innerHTML = '';
+      if (input) input.value = '';
+      return;
+    }
+
+    appendLine(commands[cmd] ?? 'unknown command. type "help".', true);
+    if (input) input.value = '';
+  });
+
+  const runSteps = Array.from(document.querySelectorAll('[data-step]'));
+  const playBtn = document.getElementById('run-play');
+  const resetBtn = document.getElementById('run-reset');
+  let runTimer = null;
+
+  function resetRun() {
+    runSteps.forEach((step) => step.classList.remove('active'));
+    if (runTimer) {
+      window.clearInterval(runTimer);
+      runTimer = null;
+    }
+  }
+
+  playBtn?.addEventListener('click', () => {
+    resetRun();
+    let index = 0;
+    runTimer = window.setInterval(() => {
+      if (index >= runSteps.length) {
+        if (runTimer) window.clearInterval(runTimer);
+        runTimer = null;
+        return;
+      }
+      runSteps[index].classList.add('active');
+      index += 1;
+    }, 600);
+  });
+
+  resetBtn?.addEventListener('click', resetRun);
+
+  const revealNodes = Array.from(document.querySelectorAll('.reveal-up'));
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealNodes.forEach((node) => observer.observe(node));
+  } else {
+    revealNodes.forEach((node) => node.classList.add('is-visible'));
+  }
+</script>
+
+<style>
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .terminal {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: #0d1219;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+    overflow: hidden;
+  }
+
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.7rem;
+    border-bottom: 1px solid var(--line);
+    background: #111826;
+  }
+
+  .dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 999px;
+    display: inline-block;
+  }
+
+  .dot.red {
+    background: #f87171;
+  }
+
+  .dot.yellow {
+    background: #fbbf24;
+  }
+
+  .dot.green {
+    background: #34d399;
+  }
+
+  .terminal-title {
+    margin-left: 0.4rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .terminal-output {
+    min-height: 160px;
+    max-height: 220px;
+    overflow: auto;
+    padding: 0.7rem;
+    font-size: 0.86rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    color: #d8e2f0;
+  }
+
+  .terminal-output p {
+    margin: 0 0 0.4rem;
+    line-height: 1.45;
+  }
+
+  .term-muted {
+    color: #95a8c3;
+  }
+
+  .terminal-input-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem;
+    border-top: 1px solid var(--line);
+    background: #0f1724;
+  }
+
+  .prompt {
+    color: #60a5fa;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  }
+
+  .terminal-input-row input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #d8e2f0;
+    font-size: 0.88rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  }
+
+  .run-replay {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .run-controls {
+    display: flex;
+    gap: 0.55rem;
+  }
+
+  .run-controls button {
+    border: 1px solid #365172;
+    background: #152235;
+    color: var(--text);
+    padding: 0.45rem 0.7rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+
+  .run-controls button:hover {
+    border-color: #4b6a92;
+  }
+
+  .run-steps {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .run-steps li {
+    color: var(--text-muted);
+    transition: color 220ms ease, transform 220ms ease;
+  }
+
+  .run-steps li.active {
+    color: #cce2ff;
+    transform: translateX(3px);
+  }
+
+  .reveal-up {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 420ms ease, transform 420ms ease;
+  }
+
+  .reveal-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (max-width: 980px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-up {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    .run-steps li {
+      transition: none;
+    }
+  }
+</style>
