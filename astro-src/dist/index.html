@@ -29,6 +29,7 @@ Senior Software Engineer with 7+ years across backend systems, ML,
     var a = document.createElement('a');
     a.href = '/resume.pdf';
     a.download = 'Arhum_Savera_Resume.pdf';
+    a.dataset.direct = '1';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

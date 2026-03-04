@@ -75,7 +75,7 @@ const path = Astro.url.pathname;
   // Intercept every resume link on the page
   document.addEventListener('click', function (e) {
     var link = e.target.closest('a[href="/resume.pdf"]');
-    if (!link) return;
+    if (!link || link.dataset.direct) return;
     e.preventDefault();
     open();
   });
@@ -85,6 +85,7 @@ const path = Astro.url.pathname;
     var a = document.createElement('a');
     a.href = '/resume.pdf';
     a.download = 'Arhum_Savera_Resume.pdf';
+    a.dataset.direct = '1';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
