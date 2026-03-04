@@ -173,8 +173,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .about-profile {
     display: grid;
     gap: 1rem;
-    grid-template-columns: 260px minmax(0, 1fr);
-    align-items: stretch;
+    grid-template-columns: 240px minmax(0, 1fr);
+    align-items: start;
   }
 
   .about-photo-wrap {
@@ -183,13 +183,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     overflow: hidden;
     background: linear-gradient(165deg, #171f2be0, #0f141cf2);
     box-shadow: var(--shadow);
+    position: sticky;
+    top: 5rem;
   }
 
   .about-photo {
     width: 100%;
-    height: 100%;
-    min-height: 320px;
+    height: 320px;
     object-fit: cover;
+    object-position: center top;
     display: block;
   }
 
