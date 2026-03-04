@@ -21,23 +21,35 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         />
       </div>
       <div class="panel about-intro">
-        <h2>I build AI systems that hold up in production.</h2>
+        <h2>The gap between a working demo and a working system is where I live.</h2>
         <p>
-          My work sits at the intersection of backend engineering and applied ML —
-          event-driven platforms, AI pipelines, and more recently, agent runtimes
-          that are observable, debuggable, and useful beyond demos.
+          I started as a software engineer in Karachi, did an MS at UMass, then
+          joined Signify for what I expected to be ML research — and learned that
+          building computer vision for light bulb matching is genuinely hard. Users
+          photograph their old bulb in bad kitchen lighting from four feet away and
+          expect a correct SKU. That constraint forced me to care about real-world
+          input variance, not benchmark accuracy.
         </p>
         <p>
-          I started in classic software engineering, moved through deep learning
-          research at Signify and edge CV at Amazon, then spent four years at
-          ConsumerAffairs building AI-backed marketplace infrastructure at scale.
-          The throughline has always been the same: make complex systems
-          reliable and measurable in production.
+          Amazon was next. I owned the CV pipeline for Dash Cart — real-time item
+          recognition on Nvidia edge devices in 100+ live grocery stores. The system
+          has to stay confident enough to charge you for things without constant cloud
+          connectivity. A lot of the work was making failure modes bounded: a bad
+          inference batch should trigger an alert, not silently degrade.
         </p>
         <p>
-          In 2026 I've been building independently — a local voice coding
-          interface, a layered agent memory system, and an orchestration runtime
-          for long-running LLM workflows. All grounded in the same production bias.
+          Four years at ConsumerAffairs after that. The Kafka backbone didn't exist
+          when I arrived. Neither did the AI content platform. The lead processing
+          system existed but was held together with scheduling hacks and direct DB
+          queries that would occasionally cascade. I spent four years owning these
+          systems end to end — building them, running them, fixing them at odd hours.
+        </p>
+        <p>
+          In early 2026 I went independent. I wanted to work on agent infrastructure
+          before it became someone else's solved problem — specifically the parts
+          nobody had built well: persistent memory across sessions, orchestration
+          for long-running LLM workflows, and a local voice interface that doesn't
+          route your code through a cloud API. Three tools I needed and couldn't find.
         </p>
         <p class="setup-line">
           Currently on Ghostty + tmux + Zed, coding remotely from an iPad over Tailscale more often than I should admit.
@@ -65,19 +77,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <div class="grid-2">
       <a class="card" href="/post/consumeraffairs-ai-platform/">
         <h3>ConsumerAffairs: AI Platform</h3>
-        <p>Greenfield AI content platform + Kafka event backbone. FastAPI, pgvector, OpenAI, Databricks. 10x filtering, 5x streaming throughput.</p>
+        <p>Built the AI content platform and Kafka backbone at ConsumerAffairs from scratch. Review moderation cut manual workload 80%; event streaming improved analytics throughput 5x.</p>
       </a>
       <a class="card" href="/post/digibrain/">
         <h3>Digibrain</h3>
-        <p>Agent memory + orchestration platform. Domain routing, layered memory substrate, run ledger, Telegram surface.</p>
+        <p>Persistent shared memory for AI agents across sessions. Tree-index retrieval, structured SQLite store, Telegram bridge, and scheduled consolidation flows.</p>
       </a>
       <a class="card" href="/post/speakeasy/">
         <h3>SpeakEasy</h3>
-        <p>Fully local voice coding interface. Whisper STT + Kokoro TTS, push-to-talk, per-project voices, agent narration hooks.</p>
+        <p>100% local voice interface for CLI agents — Whisper for dictation, Kokoro for TTS, warm servers so there's no cold-start. No cloud APIs, works offline.</p>
       </a>
       <a class="card" href="/post/amazon-dash-cart/">
         <h3>Amazon Dash Cart</h3>
-        <p>Edge CV pipeline on Nvidia hardware across 100+ production smart carts. TensorRT inference, GPU encoding, KMS compliance.</p>
+        <p>Real-time item recognition on Nvidia edge devices in 100+ live grocery stores. Inference optimization, GPU video encoding, and a six-week KMS encryption rollout across four teams.</p>
       </a>
     </div>
   </section>

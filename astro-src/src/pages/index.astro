@@ -11,8 +11,9 @@ import { featuredProjects, recentProjects } from '../data/projects';
     <div>
       <h1>Arhum Savera</h1>
       <p>
-        I build production AI systems that make complex workflows faster,
-        more reliable, and easier to operate.
+        Seven years of making AI work outside the notebook — on constrained
+        hardware, at scale, in environments that weren't designed for it.
+        That's the part I'm good at.
       </p>
     </div>
     <aside class="terminal" aria-label="Interactive command terminal">
@@ -41,9 +42,12 @@ import { featuredProjects, recentProjects } from '../data/projects';
   <section class="section reveal-up">
     <div class="panel">
       <p>
-        Senior Software Engineer with 7+ years across backend systems, ML,
-        and platform architecture. Recent work spans local-first AI products,
-        orchestration frameworks, and persistent memory systems for coding agents.
+        My background started in ML research and moved into production engineering,
+        which tends to produce specific instincts. I care about inference latency,
+        failure modes under load, and what happens when your model encounters an
+        input it's never seen at 3am. Recently I've been building the tooling
+        layer underneath AI agents: persistent memory, reliable orchestration,
+        and a local voice interface that doesn't phone home.
       </p>
     </div>
   </section>
@@ -52,10 +56,10 @@ import { featuredProjects, recentProjects } from '../data/projects';
     <h2>Selected Production Impact</h2>
     <div class="panel">
       <ul>
-        <li>Built AI moderation and summarization flows with semantic retrieval, improving filtering speed by ~10x.</li>
-        <li>Architected Kafka event streaming across 8+ services, improving analytics throughput by ~5x.</li>
-        <li>Led modernization across Python/Django/Celery services to supported platform versions.</li>
-        <li>Designed async budget and pricing pipelines, reducing critical database and cache load.</li>
+        <li>Shipped AI review moderation that cut manual queue time ~80% — pgvector semantic retrieval, tiktoken cost budgeting, full audit trail for compliance.</li>
+        <li>Built the Kafka event backbone from scratch across 8 microservices. Analytics throughput 5x. No more polling.</li>
+        <li>Owned the CV pipeline for 100+ Amazon Dash Carts: TensorRT inference on Nvidia edge devices, running live in grocery stores.</li>
+        <li>KMS encryption rollout across 4 teams in 6 weeks, on a compliance deadline, zero production regressions.</li>
       </ul>
     </div>
   </section>

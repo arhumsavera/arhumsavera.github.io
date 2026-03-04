@@ -2,23 +2,34 @@
 </style></head> <body> <div class="page-shell"> <header class="top-nav-wrap"> <nav class="top-nav"> <a class="brand" href="/">Arhum Savera</a> <div class="nav-links"> <a class="active" href="/about/">About</a> <a class href="/post/">Projects</a> <a class href="/stack/">Stack</a> <a class href="/lab/">Lab</a> <a class href="/contact/">Contact</a> <a href="/resume.pdf" download="Arhum_Savera_Resume.pdf">Resume</a> <a href="https://github.com/arhumsavera" target="_blank" rel="noopener noreferrer">GitHub</a> <a href="https://www.linkedin.com/in/arhumsavera/" target="_blank" rel="noopener noreferrer">LinkedIn</a> </div> </nav> </header> <main class="main-content">  <section class="hero"> <h1>About</h1> <p>
 Senior Software Engineer with 7+ years across backend platforms,
       applied ML, and production AI systems.
-</p> </section> <section class="section"> <div class="about-profile"> <div class="about-photo-wrap"> <img src="/images/arhumsavera-profile.png" alt="Portrait of Arhum Savera" class="about-photo"> </div> <div class="panel about-intro"> <h2>I build AI systems that hold up in production.</h2> <p>
-My work sits at the intersection of backend engineering and applied ML —
-          event-driven platforms, AI pipelines, and more recently, agent runtimes
-          that are observable, debuggable, and useful beyond demos.
+</p> </section> <section class="section"> <div class="about-profile"> <div class="about-photo-wrap"> <img src="/images/arhumsavera-profile.png" alt="Portrait of Arhum Savera" class="about-photo"> </div> <div class="panel about-intro"> <h2>The gap between a working demo and a working system is where I live.</h2> <p>
+I started as a software engineer in Karachi, did an MS at UMass, then
+          joined Signify for what I expected to be ML research — and learned that
+          building computer vision for light bulb matching is genuinely hard. Users
+          photograph their old bulb in bad kitchen lighting from four feet away and
+          expect a correct SKU. That constraint forced me to care about real-world
+          input variance, not benchmark accuracy.
 </p> <p>
-I started in classic software engineering, moved through deep learning
-          research at Signify and edge CV at Amazon, then spent four years at
-          ConsumerAffairs building AI-backed marketplace infrastructure at scale.
-          The throughline has always been the same: make complex systems
-          reliable and measurable in production.
+Amazon was next. I owned the CV pipeline for Dash Cart — real-time item
+          recognition on Nvidia edge devices in 100+ live grocery stores. The system
+          has to stay confident enough to charge you for things without constant cloud
+          connectivity. A lot of the work was making failure modes bounded: a bad
+          inference batch should trigger an alert, not silently degrade.
 </p> <p>
-In 2026 I've been building independently — a local voice coding
-          interface, a layered agent memory system, and an orchestration runtime
-          for long-running LLM workflows. All grounded in the same production bias.
+Four years at ConsumerAffairs after that. The Kafka backbone didn't exist
+          when I arrived. Neither did the AI content platform. The lead processing
+          system existed but was held together with scheduling hacks and direct DB
+          queries that would occasionally cascade. I spent four years owning these
+          systems end to end — building them, running them, fixing them at odd hours.
+</p> <p>
+In early 2026 I went independent. I wanted to work on agent infrastructure
+          before it became someone else's solved problem — specifically the parts
+          nobody had built well: persistent memory across sessions, orchestration
+          for long-running LLM workflows, and a local voice interface that doesn't
+          route your code through a cloud API. Three tools I needed and couldn't find.
 </p> <p class="setup-line">
 Currently on Ghostty + tmux + Zed, coding remotely from an iPad over Tailscale more often than I should admit.
-</p> </div> </div> </section> <section class="section"> <h2>Currently Listening</h2> <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/5AQ1O6FZAzv9ujUObmTCTd?utm_source=generator" width="100%" height="152" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe> </section> <section class="section"> <h2>Selected Work</h2> <div class="grid-2"> <a class="card" href="/post/consumeraffairs-ai-platform/"> <h3>ConsumerAffairs: AI Platform</h3> <p>Greenfield AI content platform + Kafka event backbone. FastAPI, pgvector, OpenAI, Databricks. 10x filtering, 5x streaming throughput.</p> </a> <a class="card" href="/post/digibrain/"> <h3>Digibrain</h3> <p>Agent memory + orchestration platform. Domain routing, layered memory substrate, run ledger, Telegram surface.</p> </a> <a class="card" href="/post/speakeasy/"> <h3>SpeakEasy</h3> <p>Fully local voice coding interface. Whisper STT + Kokoro TTS, push-to-talk, per-project voices, agent narration hooks.</p> </a> <a class="card" href="/post/amazon-dash-cart/"> <h3>Amazon Dash Cart</h3> <p>Edge CV pipeline on Nvidia hardware across 100+ production smart carts. TensorRT inference, GPU encoding, KMS compliance.</p> </a> </div> </section> <section class="section"> <h2>Career</h2> <div class="panel timeline"> <div class="tl-item"> <div class="tl-meta"> <span class="tl-date">2021 &ndash; Present</span> <span class="tl-company">ConsumerAffairs</span> </div> <div class="tl-body"> <strong>Senior Software Engineer</strong> &middot; Remote
+</p> </div> </div> </section> <section class="section"> <h2>Currently Listening</h2> <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/5AQ1O6FZAzv9ujUObmTCTd?utm_source=generator" width="100%" height="152" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe> </section> <section class="section"> <h2>Selected Work</h2> <div class="grid-2"> <a class="card" href="/post/consumeraffairs-ai-platform/"> <h3>ConsumerAffairs: AI Platform</h3> <p>Built the AI content platform and Kafka backbone at ConsumerAffairs from scratch. Review moderation cut manual workload 80%; event streaming improved analytics throughput 5x.</p> </a> <a class="card" href="/post/digibrain/"> <h3>Digibrain</h3> <p>Persistent shared memory for AI agents across sessions. Tree-index retrieval, structured SQLite store, Telegram bridge, and scheduled consolidation flows.</p> </a> <a class="card" href="/post/speakeasy/"> <h3>SpeakEasy</h3> <p>100% local voice interface for CLI agents — Whisper for dictation, Kokoro for TTS, warm servers so there's no cold-start. No cloud APIs, works offline.</p> </a> <a class="card" href="/post/amazon-dash-cart/"> <h3>Amazon Dash Cart</h3> <p>Real-time item recognition on Nvidia edge devices in 100+ live grocery stores. Inference optimization, GPU video encoding, and a six-week KMS encryption rollout across four teams.</p> </a> </div> </section> <section class="section"> <h2>Career</h2> <div class="panel timeline"> <div class="tl-item"> <div class="tl-meta"> <span class="tl-date">2021 &ndash; Present</span> <span class="tl-company">ConsumerAffairs</span> </div> <div class="tl-body"> <strong>Senior Software Engineer</strong> &middot; Remote
 <p>Built a greenfield AI content platform (FastAPI, LangChain, OpenAI, pgvector) for review moderation and summarization — 10x faster filtering, ~80% reduction in manual review. Designed the Kafka event streaming backbone across 8+ microservices (5x throughput). Built async budget enforcement and CPL pricing systems, cutting DB load by 40% and Redis calls by 60%. ML-driven lead scoring pipeline via Databricks over Kafka.</p> </div> </div> <div class="tl-item"> <div class="tl-meta"> <span class="tl-date">2020 &ndash; 2021</span> <span class="tl-company">Amazon</span> </div> <div class="tl-body"> <strong>Research Engineer</strong> &middot; Boston, MA
 <p>Owned the CV pipeline for Amazon Dash Cart — TensorRT inference on Nvidia edge devices across 100+ production carts. Built GPU-accelerated video encoding with 40x size reduction. Delivered client-side KMS encryption across 4 teams in 6 weeks, zero regressions. Built MQTT messaging, DynamoDB/Lambda jobs, and CloudWatch observability fleet-wide.</p> </div> </div> <div class="tl-item"> <div class="tl-meta"> <span class="tl-date">2018 &ndash; 2020</span> <span class="tl-company">Signify</span> </div> <div class="tl-body"> <strong>ML Scientist / ML Intern</strong> &middot; Cambridge, MA
 <p>Built end-to-end ML pipeline for LightFinder using VGG, Mask-RCNN, and Siamese networks for image retrieval. Post-training quantization and iterative pruning achieved 60% model compression and 30% inference speedup. Deployed containerized inference services on AWS. Also designed multi-task satellite segmentation models.</p> </div> </div> <div class="tl-item"> <div class="tl-meta"> <span class="tl-date">2016 &ndash; 2017</span> <span class="tl-company">Techlogix</span> </div> <div class="tl-body"> <strong>Software Engineer</strong> &middot; Karachi, PK
@@ -44,12 +55,18 @@ Currently on Ghostty + tmux + Zed, coding remotely from an iPad over Tailscale m
 
   confirm.addEventListener('click', function () {
     close();
-    var a = document.createElement('a');
-    a.href = '/resume.pdf';
-    a.download = 'Arhum_Savera_Resume.pdf';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    fetch('/resume.pdf')
+      .then(function(r) { return r.blob(); })
+      .then(function(blob) {
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'Arhum_Savera_Resume.pdf';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+      });
   });
 
   cancel.addEventListener('click', close);

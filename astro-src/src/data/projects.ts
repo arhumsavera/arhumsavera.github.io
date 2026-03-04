@@ -25,13 +25,13 @@ export const projects: Project[] = [
       {
         heading: 'Overview',
         paragraphs: [
-          'ConsumerAffairs runs a high-traffic marketplace connecting consumers to service providers. Over four years I owned core AI and backend infrastructure: a greenfield AI content platform, the Kafka event streaming backbone, and real-time lead processing systems. This work spans the full production lifecycle — architecture, delivery, and long-term ownership.',
+          'ConsumerAffairs matches consumers to service providers at scale — reviews, leads, pricing, all of it moving in real time. The Kafka backbone didn\'t exist when I arrived. Neither did the AI content platform. The lead processing system existed but was held together with scheduling hacks and direct DB queries that would occasionally cascade under load. I spent four years building these systems, running them, and fixing them.',
         ]
       },
       {
         heading: 'AI Content Platform',
         paragraphs: [
-          'Built from scratch to automate review moderation, summarization, and compliance workflows that were scaling beyond manual capacity.',
+          'At the scale ConsumerAffairs operates, you can\'t hand-review every submission. The incoming rate outpaced the team\'s capacity, and the backlog was growing. The platform had to automate the judgment layer without losing the audit trail that legal and compliance require.',
         ],
         bullets: [
           'Architected on FastAPI with async-first design, enabling high-concurrency AI inference without blocking the API layer.',
@@ -44,7 +44,7 @@ export const projects: Project[] = [
       {
         heading: 'Kafka Event Streaming',
         paragraphs: [
-          'Designed and built the event streaming backbone powering real-time data flows across the platform.',
+          'The platform ran on polling loops — services querying each other on intervals, with all the coupling and thundering-herd problems that creates. Moving to event-driven wasn\'t just a performance improvement; it meant services could evolve independently without coordinating deploys.',
         ],
         bullets: [
           'Kafka event contracts across 8+ microservices: matching decisions, lead scoring, review events, budget tracking.',
@@ -81,7 +81,7 @@ export const projects: Project[] = [
         heading: 'System Objective',
         paragraphs: [
           'Most AI agents suffer from "goldfish memory" — every session starts from a blank slate. Digibrain provides a durable memory substrate that allows agents to remember facts, track interactions, and follow learned workflows across different sessions and platforms.',
-          'The goal is to turn AI assistants into long-term collaborators that grow more effective the more you work with them.'
+          'The goal is simple: an agent that worked with you last week should know what you were working on, what you told it, and what didn\'t work. Most don\'t.'
         ]
       },
       {
@@ -244,8 +244,8 @@ export const projects: Project[] = [
       {
         heading: 'System Scope',
         paragraphs: [
-          'Dash Cart required low-latency, high-confidence perception on constrained edge hardware operating continuously in a noisy retail environment.',
-          'I owned major portions of the vision runtime and supporting platform systems, shipping model and infrastructure changes that had to be performant, observable, and production-safe at fleet scale.'
+          'Grocery stores are a hostile environment for CV systems. Lighting varies by aisle and time of day. Carts get bumped. Items get placed at odd angles. The system has to stay confident enough to charge customers for what they put in the cart — without constant cloud connectivity, on hardware that lives in a store and gets returned at the end of a shift.',
+          'I owned the vision runtime and most of the supporting platform infrastructure: model deployment, inference optimization, telemetry, and the compliance systems that enabled the fleet to expand.'
         ]
       },
       {
@@ -267,16 +267,10 @@ export const projects: Project[] = [
         ]
       },
       {
-        heading: 'Outcome',
-        paragraphs: [
-          'The result was a more resilient edge AI platform: faster operational loops, safer production rollout behavior, and stronger runtime reliability in one of the most challenging applied-CV deployment contexts.'
-        ]
-      },
-      {
         heading: 'Technical Highlights',
         bullets: [
-          'TensorRT, Nvidia edge runtime, MQTT, DynamoDB/Lambda, AWS KMS, CloudWatch, GPU video acceleration.',
-          'Production skills: edge inference optimization, distributed rollout safety, observability-first operations.'
+          'TensorRT, Nvidia edge runtime (Jetpack), C++, Python, MQTT, DynamoDB/Lambda, AWS KMS, CloudWatch, GPU video acceleration.',
+          'OpenCV preprocessing pipelines, TBB-parallelized frame processing, model lifecycle controls for safe in-field rollout.'
         ]
       }
     ]
@@ -292,8 +286,7 @@ export const projects: Project[] = [
       {
         heading: 'System Scope',
         paragraphs: [
-          'LightFinder solved a practical but hard problem: map user-captured photos to the exact bulb form factor and compatible replacements with high precision.',
-          'I worked across model design, data pipeline development, and deployment packaging so the system was not just accurate in notebooks, but usable in production workflows.'
+          'LightFinder needed to take a photo of a light bulb — taken by a consumer in their kitchen, probably with a phone, probably in bad lighting — and match it to the correct replacement SKU from a catalog of visually similar products. The hard part isn\'t the model architecture, it\'s the gap between 92% accuracy on a clean test set and 71% accuracy on real user photos. Most of the work lived in that gap.',
         ]
       },
       {
@@ -315,16 +308,10 @@ export const projects: Project[] = [
         ]
       },
       {
-        heading: 'Outcome',
-        paragraphs: [
-          'This work established a strong applied-ML foundation: measurable model improvements, deployable inference systems, and practical retrieval quality that translated directly into product usability.'
-        ]
-      },
-      {
         heading: 'Technical Highlights',
         bullets: [
-          'TensorFlow/Keras, VGG/Siamese retrieval, pruning/quantization, AWS-hosted training and inference pipelines.',
-          'Production skills: model optimization under constraints, ranking quality tuning, end-to-end ML systems delivery.'
+          'TensorFlow/Keras, VGG/Siamese networks, Mask-RCNN, iterative pruning, post-training quantization.',
+          'The model compression work (60% size reduction, 30% inference speedup) was driven by real deployment constraints — not a performance exercise. The target hardware had fixed memory limits and the retrieval had to stay accurate enough to be useful.'
         ]
       }
     ]
